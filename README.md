@@ -1,6 +1,6 @@
 # spaceInvaders
 
-Space Invaders Java version by Unlucky Team 13 :)
+Space Invaders Java version by Team Unlucky 13 :)
 
 ![ScreenShot](outputV1.png)
 
