@@ -1,32 +1,44 @@
 public class playerShip{
 
-    // Location
+
     private int location = 29;
+    private int lastLocation = location;
+    private int speed = 3;
 
     public int getLocation() {
         return location;
     }
 
+    public int getLastLocation() {
+        return lastLocation;
+    }
+
     public void setLocation(int newLocation) {
+        lastLocation = location;
         location = newLocation;
     }
 
-    private boolean inBounds(int shipRow){ 
-        boolean inBounds=true;   
-        if (shipRow>60 || shipRow<0){
-            inBounds=false;
-            System.out.print("Out of bounds!");
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void inBounds(int boardWidth) { 
+        if (location >= boardWidth) {
+            location = boardWidth - 1;
+        } else if (location < 0) {
+            location = 0;
         }
-        return inBounds;
-    }    
+    }
 
     public void shipMovement(String direction) {
+        lastLocation = location;
 
         if (direction.equals("A") && location > 0) { 
-            location=location-3; 
+            location=location-speed;
             
         } else if (direction.equals("D")) { 
-            location=location+3;
+            location=location+speed;
 		}
+
 	}
 }

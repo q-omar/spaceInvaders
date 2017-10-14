@@ -10,9 +10,11 @@ public class InvadersGame{
 	char[][] board = new char[boardHeight][boardWidth];
 	
 	public void play(){
+		createBoard();
 		while(!quit){
-            drawCurrentState(ship.getLocation());
+            drawCurrentState(ship.getLocation(), ship.getLastLocation());
             handleEvents();	
+            ship.inBounds(boardWidth);
 		}
 	}
 	
@@ -24,11 +26,10 @@ public class InvadersGame{
         }        
 	}
 
-	public void drawCurrentState(int shipLocation){ 
-    	if (shipLocation > 2 && shipLocation < (boardWidth-2)) {
-    		board[boardHeight-1][shipLocation] = 'X';
-    		board[boardHeight-1][shipLocation+3] = ' '; 
-    		board[boardHeight-1][shipLocation-3] = ' ';
+	public void drawCurrentState(int shipLocation, int shipLastLocation){ 
+    	board[boardHeight-1][shipLocation] = 'X';
+    	if (shipLocation != shipLastLocation) {
+    		board[boardHeight-1][shipLastLocation] = ' ';
     	}
 
         for (int r = 0; r < boardHeight; r++) {
