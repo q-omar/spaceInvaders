@@ -11,8 +11,8 @@ public class playerShip{
         location = newLocation;
     }
 
-    private boolean inBounds(int shipRow){ //this is a boolean function that checks out of list boundary
-        boolean inBounds=true;   //i haven't employed it yet but it'll be neccessary later i think 
+    private boolean inBounds(int shipRow){ 
+        boolean inBounds=true;   
         if (shipRow>60 || shipRow<0){
             inBounds=false;
             System.out.print("Out of bounds!");
@@ -22,11 +22,11 @@ public class playerShip{
 
     public void shipMovement(String direction) {
 
-        if (direction.equals("A") && location > 0) { // if user chooses 1/left, it subtracts the shipRow 
+        if (direction.equals("A") && location > 0) { 
             location=location-3; 
             
-        } else if (direction.equals("D")) { // if user chooses 2/right, it adds the shipRow 
+        } else if (direction.equals("D")) { 
             location=location+3;
-    }
-}
+		}
+	}
 }

@@ -1,31 +1,81 @@
 import java.util.Scanner;
 
-
 public class InvadersGame{
-
-    public static void main(String[] args){
-        Scanner keyboard = new Scanner(System.in); //import scanner for user input
-        
-        drawGame game1 = new drawGame();
-        playerShip shipObj = new playerShip();
-        game1.createBoard();
-        boolean quit = false; 
-                    
-        while (!quit) {
-
-            game1.displayBoard(shipObj.getLocation());
-
-            System.out.print("Enter A for left, D for right (Q to quit)"); //prompts user for input 
-            String selection = keyboard.nextLine(); //our selection for left/right
-            String upperSelection = selection.toUpperCase();
-            
-            // if input is left or right
-            if (upperSelection.equals("A") || upperSelection.equals("D")) {
-                shipObj.shipMovement(upperSelection);
-            } else if (upperSelection.equals("Q")) {
-                quit = true;
-            }
-        }
-    
+	
+	playerShip shipOne = new playerShip();
+	Scanner keyboard = new Scanner(System.in);
+	char[][] board = new char[boardHeight][boardWidth];
+	boolean quit = false;
+	
+	public static void main(String[] args){
+		int boardHeight = 30;
+		int boardWidth = 60;
+		int shipLocation =shipOne.getLocation();
+		play();
+	}
+	
+	public void play(){
+		drawCurrentState(shipLocation);
+		handleEvent();
+		while(!quit){
+			updateGame();
+			drawCurrentState(shipLocation);
+		}
+		
+	}
+	
+	public void updateGame(){
+		shipLocation= shipOne.getLocation();
+        drawCurrentState(shipLocation); 
     }
+	
+	public void createBoard(){
+        for (int r = 0; r < boardHeight; r++) {
+            for (int c = 0; c < boardWidth; c++) {
+                board[r][c] = ' '; 
+            }
+        }        
+	}
+
+	public void drawCurrentState(int shipLocation){ 
+    	if (shipLocation > 2 && shipLocation < (boardWidth-2)) {
+    		board[boardHeight-1][shipLocation] = 'X';
+    		board[boardHeight-1][shipLocation+3] = ' '; 
+    		board[boardHeight-1][shipLocation-3] = ' ';
+    	}
+
+        for (int r = 0; r < boardHeight; r++) {
+            System.out.print("|"); 
+            for (int c = 0; c < boardWidth; c++) {
+                
+                System.out.print(board[r][c]);
+            }
+            System.out.println("|"); 
+        }
+    }
+
+	public boolean handleEvents(){
+        System.out.print("Enter A for left, D for right (Q to quit)"); 
+        String selection = keyboard.nextLine(); 
+        String upperSelection = selection.toUpperCase();
+        if (upperSelection.equals("A") || upperSelection.equals("D")) {
+            shipOne.shipMovement(upperSelection);
+        } else if (upperSelection.equals("Q")) {
+            quit = true;
+        }
+		return quit;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
