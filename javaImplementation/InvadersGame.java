@@ -1,20 +1,16 @@
 import java.util.Scanner;
 
 public class InvadersGame{
-	
 	playerShip shipOne = new playerShip();
 	Scanner keyboard = new Scanner(System.in);
+	drawGame brd = new drawGame();
+	int boardHeight = brd.getHeight();
+	int boardWidth = brd.getWidth();
 	char[][] board = new char[boardHeight][boardWidth];
 	boolean quit = false;
 	
-	public static void main(String[] args){
-		int boardHeight = 30;
-		int boardWidth = 60;
-		int shipLocation =shipOne.getLocation();
-		play();
-	}
-	
 	public void play(){
+		int shipLocation =shipOne.getLocation();
 		drawCurrentState(shipLocation);
 		handleEvent();
 		while(!quit){
@@ -25,7 +21,7 @@ public class InvadersGame{
 	}
 	
 	public void updateGame(){
-		shipLocation= shipOne.getLocation();
+		int shipLocation= shipOne.getLocation();
         drawCurrentState(shipLocation); 
     }
 	
@@ -54,7 +50,7 @@ public class InvadersGame{
         }
     }
 
-	public boolean handleEvents(){
+	public boolean handleEvent(){
         System.out.print("Enter A for left, D for right (Q to quit)"); 
         String selection = keyboard.nextLine(); 
         String upperSelection = selection.toUpperCase();
@@ -65,17 +61,4 @@ public class InvadersGame{
         }
 		return quit;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
