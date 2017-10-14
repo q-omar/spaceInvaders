@@ -1,5 +1,3 @@
-//Space Invaders by Team Unlucky 13!
-
 import java.util.Scanner;
 
 
