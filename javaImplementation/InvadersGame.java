@@ -2,25 +2,19 @@ import java.util.Scanner;
 
 public class InvadersGame{
 	
+    playerShip ship = new playerShip();
 	boolean quit = false;
 	int boardHeight = 30;
 	int boardWidth = 60;
-
+    
 	char[][] board = new char[boardHeight][boardWidth];
 	
 	public void play(){
-		playerShip ship = new playerShip();
-		drawCurrentState(ship.getLocation);
-		handleEvents();
 		while(!quit){
-			updateGame();
-			drawCurrentState(shipLocation);
+            drawCurrentState(ship.getLocation());
+            handleEvents();	
 		}
 	}
-	
-	public void updateGame(){
-        drawCurrentState(ship.getLocation()); 
-    }
 	
 	public void createBoard(){
         for (int r = 0; r < boardHeight; r++) {
