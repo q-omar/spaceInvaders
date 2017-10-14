@@ -1,28 +1,25 @@
 import java.util.Scanner;
 
 public class InvadersGame{
-	playerShip shipOne = new playerShip();
-	Scanner keyboard = new Scanner(System.in);
-	drawGame brd = new drawGame();
-	int boardHeight = brd.getHeight();
-	int boardWidth = brd.getWidth();
-	char[][] board = new char[boardHeight][boardWidth];
+	
 	boolean quit = false;
+	int boardHeight = 30;
+	int boardWidth = 60;
+
+	char[][] board = new char[boardHeight][boardWidth];
 	
 	public void play(){
-		int shipLocation =shipOne.getLocation();
-		drawCurrentState(shipLocation);
-		handleEvent();
+		playerShip ship = new playerShip();
+		drawCurrentState(ship.getLocation);
+		handleEvents();
 		while(!quit){
 			updateGame();
 			drawCurrentState(shipLocation);
 		}
-		
 	}
 	
 	public void updateGame(){
-		int shipLocation= shipOne.getLocation();
-        drawCurrentState(shipLocation); 
+        drawCurrentState(ship.getLocation()); 
     }
 	
 	public void createBoard(){
@@ -50,15 +47,29 @@ public class InvadersGame{
         }
     }
 
-	public boolean handleEvent(){
+	public boolean handleEvents(){
+		Scanner keyboard = new Scanner(System.in);
         System.out.print("Enter A for left, D for right (Q to quit)"); 
         String selection = keyboard.nextLine(); 
         String upperSelection = selection.toUpperCase();
         if (upperSelection.equals("A") || upperSelection.equals("D")) {
-            shipOne.shipMovement(upperSelection);
+            ship.shipMovement(upperSelection);
         } else if (upperSelection.equals("Q")) {
             quit = true;
         }
 		return quit;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

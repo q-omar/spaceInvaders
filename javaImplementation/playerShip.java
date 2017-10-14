@@ -22,10 +22,10 @@ public class playerShip{
 
     public void shipMovement(String direction) {
 
-        if (direction.equals("A") && location > 2) { 
+        if (direction.equals("A") && location > 0) { 
             location=location-3; 
             
-        } else if (direction.equals("D") && location<58) { 
+        } else if (direction.equals("D")) { 
             location=location+3;
 		}
 	}
