@@ -4,7 +4,7 @@ public class InvadersGame{
     
     playerShip ship = new playerShip();
     playerShot shot = new playerShot();
-	Alien aliens= new Alien();
+	Alien aliens = new Alien();
     boolean quit = false;
     int boardHeight = 30;
     int boardWidth = 60;
@@ -14,7 +14,7 @@ public class InvadersGame{
     public void play(){
         createBoard();
         while(!quit){
-            drawCurrentState(ship.getLocation(), ship.getLastLocation(),aliens.getLastAlienX(),aliens.getLastAlienY());
+            drawCurrentState(ship.getLocation(), ship.getLastLocation(), aliens.getAlienX(), aliens.getAlienY(), aliens.getLastAlienX(), aliens.getLastAlienY());
             handleEvents(); 
             ship.inBounds(boardWidth);
             shot.inBounds(); 
@@ -28,7 +28,7 @@ public class InvadersGame{
         }  
 	}
 	
-    public void drawCurrentState(int shipLocation, int shipLastLocation, int alienX, int alienY){ 
+    public void drawCurrentState(int shipLocation, int shipLastLocation, int alienX, int alienY, int lastAlienX, int lastAlienY){ 
         board[boardHeight-1][shipLocation] = 'X';
         if (shipLocation != shipLastLocation) {
             board[boardHeight-1][shipLastLocation] = ' ';
@@ -40,21 +40,17 @@ public class InvadersGame{
 
         if (shot.getShotFired()) { 
         	board[shot.getShotRow()][shot.getShotColumn()] = '*';
-        }
+        }		
+		//
+		board[lastAlienY][lastAlienX] = ' ';
 		board[alienY][alienX] = 'U';
-		
+
 		if ((alienY%2)==0){
 			aliens.moveRight();
-			if (alienX == boardWidth){
-				alienY+=2;
-			}
 		}else {
 			aliens.moveLeft();
-			if (alienY == 0){
-				alienY+=2;
-			}
 		}
-		
+		//		
         for (int r = 0; r < boardHeight; r++) {
             System.out.print("|"); 
             for (int c = 0; c < boardWidth; c++) {

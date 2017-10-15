@@ -13,16 +13,6 @@ public class Alien{
 		return alienXcoord;
 	}
 	
-	public void setAlienX(int newAlienX) {
-		lastAlienX = alienXcoord;
-		alienXcoord = newAlienX;
-	}
-	
-	public void setAlienY(int newAlienY){
-		lastAlienY = alienYcoord;
-		alienYcoord = newAlienY;
-	}
-	
 	public int getLastAlienY(){
 		return lastAlienY;
 	}
@@ -31,16 +21,28 @@ public class Alien{
 		return lastAlienX;
 	}
 	
-	public int moveRight(){
-	    alienXcoord = alienXcoord+2;
-	    getAlienX();
-		return alienXcoord;
+	public void moveRight(){
+		
+		lastAlienX = alienXcoord;
+		lastAlienY = alienYcoord;
+		if (alienXcoord + 2 < 60){
+			alienXcoord = alienXcoord+2;
+		}else{
+			alienXcoord = 59;
+			alienYcoord += 1;
+		}
 	}
 	
-	public int moveLeft() {
-	    alienXcoord = alienXcoord-2;
-	    getAlienX();
-		return alienXcoord;
+	public void moveLeft() {
+		
+		lastAlienX = alienXcoord;
+		lastAlienY = alienYcoord;
+		if (alienXcoord - 2 < 0){
+			alienYcoord += 1;
+		}else{
+			alienXcoord = alienXcoord-2;
+		}
+
 	}
 	
 	
