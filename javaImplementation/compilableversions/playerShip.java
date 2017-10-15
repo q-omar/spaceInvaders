@@ -1,7 +1,7 @@
 public class playerShip{
 
 
-    private int location = 29;
+    private int location = 30;
     private int lastLocation = location;
     private int speed = 3;
 
@@ -24,8 +24,8 @@ public class playerShip{
 
     public void inBounds(int boardWidth) { 
         if (location >= boardWidth) {
-            location = boardWidth - 1;
-        } else if (location < 0) {
+            location = boardWidth - speed;
+        } else if (location < speed) {
             location = 0;
         }
     }

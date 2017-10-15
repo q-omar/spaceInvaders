@@ -14,15 +14,20 @@ public class InvadersGame{
     public void play(){
         createBoard();
         while(!quit){
-            drawCurrentState();
-            handleEvents(); 
-            ship.inBounds(boardWidth);
-            shot.inBounds(); 
-            if (aliens.inBounds()){
+            if (aliens.inBounds(boardHeight)) {
                 quit = true;
                 System.out.println("Game over, the aliens got you!");
+            } else {
+                drawCurrentState(ship.getLocation(), ship.getLastLocation(), aliens.getAlienX(), aliens.getAlienY(), aliens.getLastAlienX(), aliens.getLastAlienY());
+                if(!aliens.isAlive()) {
+                    quit = true;
+                    System.out.println("You won!!");
+                } else {
+                    handleEvents(); 
+                    ship.inBounds(boardWidth); 
+                }
+                
             }
-
         }
     }
     public void createBoard(){
@@ -33,29 +38,32 @@ public class InvadersGame{
         }  
 	}
 	
-    public void drawCurrentState(){ 
-        board[boardHeight-1][ship.getLocation()] = 'X';
-        if (ship.getLocation() != ship.getLastLocation()) {
-            board[boardHeight-1][ship.getLastLocation()] = ' ';
+    public void drawCurrentState(int shipLocation, int shipLastLocation, int alienX, int alienY, int lastAlienX, int lastAlienY){ 
+        board[boardHeight-1][shipLocation] = 'X';
+        if (shipLocation != shipLastLocation) {
+            board[boardHeight-1][shipLastLocation] = ' ';
         }
 
-        if (shot.getShotRow() != shot.getLastShotRow()) { 
+        if (shot.checkHit(alienY, alienX) && shot.getShotFired()) {
+            shot.shotFired(false); // Makes shot "disappear"
+            aliens.destroyAlien();
+        }
+
+        shot.inBounds();
+
+        if (shot.getShotRow() != shot.getLastShotRow() && shot.getLastShotRow() >= 0) { 
         	board[shot.getLastShotRow()][shot.getShotColumn()] = ' ';
         }
 
         if (shot.getShotFired()) { 
         	board[shot.getShotRow()][shot.getShotColumn()] = '*';
         }		
-		//
-		board[aliens.getLastAlienY()][aliens.getLastAlienX()] = ' ';
-		board[aliens.getAlienY()][aliens.getAlienX()] = 'U';
 
-		if ((aliens.getAlienY()%2)==0){
-			aliens.moveRight();
-		}else {
-			aliens.moveLeft();
-		}
-		//		
+		board[lastAlienY][lastAlienX] = ' ';
+        if (aliens.isAlive()) {
+            board[alienY][alienX] = 'U';
+        }
+		
         for (int r = 0; r < boardHeight; r++) {
             System.out.print("|"); 
             for (int c = 0; c < boardWidth; c++) {
@@ -89,6 +97,12 @@ public class InvadersGame{
 
         if (shot.getShotFired()) { // Update shot location
         	shot.moveShot();
+        }
+
+        if ((aliens.getAlienY()%2)==0){ // Moved alien movement here due to loss condition checking
+            aliens.moveRight(boardWidth);
+        } else {
+            aliens.moveLeft(boardWidth);
         }
 
     }
