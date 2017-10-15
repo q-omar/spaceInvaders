@@ -13,4 +13,4 @@ In 'V2', shot '*' can be fired from the ships current column. Due to nature of S
 
 ![ScreenShot](outputs/outputV3.png)
 
-In 'V3', an alien 'U' travels the entire row then down one column and again travels row back, continuing so until a row limit is reached at which point game ends.
+In 'V3', an alien 'U' travels the entire row then down a few columns and again travels row back, continuing so until either a row limit is reached or the alien is hit, at which point you lose/win and game ends.
