@@ -45,5 +45,13 @@ public class Alien{
 
 	}
 	
+	public boolean inBounds() {
+		boolean alienEnd = false;
+		getAlienY();
+		if (alienYcoord==10){
+			alienEnd = true;
+		}
+		return alienEnd;
+	}
 	
 }

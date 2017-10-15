@@ -18,6 +18,11 @@ public class InvadersGame{
             handleEvents(); 
             ship.inBounds(boardWidth);
             shot.inBounds(); 
+            if (aliens.inBounds()){
+                quit = true;
+                System.out.println("Game over, the aliens got you!");
+            }
+
         }
     }
     public void createBoard(){
