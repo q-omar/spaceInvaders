@@ -1,23 +1,30 @@
 public class playerShot{
-   
-    boolean shotFired;
-    int shotLocation;
     
-    public void shotFired(String shotCheck){
-        if (shotCheck.equals("F")){ 
-            shotFired = true;
-            
-        } else{ 
-            shotFired = false;
-        }
+	playerShip shipOne = new playerShip();
+    int shotColumn = shipOne.getLastLocation();
+	boolean shotFired = false;
+	int boardHeight= 30;
+	int shotRow= boardHeight;
+	
+	public void setIsFired(){
+		shotFired = true;
+	}
+	
+	public boolean isFired(){
+		return shotFired;
+	}
+	public int getShotRow(){
+		return shotRow;
+	}
+	
+    public int getShotColumn(){
+        return shotColumn;
     }
+	
+	public int moveBullet(int shotColumn, int shotRow){
+		shotRow= shotRow-1;
+		shotColumn = shotColumn;
+		return shotRow;
+	}	
 
-    public boolean getShotFired(){
-        return shotFired;
-    }
-
-    public int getShotLocation(){
-        return shotLocation;
-    }
-    
 }
