@@ -1,10 +1,23 @@
 public class playerShot{
+   
+    boolean shotFired;
+    int shotLocation;
     
-    int shotRow = playerShip.getLocation();
-
-
-    public int getShotLocation(){
-        return shotRow;
+    public void shotFired(String shotCheck){
+        if (shotCheck.equals("F")){ 
+            shotFired = true;
+            
+        } else{ 
+            shotFired = false;
+        }
     }
 
+    public boolean getShotFired(){
+        return shotFired;
+    }
+
+    public int getShotLocation(){
+        return shotLocation;
+    }
+    
 }

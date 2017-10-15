@@ -1,32 +1,53 @@
 public class playerShip{
+    
+    
+        private int location = 29;
+        private int lastLocation = location;
+        private int speed = 3;
 
-    // Location
-    public int location = 29;
-
-    public int getLocation() {
-        return location;
-    }
-
-    public void setLocation(int newLocation) {
-        location = newLocation;
-    }
-
-    private boolean inBounds(int shipRow){ //this is a boolean function that checks out of list boundary
-        boolean inBounds=true;   //i haven't employed it yet but it'll be neccessary later i think 
-        if (shipRow>60 || shipRow<0){
-            inBounds=false;
-            System.out.print("Out of bounds!");
+        public playerShip (){ //default constructor 
+ 
         }
-        return inBounds;
-    }    
 
-    public void shipMovement(String direction) {
+        public playerShip(int shotLocation){    //a constructor I am trying to use to get current location
 
-        if (direction.equals("A") && location > 0) { // if user chooses 1/left, it subtracts the shipRow 
-            location=location-3; 
-            
-        } else if (direction.equals("D")) { // if user chooses 2/right, it adds the shipRow 
-            location=location+3;
+        }
+
+        public int getLocation() {
+            return location;
+        }
+
+        public int getLastLocation() {
+            return lastLocation;
+        }
+    
+        public void setLocation(int newLocation) {
+            lastLocation = location;
+            location = newLocation;
+        }
+    
+        public int getSpeed() {
+            return speed;
+        }
+    
+        public void inBounds(int boardWidth) { 
+            if (location >= boardWidth) {
+                location = boardWidth - 1;
+            } else if (location < 0) {
+                location = 0;
+            }
+        }
+    
+        public void shipMovement(String direction) {
+            lastLocation = location;
+    
+            if (direction.equals("A") && location > 0) { 
+                location=location-speed;
+                
+            } else if (direction.equals("D")) { 
+                location=location+speed;
+            }
+    
+        }
     }
-}
-}
+    
