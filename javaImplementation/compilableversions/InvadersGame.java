@@ -1,3 +1,12 @@
+/******************************************************************************
+							Group 13: Demo 1 Invaders Game
+							
+This program launches a text-based, simple version of Invaders Game. There is one 
+player ship, one alien, with the ability for the playership to move left or right
+or shoot by user input across a board.
+
+******************************************************************************/
+
 import java.util.Scanner;
 
 public class InvadersGame{
@@ -9,7 +18,7 @@ public class InvadersGame{
     int boardHeight = 30;
     int boardWidth = 60;
     
-    char[][] board = new char[boardHeight][boardWidth];
+    char[][] board = new char[boardHeight][boardWidth]; //This array holds a boardHeightxboardWidth board
     
     public void play(){
         createBoard();
