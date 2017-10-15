@@ -1,49 +1,57 @@
- import java.util.Scanner;
- 
- public class InvadersGame{
- 	
+import java.util.Scanner;
+
+public class InvadersGame{
+    
     playerShip ship = new playerShip();
-	playerShot shotOne = new playerShot();
- 	boolean quit = false;
- 	int boardHeight = 30;
- 	int boardWidth = 60;
-     
-  	char[][] board = new char[boardHeight][boardWidth];
-  	
-  	public void play(){
- 		createBoard();
-  		while(!quit){
-			updateState(ship.getLocation(), ship.getLastLocation());
-            handleEvents();	
-  		}
-  	}
-  	
- 	public void createBoard(){
-        for (int r = 0; r < boardHeight; r++) {
+    playerShot shot = new playerShot();
+	Alien aliens= new Alien();
+    boolean quit = false;
+    int boardHeight = 30;
+    int boardWidth = 60;
+    
+    char[][] board = new char[boardHeight][boardWidth];
+    
+    public void play(){
+        createBoard();
+        while(!quit){
+            drawCurrentState(ship.getLocation(), ship.getLastLocation(),aliens.getLastAlienX(),aliens.getLastAlienY());
+            handleEvents(); 
+            ship.inBounds(boardWidth);
+            shot.inBounds(); 
+        }
+    }
+    public void createBoard(){
+		for (int r = 0; r < boardHeight; r++) {
             for (int c = 0; c < boardWidth; c++) {
                 board[r][c] = ' '; 
             }
-        }        
-  	}
-  
- 	public void updateState(int shipLocation,int shipLastLocation){ 
-     	if (shipLocation > 2 && shipLocation < (boardWidth-2)) {
-     		board[boardHeight-1][shipLocation] = 'X';
-    		board[boardHeight-1][shipLocation+3] = ' '; 
-     		board[boardHeight-1][shipLocation-3] = ' ';
-		}
+        }  
+	}
+	
+    public void drawCurrentState(int shipLocation, int shipLastLocation, int alienX, int alienY){ 
+        board[boardHeight-1][shipLocation] = 'X';
+        if (shipLocation != shipLastLocation) {
+            board[boardHeight-1][shipLastLocation] = ' ';
+        }
+
+        if (shot.getShotRow() != shot.getLastShotRow()) { 
+        	board[shot.getLastShotRow()][shot.getShotColumn()] = ' ';
+        }
+
+        if (shot.getShotFired()) { 
+        	board[shot.getShotRow()][shot.getShotColumn()] = '*';
+        }
+		board[alienY][alienX] = 'U';
 		
-     	board[boardHeight-1][shipLocation] = 'X';
-     	if (shipLocation != shipLastLocation) {
-     		board[boardHeight-1][shipLastLocation] = ' ';
-      	}
-		
-		if (shotOne.isFired()){
-			int shotRow = shotOne.moveBullet(shotOne.getShotColumn(),shotOne.getShotRow());
-			int shotColumn = shotOne.getShotColumn();
-			board[shotRow][shotColumn] = '|';
-            if (shotRow <= boardHeight-2){
-				board[shotRow+1][shotColumn] = ' ';
+		if ((alienY%2)==0){
+			aliens.moveRight();
+			if (alienX == boardWidth){
+				alienY+=2;
+			}
+		}else {
+			aliens.moveLeft();
+			if (alienY == 0){
+				alienY+=2;
 			}
 		}
 		
@@ -55,19 +63,33 @@
             System.out.println("|"); 
         }
     }
- 
- 	public boolean handleEvents(){
-		Scanner keyboard = new Scanner(System.in);
-        System.out.print("Enter A for left, D for right, F to fire (Q to quit)"); 
+
+    public void handleEvents(){
+        Scanner keyboard = new Scanner(System.in);
+        System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
         String selection = keyboard.nextLine(); 
         String upperSelection = selection.toUpperCase();
+
         if (upperSelection.equals("A") || upperSelection.equals("D")) {
             ship.shipMovement(upperSelection);
+        } else if (upperSelection.equals("F")) {
+        	
+        	if (!shot.getShotFired()) { // This makes a new shot
+        		shot.setShotColumn(ship.getLocation());
+        		shot.setShotRow(boardHeight-2);
+        		shot.shotFired(true);
+        	} else {
+        		System.out.println("Out of ammo!"); // Temporary message for trying to shoot more than one at a time
+        	}
+        	
         } else if (upperSelection.equals("Q")) {
             quit = true;
-        } else if (upperSelection.equals("F")){
-			shotOne.setIsFired();
-		}
- 		return quit;
+        }
+
+        if (shot.getShotFired()) { // Update shot location
+        	shot.moveShot();
+        }
+
     }
- }
+
+}

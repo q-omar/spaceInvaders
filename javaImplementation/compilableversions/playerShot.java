@@ -1,30 +1,53 @@
 public class playerShot{
+   
+    boolean shotFired;
+    int shotRow;
+    int lastShotRow = shotRow;
+    int shotColumn;
+    int speed = 1;
     
-	playerShip shipOne = new playerShip();
-    int shotColumn = shipOne.getLastLocation();
-	boolean shotFired = false;
-	int boardHeight= 30;
-	int shotRow= boardHeight;
-	
-	public void setIsFired(){
-		shotFired = true;
-	}
-	
-	public boolean isFired(){
-		return shotFired;
-	}
-	public int getShotRow(){
-		return shotRow;
-	}
-	
+    public void shotFired(boolean shotStatus){
+        if (shotStatus){ 
+            shotFired = true;
+        } else { 
+            shotFired = false;
+        }
+    }
+
+    public boolean getShotFired(){
+        return shotFired;
+    }
+
+    public int getShotRow(){
+        return shotRow;
+    }
+
+    public int getLastShotRow(){
+        return lastShotRow;
+    }
+
     public int getShotColumn(){
         return shotColumn;
     }
-	
-	public int moveBullet(int shotColumn, int shotRow){
-		shotRow= shotRow-1;
-		shotColumn = shotColumn;
-		return shotRow;
-	}	
+
+    public void setShotColumn(int column) {
+        shotColumn = column;
+    }
+
+    public void setShotRow(int row) {
+        lastShotRow = shotRow;
+        shotRow = row;
+    }
+
+    public void moveShot() {
+        lastShotRow = shotRow;
+        shotRow -= speed;
+    }
+
+    public void inBounds() { 
+        if (shotRow < 0) {
+            shotFired = false;
+        }
+    }
 
 }
