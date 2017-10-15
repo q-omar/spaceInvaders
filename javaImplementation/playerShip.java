@@ -38,7 +38,7 @@ public class playerShip{
             
         } else if (direction.equals("D")) { 
             location=location+speed;
-		}
+        }
 
-	}
+    }
 }
