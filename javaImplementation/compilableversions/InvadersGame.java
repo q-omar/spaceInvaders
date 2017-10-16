@@ -4,7 +4,6 @@
 This program launches a text-based, simple version of Invaders Game. There is one 
 player ship, one alien, with the ability for the playership to move left or right
 or shoot by user input across a board.
-
 ******************************************************************************/
 
 import java.util.Scanner;
@@ -13,7 +12,8 @@ public class InvadersGame{
     
     playerShip ship = new playerShip();
     playerShot shot = new playerShot();
-	Alien aliens = new Alien();
+	Alien alien1 = new Alien();
+	Alien alien2 = new Alien();
     boolean quit = false;
     int boardHeight = 30;
     int boardWidth = 60;
@@ -22,13 +22,17 @@ public class InvadersGame{
     
     public void play(){
         createBoard();
+		alien1.setAlienX(10);
+		alien2.setAlienX(14);
+		alien1.setAlienY(2);
+		alien2.setAlienY(2);
         while(!quit){
-            if (aliens.inBounds(boardHeight)) {
+            if (alien1.inBounds(boardHeight)&& alien2.inBounds(boardHeight)) {
                 quit = true;
                 System.out.println("Game over, the aliens got you!");
             } else {
                 drawCurrentState();
-                if(!aliens.isAlive()) {
+                if(!alien1.isAlive()&& !alien2.isAlive()) {
                     quit = true;
                     System.out.println("You won!!");
                 } else {
@@ -52,10 +56,13 @@ public class InvadersGame{
         if (ship.getLocation() != ship.getLastLocation()) {
             board[boardHeight-1][ship.getLastLocation()] = ' ';
         }
-
-        if (shot.checkHit(aliens.getAlienY(), aliens.getAlienX()) && shot.getShotFired()) {
+		
+        if (shot.checkHit(alien1.getAlienY(), alien1.getAlienX()) && shot.getShotFired()) {
             shot.shotFired(false); // Makes shot "disappear"
-            aliens.destroyAlien();
+            alien1.destroyAlien();
+        } else if (shot.checkHit(alien2.getAlienY(), alien2.getAlienX()) && shot.getShotFired()) {
+            shot.shotFired(false); // Makes shot "disappear"
+            alien2.destroyAlien();
         }
 
         shot.inBounds();
@@ -68,10 +75,18 @@ public class InvadersGame{
         	board[shot.getShotRow()][shot.getShotColumn()] = '*';
         }		
 
-		board[aliens.getLastAlienY()][aliens.getLastAlienX()] = ' ';
-        if (aliens.isAlive()) {
-            board[aliens.getAlienY()][aliens.getAlienX()] = 'U';
-        }
+		board[alien1.getLastAlienY()][alien1.getLastAlienX()] = ' ';
+		board[alien2.getLastAlienY()][alien2.getLastAlienX()] = ' ';
+        if (alien1.isAlive() || alien2.isAlive()) {
+            if (alien1.isAlive() && alien2.isAlive()){
+				board[alien2.getAlienY()][alien2.getAlienX()] = 'U';
+				board[alien1.getAlienY()][alien1.getAlienX()] = 'U';
+			} else if (alien1.isAlive()){
+				board[alien1.getAlienY()][alien1.getAlienX()]='U';
+			} else if (alien2.isAlive()){
+				board[alien2.getAlienY()][alien2.getAlienX()]='U';
+			}
+		}
 		
         for (int r = 0; r < boardHeight; r++) {
             System.out.print("|"); 
@@ -108,10 +123,18 @@ public class InvadersGame{
         	shot.moveShot();
         }
 
-        if ((aliens.getAlienY()%2)==0){ // Moved alien movement here due to loss condition checking
-            aliens.moveRight(boardWidth);
-        } else {
-            aliens.moveLeft(boardWidth);
+        if ((alien1.getAlienY()%2)==0 && (alien2.getAlienY()%2)==0){ // Moved alien movement here due to loss condition checking
+            alien1.moveRight(boardWidth);
+			alien2.moveRight(boardWidth);
+        } else if ((alien1.getAlienY()%2)==0 && (alien2.getAlienY()%2)!=0) {
+            alien1.moveRight(boardWidth);
+			alien2.moveLeft(boardWidth);
+		} else if ((alien2.getAlienY()%2)==0 && (alien1.getAlienY()%2)!=0){
+			alien2.moveRight(boardWidth);
+			alien1.moveLeft(boardWidth);
+		}else{
+			alien1.moveLeft(boardWidth);
+			alien2.moveLeft(boardWidth);
         }
 
     }

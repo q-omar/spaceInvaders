@@ -3,13 +3,22 @@ public class Alien{
 This class holds the method mechanics of the alien ship
 *************************************************/
 	
-	private int alienYcoord = 2;
+	private int alienYcoord;
 	private int lastAlienY = alienYcoord;
-	private int alienXcoord = 9; 
+	private int alienXcoord; 
 	private int lastAlienX = alienXcoord;
 	private int horizontalSpeed = 3; 
 	private int verticalSpeed = 5;
 	private boolean isAlive = true;
+	
+	public void setAlienX(int xCoord){
+		alienXcoord= xCoord;
+	}
+	
+	public void setAlienY( int yCoord){
+		alienYcoord= yCoord;
+	}
+	
 	
 	/************************
 	method: getAlienY
