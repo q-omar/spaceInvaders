@@ -4,6 +4,7 @@
 This program launches a text-based, simple version of Invaders Game. There is one 
 player ship, one alien, with the ability for the playership to move left or right
 or shoot by user input across a board.
+
 ******************************************************************************/
 
 import java.util.Scanner;
@@ -19,7 +20,14 @@ public class InvadersGame{
     int boardWidth = 60;
     
     char[][] board = new char[boardHeight][boardWidth]; //This array holds a boardHeightxboardWidth board
-    
+ 
+	/**************************************************************************************************
+	method: play
+			this method creates a board and sets two alien index positions and checks for the user quit flag
+			and if any alien is within board boundaries, displays a simulation of the board if conditions met,
+			and checks if both aliens are alive, ending the game if so, otherwise continues the game
+			
+	**************************************************************************************************/
     public void play(){
         createBoard();
 		alien1.setAlienX(10);
@@ -43,6 +51,11 @@ public class InvadersGame{
             }
         }
     }
+	
+	/******************************************
+	method: createBoard
+			creates a board with width and height		
+	******************************************/
     public void createBoard(){
 		for (int r = 0; r < boardHeight; r++) {
             for (int c = 0; c < boardWidth; c++) {
@@ -50,7 +63,12 @@ public class InvadersGame{
             }
         }  
 	}
+	/************************************************************************************
+	method: drawCurrentState
+			outputs onto screen current iteration of the board with the player ship, alien ships, the player shot
+			and boundaries within their respective index positions			
 	
+	************************************************************************************/
     public void drawCurrentState(){ 
         board[boardHeight-1][ship.getLocation()] = 'X';
         if (ship.getLocation() != ship.getLastLocation()) {
@@ -97,6 +115,14 @@ public class InvadersGame{
         }
     }
 
+	/************************************************************************************
+	method: handleEvents
+			prompts the user for input, giving options of moving right, left, shoot, or to
+			quit, passing valid user input through required methods to move left or right, shoot
+			if possible, and reacting accordingly under conditions of whether they are in the correct
+			boundaries within the board 
+	
+	************************************************************************************/
     public void handleEvents(){
         Scanner keyboard = new Scanner(System.in);
         System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 

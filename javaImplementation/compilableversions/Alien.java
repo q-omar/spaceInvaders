@@ -11,10 +11,18 @@ This class holds the method mechanics of the alien ship
 	private int verticalSpeed = 5;
 	private boolean isAlive = true;
 	
+	/************************
+	method: setAlienX
+			sets alien horizontal index position
+	*************************/
 	public void setAlienX(int xCoord){
 		alienXcoord= xCoord;
 	}
 	
+	/************************
+	method: setAlienY
+			sets alien vertical index position
+	*************************/
 	public void setAlienY( int yCoord){
 		alienYcoord= yCoord;
 	}
