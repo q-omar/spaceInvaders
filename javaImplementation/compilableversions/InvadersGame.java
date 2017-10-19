@@ -35,7 +35,7 @@ public class InvadersGame{
 		alien1.setAlienY(2);
 		alien2.setAlienY(2);
         while(!quit){
-            if (alien1.inBounds(boardHeight)&& alien2.inBounds(boardHeight)) {
+            if (alien1.inBounds(boardHeight-1) | alien2.inBounds(boardHeight-1)) {
                 quit = true;
                 System.out.println("Game over, the aliens got you!");
             } else {
