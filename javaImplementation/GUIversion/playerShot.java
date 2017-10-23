@@ -8,10 +8,16 @@ public class playerShot{
     */
 
     boolean shotFired;
-    int shotRow;
+
+    int width = 10; // In pixels, for GUI
+    int length = 30;
+
+    int shotRow = 250;
     int lastShotRow = shotRow;
-    int shotColumn;
+    int shotColumn = 200;
     int speed = 5;
+
+
     
     /** shotFired method is used with getShotFired method where
      * @param shotStatus is passed from InvadersGame class to check if a shot 
@@ -20,6 +26,14 @@ public class playerShot{
 
     public void shotFired(boolean shotStatus){
         shotFired = shotStatus;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public boolean getShotFired(){
@@ -66,7 +80,6 @@ public class playerShot{
         shotRow -= speed;
     }
     
-    
     /** the inBounds method checks if the bullet goes past the top of the screen, 
      * shotFired being set to false will stop the board from attemping to draw it.
      *  The next time a bullet is fired, shotRow will be reset.
@@ -86,7 +99,7 @@ public class playerShot{
     
     public boolean checkHit(int targetRow, int targetCol) {
         boolean hit = false;
-        if (targetCol == shotColumn && shotRow <= targetRow && shotRow >= targetRow - 5) {
+        if (targetCol == shotColumn && shotRow <= targetRow && shotRow >= targetRow - speed) {
             hit = true;
             System.out.println("A hit!");
         }
