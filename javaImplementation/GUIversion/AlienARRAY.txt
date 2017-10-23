@@ -1,0 +1,110 @@
+	alienRowSize = 3;
+	alienColSize = 8;
+	horizontalSpeed = 2;
+	verticalSpeed = 2;
+	String direction = "Right";
+
+//sets initial alien positions
+public void setPositions(char[][] board){
+	
+	boardRowPos = 1;
+	boardColPos = 5;
+	
+	alienRowNum = 0;
+	alienColNum = 0;
+	while ( alienRowNum < alienRowSize ){
+			
+		while ( alienColNum < alienColumnSize ){
+			aliens[alienRowNum][alienColNum].alienYcoord = boardRowPos;
+			aliens[alienRowNum][alienColNum].alienXcoord = boardColPos;
+			board[boardRowPos][boardColPos] = "U";
+			
+			boardColPos++;
+			alienColNum++;
+		}
+		
+		boardRowPos++;
+		boardColPos = 5;
+		alienColNum = 0;
+		
+		alienRowNum++;
+	}
+}
+
+public void alienMove(char[][] board, boardWidth){
+	
+	flag shiftDown = false;
+	flag gameOver = false; //if last row reaches beyond board height
+	
+	if ( direction.equals("Right") ){
+		
+			alienRowNum = 0;
+			alienColNum = 7;
+
+			if ( aliens[0][alienColSize-1].alienXcoord+horizontalSpeed >= boardWidth ){
+				shiftDown = true;
+			}
+			
+			while ( (alienRowNum < alienRowSize) && (!shiftDown) ){
+			
+				while ( alienColNum >= 0 && ){
+					aliens[alienRowNum][alienColNum].lastAlienY = aliens[alienRowNum][alienColNum].alienYcoord; //don't really need this
+					aliens[alienRowNum][alienColNum].lastAlienX = aliens[alienRowNum][alienColNum].alienXcoord;
+					board[lastAlienY][lastAlienX] = " ";
+					
+					aliens[alienRowNum][alienColNum].alienXcoord+=horizontalSpeed;
+					board[alienYcoord][alienXcoord] = "U";
+					
+					alienColNum--;
+				}
+				alienColNum = 8;
+				alienRowNum++;
+			}
+			
+			if ( shiftDown ){
+				
+				alienRowNum = 2;
+			
+				direction = "Left";
+				alienRowNum = 0;
+				
+				while ( alienRowNum >= 0 ){
+				
+					aliens[alienRowNum][alienColNum].lastAlienY = aliens[alienRowNum][alienColNum].alienYcoord;
+					board[lastAlienY][lastAlienX] = " ";
+					
+					aliens[alienRowNum][alienColNum].alienXcoord-=verticalSpeed;
+					board[alienYcoord][alienXcoord] = "U";
+					
+					alienRowNum--;
+				
+				}
+				
+				if ( aliens[alienRowSize-1][0].alienYcoord >= boardHeight ){
+					gameOver = true;
+				}							
+			}
+	}
+		
+		
+		
+	else if ( direction.equals("Left") ){
+
+	}
+		
+		
+		
+}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
