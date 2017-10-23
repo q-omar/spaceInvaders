@@ -4,7 +4,6 @@
 This program launches a text-based, simple version of Invaders Game. There is one 
 player ship, one alien, with the ability for the playership to move left or right
 or shoot by user input across a board.
-
 ******************************************************************************/
 
 import java.util.Scanner;
@@ -13,11 +12,15 @@ public class InvadersGame{
     
     playerShip ship = new playerShip();
     playerShot shot = new playerShot();
-	Alien alien1 = new Alien();
-	Alien alien2 = new Alien();
     boolean quit = false;
     int boardHeight = 30;
     int boardWidth = 60;
+	boolean shotFired = false;
+	
+	int amountAliens = 4;
+	Alien[] alienList= new Alien[amountAliens];
+	int x=0;
+	int y=2;
     
     char[][] board = new char[boardHeight][boardWidth]; //This array holds a boardHeightxboardWidth board
  
@@ -30,25 +33,19 @@ public class InvadersGame{
 	**************************************************************************************************/
     public void play(){
         createBoard();
-		alien1.setAlienX(10);
-		alien2.setAlienX(14);
-		alien1.setAlienY(2);
-		alien2.setAlienY(2);
-        while(!quit){
-            if (alien1.inBounds(boardHeight-1) | alien2.inBounds(boardHeight-1)) {
-                quit = true;
-                System.out.println("Game over, the aliens got you!");
-            } else {
-                drawCurrentState();
-                if(!alien1.isAlive()&& !alien2.isAlive()) {
-                    quit = true;
-                    System.out.println("You won!!");
-                } else {
-                    handleEvents(); 
-                    ship.inBounds(boardWidth); 
-                }
-                
-            }
+		
+		for (int i=0; i< amountAliens; i++){ // creates a list of aliens for each index or position i we set the x and y coordinate
+			alienList[i] = new Alien();
+			alienList[i].setAlienX(x);
+			alienList[i].setAlienY(y);
+			x += (boardWidth / amountAliens); // the x coordinate increases by increments of the board, so if we have 4 aliens, the x is boardwidth divided by 4
+			// we add another increment of the fraction to the next x so that the aliens are even over the board
+		}
+		
+        while(!quit){ // I deleted all the conditionals where quit is being changed to false and put it in the handle events method handle events is supposed to change quit
+            drawCurrentState();
+            handleEvents(); 
+            ship.inBounds(boardWidth);
         }
     }
 	
@@ -75,13 +72,12 @@ public class InvadersGame{
             board[boardHeight-1][ship.getLastLocation()] = ' ';
         }
 		
-        if (shot.checkHit(alien1.getAlienY(), alien1.getAlienX()) && shot.getShotFired()) {
-            shot.shotFired(false); // Makes shot "disappear"
-            alien1.destroyAlien();
-        } else if (shot.checkHit(alien2.getAlienY(), alien2.getAlienX()) && shot.getShotFired()) {
-            shot.shotFired(false); // Makes shot "disappear"
-            alien2.destroyAlien();
-        }
+		for (int i=0; i< amountAliens; i++){
+			if (shot.checkHit(alienList[i].getAlienY(), alienList[i].getAlienX()) && shot.getShotFired()){
+				shot.shotFired(false); // Makes shot "disappear"
+				alienList[i].destroyAlien();
+			}
+		}
 
         shot.inBounds();
 
@@ -93,18 +89,13 @@ public class InvadersGame{
         	board[shot.getShotRow()][shot.getShotColumn()] = '*';
         }		
 
-		board[alien1.getLastAlienY()][alien1.getLastAlienX()] = ' ';
-		board[alien2.getLastAlienY()][alien2.getLastAlienX()] = ' ';
-        if (alien1.isAlive() || alien2.isAlive()) {
-            if (alien1.isAlive() && alien2.isAlive()){
-				board[alien2.getAlienY()][alien2.getAlienX()] = 'U';
-				board[alien1.getAlienY()][alien1.getAlienX()] = 'U';
-			} else if (alien1.isAlive()){
-				board[alien1.getAlienY()][alien1.getAlienX()]='U';
-			} else if (alien2.isAlive()){
-				board[alien2.getAlienY()][alien2.getAlienX()]='U';
+		for (int i=0; i< amountAliens; i++){// draws the aliens, changes each alien in alien list (all that is changed is that i put it in a loop)
+			board[alienList[i].getLastAlienY()][alienList[i].getLastAlienX()] = ' ';
+			if (alienList[i].isAlive()){
+				board[alienList[i].getAlienY()][alienList[i].getAlienX()] = 'U';
 			}
 		}
+		
 		
         for (int r = 0; r < boardHeight; r++) {
             System.out.print("|"); 
@@ -132,7 +123,6 @@ public class InvadersGame{
         if (upperSelection.equals("A") || upperSelection.equals("D")) {
             ship.shipMovement(upperSelection);
         } else if (upperSelection.equals("F")) {
-        	
         	if (!shot.getShotFired()) { // This makes a new shot
         		shot.setShotColumn(ship.getLocation());
         		shot.setShotRow(boardHeight-2);
@@ -140,28 +130,37 @@ public class InvadersGame{
         	} else {
         		System.out.println("Out of ammo!"); // Temporary message for trying to shoot more than one at a time
         	}
-        	
         } else if (upperSelection.equals("Q")) {
             quit = true;
         }
 
+		
         if (shot.getShotFired()) { // Update shot location
         	shot.moveShot();
         }
-
-        if ((alien1.getAlienY()%2)==0 && (alien2.getAlienY()%2)==0){ // Moved alien movement here due to loss condition checking
-            alien1.moveRight(boardWidth);
-			alien2.moveRight(boardWidth);
-        } else if ((alien1.getAlienY()%2)==0 && (alien2.getAlienY()%2)!=0) {
-            alien1.moveRight(boardWidth);
-			alien2.moveLeft(boardWidth);
-		} else if ((alien2.getAlienY()%2)==0 && (alien1.getAlienY()%2)!=0){
-			alien2.moveRight(boardWidth);
-			alien1.moveLeft(boardWidth);
-		}else{
-			alien1.moveLeft(boardWidth);
-			alien2.moveLeft(boardWidth);
-        }
+		
+		
+		int count=0; // counts how many aliens are destroyed
+		for (int i=0; i<= amountAliens; i++){
+			if ((alienList[i].getAlienY()%2)==0){
+				if (alienList[amountAliens].getAlienX()<= (boardWidth -5)){
+					alienList[i].moveRight(boardWidth);// move right if row is even
+				}
+			}else if((alienList[i].getAlienY()%2)!=0){
+				alienList[i].moveLeft(boardWidth); // move left if row is odd
+			}
+			if (alienList[i].inBounds(boardHeight)){ // checks if aliens are in bounds, if not changes quit to true
+				quit=true;
+				System.out.println("Game over, the aliens got you!");
+			}
+			if (!alienList[i].isAlive()) {
+                    count+=1; // counts if the specific alien is destroyed
+			}
+			if (count == amountAliens){ // if count is equal to the number of aliens, quit is true
+				quit = true; 
+				System.out.println("You won!!");
+			}
+		}
 
     }
 

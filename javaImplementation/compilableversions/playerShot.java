@@ -6,7 +6,9 @@ public class playerShot{
     @param shotColumn column in which shot travelsmn
     @param speed setting how fast shot should travel upward in rows on the board
     */
-
+	int width = 10; // In pixels, for GUI
+    int length = 30;
+	
     boolean shotFired;
     int shotRow;
     int lastShotRow = shotRow;
@@ -24,6 +26,14 @@ public class playerShot{
 
     public boolean getShotFired(){
         return shotFired;
+    }
+	
+	public int getWidth() {
+        return width;
+    }
+
+    public int getLength() {
+        return length;
     }
    
     /** if there is no current shot on board, getShotRow, getLastShotRow and 
