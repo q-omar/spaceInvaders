@@ -49,8 +49,10 @@ This class holds the method mechanics of the player ship
     public void inBounds(int boardWidth) { 
         if (location >= boardWidth) {
             location = boardWidth - speed;
+            System.out.println("Can't move out of bounds!");            
         } else if (location < speed) {
             location = 0;
+            System.out.println("Can't move out of bounds!");
         }
     }
 	

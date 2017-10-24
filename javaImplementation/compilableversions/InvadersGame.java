@@ -29,7 +29,7 @@ public class InvadersGame{
 			
 	**************************************************************************************************/
     
-    public boolean quitCondition(){
+    public void quitCondition(){
         if (alienInvaders.alienRowTwo[0].inBounds(boardHeight)) {
             quit = true;
             System.out.println("Game over, the aliens got you!");
@@ -42,7 +42,6 @@ public class InvadersGame{
                 }
             }
         }
-        return quit;
     }
 
     public void play(){
@@ -53,8 +52,7 @@ public class InvadersGame{
         while(!quit){
             drawCurrentState();
             handleEvents(); 
-            quit = quitCondition();
-            ship.inBounds(boardWidth);    
+            quitCondition();
         }
     }
 	
@@ -170,12 +168,14 @@ public class InvadersGame{
 
         if (upperSelection.equals("A") || upperSelection.equals("D")) {
             ship.shipMovement(upperSelection);
+            ship.inBounds(boardWidth);    
             
         } else if (upperSelection.equals("F")) {
         	handleShot("part1");
         	
         } else if (upperSelection.equals("Q")) {
             quit = true;
+            System.out.println("You quit the game.");
         }
 
         handleShot("part2");
