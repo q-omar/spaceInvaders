@@ -7,8 +7,8 @@ This class holds the method mechanics of the alien ship
 	private int lastAlienY = alienYcoord;
 	private int alienXcoord; 
 	private int lastAlienX = alienXcoord;
-	private int horizontalSpeed = 1; 
-	private int verticalSpeed = 2;
+	private int horizontalSpeed = 3; 
+	private int verticalSpeed = 3;
 	private boolean isAlive = true;
 	
 	/************************
@@ -98,17 +98,15 @@ This class holds the method mechanics of the alien ship
 			of spaces
 	@param boardWidth - index width of board
 	*********************************************************************************************************/
-	public void moveRight(int boardWidth){ // Just added boardWidth as a parameter instead of hard-coding 60
+	public void moveRight(){ // Just added boardWidth as a parameter instead of hard-coding 60
 		lastAlienY = alienYcoord;
 		lastAlienX = alienXcoord;
-		if (alienXcoord + horizontalSpeed >= boardWidth) {
-			alienXcoord = boardWidth - horizontalSpeed;
-			alienYcoord += verticalSpeed;
-		} else {
-			alienXcoord += horizontalSpeed;
-		}
+		alienXcoord += horizontalSpeed;
 	}
 	
+	public void moveDown(){
+		alienYcoord += verticalSpeed;
+	}
 	/*********************************************************************************************************
 	method: moveLeft
 			moves the alien's horizontal index to the left by horizontal speed number of spaces, checking	
@@ -116,15 +114,11 @@ This class holds the method mechanics of the alien ship
 			the first index of the width of board if so, and moving it down vertically by verticalSpeed number
 			of spaces
 	*********************************************************************************************************/
-	public void moveLeft(int boardWidth) {
+	public void moveLeft() {
 		lastAlienX = alienXcoord;
 		lastAlienY = alienYcoord;
-		if (alienXcoord - horizontalSpeed < 0) {
-			alienXcoord = 0;
-			alienYcoord += verticalSpeed;
-		} else {
-			alienXcoord -= horizontalSpeed;
-		}
+		alienXcoord -= horizontalSpeed;
 	}
+	
 
 }
