@@ -2,19 +2,8 @@
 
 Space Invaders Java version by Team Unlucky 13 :)
 
-![ScreenShot](outputs/outputV1.png)
+Previous output progress can be viewed in output folder. Most recent output is below:
 
-In 'V1', a blank board is printed with a character 'X' for the ship which the user can move left or right.
-Current bugs: handling out of boundary array
+![ScreenShot](outputs/outputV5.png)
 
-![ScreenShot](outputs/outputV2.png)
-
-In 'V2', shot '*' can be fired from the ships current column. Due to nature of Space Invaders, only one can be fired at a time. 
-
-![ScreenShot](outputs/outputV3.png)
-
-In 'V3', an alien 'U' travels the entire row then down a few columns and again travels row back, continuing so until either a row limit is reached or the alien is hit, at which point you lose/win and game ends.
-
-![ScreenShot](outputs/outputV4.png)
-
-In 'V4', two aliens travel the row horizontally then down a few columns vertically and then back horizontally. Game ends when you shoot both of them or they reach the bottom.
+In 'V5', array functionality is added where you can choose the rows and amount of aliens within each row, traversing down in a zigzag pattern. Current bugs: shot hitting two aliens at a time. 
