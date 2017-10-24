@@ -30,7 +30,7 @@ public class InvadersGame{
 	**************************************************************************************************/
     
     public boolean quitCondition(){
-        if (alienInvaders.alienRowTwo[0].inBounds(boardHeight-2)) {
+        if (alienInvaders.alienRowTwo[0].inBounds(boardHeight)) {
             quit = true;
             System.out.println("Game over, the aliens got you!");
         } 
@@ -47,13 +47,13 @@ public class InvadersGame{
 
     public void play(){
         createBoard();
-        alienInvaders.createAlienArray();
+        alienInvaders.createAlienArrays();
 		alienInvaders.setAliens();
 		
         while(!quit){
             drawCurrentState();
-            quit = quitCondition();
             handleEvents(); 
+            quit = quitCondition();
             ship.inBounds(boardWidth);    
         }
     }
@@ -69,6 +69,7 @@ public class InvadersGame{
             }
         }  
     }
+
     public void printBoard(){
         for (int r = 0; r < boardHeight; r++) {
             System.out.print("|"); 
@@ -101,8 +102,7 @@ public class InvadersGame{
             } else if (shot.checkHit(alienInvaders.alienRowTwo[i].getAlienY(), alienInvaders.alienRowTwo[i].getAlienX()) && shot.getShotFired()) {
                 shot.shotFired(false); // Makes shot "disappear"
                 alienInvaders.alienRowTwo[i].destroyAlien(); //current bug with shot interaction: goes through multiple rows 
-            }
-            
+            } 
         }
 
         shot.inBounds();
@@ -116,8 +116,7 @@ public class InvadersGame{
     }
 
 
-    public void drawAliens(){ //the bug is in this method i think, its not erasing the previous locations of the aliens 
-        
+    public void drawAliens(){ 
         for (int i = 0; i < alienInvaders.numAliens ; i++) {
             board[alienInvaders.alienRowOne[i].getLastAlienY()][alienInvaders.alienRowOne[i].getLastAlienX()] = ' ';
             board[alienInvaders.alienRowTwo[i].getLastAlienY()][alienInvaders.alienRowTwo[i].getLastAlienX()] = ' ';
@@ -140,8 +139,8 @@ public class InvadersGame{
         
         
        
-    public void handleShot(String shotHandlePart){
-        if (shotHandlePart == "part1"){
+    public void handleShot(String handlePart){
+        if (handlePart == "part1"){
             if (!shot.getShotFired()) { // This makes a new shot
                 shot.setShotColumn(ship.getLocation());
                 shot.setShotRow(boardHeight-2);
@@ -180,7 +179,7 @@ public class InvadersGame{
         }
 
         handleShot("part2");
-        alienInvaders.alienMove();
+        alienInvaders.aliensMovement();
     }
 
 }

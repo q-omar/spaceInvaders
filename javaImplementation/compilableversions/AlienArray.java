@@ -6,7 +6,7 @@ public class AlienArray{
     private boolean moveRight = true;
 
 
-    public void createAlienArray(){
+    public void createAlienArrays(){
         for (int i = 0; i < numAliens ; i++) {
             alienRowOne[i] = new Alien();
             alienRowTwo[i] = new Alien(); //again, make a row 'alienRowThree' if needed
@@ -23,7 +23,9 @@ public class AlienArray{
         }
     }
 
-    public void alienMove(){
+    
+    public void aliensMovement(){
+        
         if (moveRight){
             if (alienRowOne[17].getAlienX()==59){ //17 is the last alien on the right side, 59 is a boundary condition
                 //if you change the amount of aliens, you'll need to tweak the boudary condition or array will crash
@@ -32,8 +34,9 @@ public class AlienArray{
                     alienRowTwo[i].moveDown();
                 }
                 moveRight=false;
-                return; //i tried really hard not to use return statement but just had to 
+                return; 
             }
+
             for (int i = 0; i < numAliens ; i++) {
                 alienRowOne[i].moveRight();
                 alienRowTwo[i].moveRight();
@@ -41,7 +44,7 @@ public class AlienArray{
         }
         
         else{
-            if (alienRowOne[0].getAlienX()==1){ //0 index is last alien on left side
+            if (alienRowOne[0].getAlienX()==1){ //0 index is last alien on left side, 1 is the boundary condition on left side
                 for (int i = 0; i < numAliens ; i++) {
                     alienRowOne[i].moveDown();
                     alienRowTwo[i].moveDown();
@@ -49,12 +52,11 @@ public class AlienArray{
                 moveRight=true;
                 return;
             }
+
             for (int i = 0; i < numAliens ; i++) {
                 alienRowOne[i].moveLeft();
                 alienRowTwo[i].moveLeft();
             }
- 
         }
-    }
-    
+    }  
 }

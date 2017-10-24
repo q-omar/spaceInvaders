@@ -105,6 +105,8 @@ This class holds the method mechanics of the alien ship
 	}
 	
 	public void moveDown(){
+		lastAlienY = alienYcoord;
+		lastAlienX = alienXcoord;
 		alienYcoord += verticalSpeed;
 	}
 	/*********************************************************************************************************
