@@ -15,7 +15,7 @@ import java.awt.Dimension;
 * keyboard input and timer events.
 */
 
-public class InvadersGameGUI implements KeyListener , Runnable{
+public class InvadersGameGUI implements KeyListener {
 	private boolean shipRight;
 	private boolean shipLeft;
     private int windowWidth = 400;
@@ -27,24 +27,36 @@ public class InvadersGameGUI implements KeyListener , Runnable{
     private Alien alien1= new Alien();
     private InvadersGameScreen screen = new InvadersGameScreen();
 	
-	public InvadersGameGUI(){
+	public InvadersGameGUI() {
+        
+        Timer timer = new Timer(60,
+            new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    update();
+                }
+            });
+        timer.setInitialDelay(200);
+        timer.start();
 		init();
-	}
+    }
     public void init() {
         screen.addKeyListener(this);
-		new Thread(this).start();
+		//new Thread(this).start();
 		
     }
 
 	
-    public void update(double timeDiffer) {
+    public void update() {
 		if (shipRight){
-			ship.moveRight(timeDiffer);
+			ship.moveRight();
+			ship.inBounds(windowWidth);
 		}
 		
 		if (shipLeft){
-			ship.moveLeft(timeDiffer);
+			ship.moveLeft();
+			ship.inBounds(windowWidth);
 		}
+		screen.repaint();
     }
 	
 
@@ -108,7 +120,6 @@ public class InvadersGameGUI implements KeyListener , Runnable{
 
             @Override
             public void paintComponent(Graphics g){
-
                 // Draw background
                 g.setColor(Color.BLACK);
                 g.fillRect(0,0,windowWidth,windowHeight);
@@ -134,19 +145,7 @@ public class InvadersGameGUI implements KeyListener , Runnable{
 
     }
 
-		@Override
-        public void run(){
-			double time = System.currentTimeMillis();
-			
-			try{Thread.sleep(2);}
-			catch(Throwable t){}
-			double timeDiffer = (System.currentTimeMillis()-time);
-			time = System.currentTimeMillis();
-			update(timeDiffer);
-			screen.repaint();
-			
-			
-		}
+
 	public static void main(String[] args){
 		 InvadersGameGUI game = new InvadersGameGUI();
 	}
