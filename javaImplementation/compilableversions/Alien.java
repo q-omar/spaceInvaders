@@ -1,8 +1,13 @@
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Color;
+
+
 public class Alien{
 /*************************************************
 This class holds the method mechanics of the alien ship
 *************************************************/
-	
+	private boolean moveRight = true;
 	private int alienYcoord = 0;
 	private int lastAlienY = alienYcoord;
 	private int alienXcoord = 0;
@@ -13,14 +18,14 @@ This class holds the method mechanics of the alien ship
 
 	private boolean isAlive = true;
 
-	private  int alienWidth = 25; //used for GUI version, havnt implemented it yet
-	private int alienHeight  = 15;   
+	private  int alienWidth = 20; 
+	private int alienHeight  = 20;   
 
-	public int getAlienWidth(){//used for GUI version, havnt implemented it yet
+	public int getAlienWidth(){
 		return alienWidth;
 	}
 	
-	public int getAlienHeight(){//used for GUI version, havnt implemented it yet
+	public int getAlienHeight(){
 		return alienHeight;
 	}
 	
@@ -138,6 +143,39 @@ This class holds the method mechanics of the alien ship
 		lastAlienX = alienXcoord;
 		lastAlienY = alienYcoord;
 		alienXcoord -= horizontalSpeed;
+	}
+
+	public void drawAlien(Graphics g) {
+        g.setColor(Color.GREEN);
+        g.fillOval(alienXcoord,alienYcoord,alienWidth,alienHeight);
+	}
+	
+	public void alienMovement(){  //method not used anymore, i used it for one alien at first 
+		if (moveRight){
+
+			if (getAlienX()>300){
+				moveDown();
+			
+				moveRight = false;
+				return;
+			}
+			moveRight();
+			
+			
+		}
+		else {
+			
+			if (getAlienX()<30){
+				
+				moveDown();
+
+				moveRight = true;
+				return;
+			}
+			moveLeft();
+			
+		}
+
 	}
 	
 
