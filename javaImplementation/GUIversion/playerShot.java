@@ -108,7 +108,7 @@ public class playerShot{
         }
     }
     /**
-    * This method is for the GUI version. It checks collisions of the bullet with the circular aliens
+    * This method is for the GUI version. It checks collisions of the bullet with a circular alien
     * and returns true if they overlap.
     *
     *
@@ -117,19 +117,19 @@ public class playerShot{
     public boolean checkHit(int targetX, int targetY, int targetRadius) {
         boolean hit = false;
         int xCoord;
+        targetX += targetRadius; // Set x and y to center of target circle
+        targetY += targetRadius;
 
-        if (shotColumn >= (targetX + 2*targetRadius)) { // Checks top left point of bullet
-            xCoord = shotColumn;
+        if (shotColumn >= targetX) {
+            xCoord = shotColumn; // Checks top left point of bullet
         } else {
             xCoord = shotColumn + width; // Checks top right point of bullet
         }
 
         // From Prof. Verwaal's code for the distance method in the Point class used in Team Assignment 4
-        int xdiff = xCoord - (targetX + targetRadius);
-        int ydiff = shotRow - (targetY + targetRadius);
-        int xsquare = xdiff * xdiff;
-        int ysquare = ydiff * ydiff;
-        double distance = Math.sqrt(xsquare + ysquare);
+        int xdiff = xCoord - targetX;
+        int ydiff = shotRow - targetY;
+        double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff);
 
         if (distance <= targetRadius) {
             hit = true;
