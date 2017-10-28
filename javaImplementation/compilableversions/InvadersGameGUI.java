@@ -22,6 +22,8 @@ public class InvadersGameGUI implements KeyListener {
     private playerShot shot = new playerShot(350, 5, 10, 30);
     private playerShip ship = new playerShip(windowWidth, 3);
     private Alien alien1= new Alien();
+    boolean moveRight = true;
+
     private InvadersGameScreen screen = new InvadersGameScreen();
 
 
@@ -37,18 +39,17 @@ public class InvadersGameGUI implements KeyListener {
         screen.repaint();
     }
 
-    // Keyboard event handling
+    // Keyboard EVENT handling
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {  
         if (e.getKeyCode() == 'F' && !shot.getShotFired()) { // Press F to make a shot
             shot.shotFired(true);
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE && shot.getShotFired()) { // For now, move the bullet up with space
             shot.moveShot();
             shot.inBounds();
         }
-
         updateScreen();
-            
+    
     }
 
     @Override
@@ -79,10 +80,40 @@ public class InvadersGameGUI implements KeyListener {
         
         }
 
-        private class Canvas extends JComponent{
+        //DRAWING happens here, screen gets updated here
+
+        public void alienMovement(){
+            if (moveRight){
+
+                if (alien1.getAlienX()>300){
+                    alien1.moveDown();
+                
+                    moveRight = false;
+                    return;
+                }
+                alien1.moveRight();
+                System.out.println(alien1.getAlienX());
+                
+            }
+            else {
+                System.out.println(alien1.getAlienX());
+                if (alien1.getAlienX()<30){
+                    
+                    alien1.moveDown();
+
+                    moveRight = true;
+                    return;
+                }
+                alien1.moveLeft();
+                
+            }
+
+        }
+        
+        private class Canvas extends JComponent{ 
 
             @Override
-            public void paintComponent(Graphics g){
+            public void paintComponent(Graphics g){  
 
                 // Draw background
                 g.setColor(Color.BLACK);
@@ -91,6 +122,8 @@ public class InvadersGameGUI implements KeyListener {
                 // Draw aliens
                 int xcoord = alien1.getAlienX();
                 int ycoord= alien1.getAlienY();
+                alienMovement();
+                
 
                 g.setColor(Color.GREEN);
                 g.fillOval(xcoord,ycoord,45,40);

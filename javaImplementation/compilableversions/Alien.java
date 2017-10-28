@@ -3,13 +3,26 @@ public class Alien{
 This class holds the method mechanics of the alien ship
 *************************************************/
 	
-	private int alienYcoord;
+	private int alienYcoord = 0;
 	private int lastAlienY = alienYcoord;
-	private int alienXcoord; 
+	private int alienXcoord = 0;
 	private int lastAlienX = alienXcoord;
-	private int horizontalSpeed = 3; 
-	private int verticalSpeed = 3;
+
+	private int horizontalSpeed = 30; 
+	private int verticalSpeed = 50;
+
 	private boolean isAlive = true;
+
+	private  int alienWidth = 25; //used for GUI version, havnt implemented it yet
+	private int alienHeight  = 15;   
+
+	public int getAlienWidth(){//used for GUI version, havnt implemented it yet
+		return alienWidth;
+	}
+	
+	public int getAlienHeight(){//used for GUI version, havnt implemented it yet
+		return alienHeight;
+	}
 	
 	/************************
 	method: setAlienX
@@ -25,6 +38,11 @@ This class holds the method mechanics of the alien ship
 	*************************/
 	public void setAlienY( int yCoord){
 		alienYcoord= yCoord;
+	}
+
+	public void setAlienPos (int yInput, int xInput){ //used for GUI version 
+		alienYcoord = yInput;
+		alienXcoord = xInput;
 	}
 	
 	
