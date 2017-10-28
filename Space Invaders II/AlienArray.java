@@ -2,84 +2,123 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Color;
 
+
 public class AlienArray{
     
-    private int numAliens = 6; //tweak number of aliens as desired
-    Alien[] alienRowOne = new Alien[numAliens];
-    Alien[] alienRowTwo = new Alien[numAliens]; 
-    Alien[] alienRowThree = new Alien[numAliens]; 
+    int numAliens=5;
+	int rowsAliens=3;
     private boolean moveRight = true;
-
-    public AlienArray(){ 
-        createAlienArrays();
-        setAliens();
-    }
-    
+	Alien[][] aliens = new Alien[rowsAliens][numAliens];
+	
+	public AlienArray(){
+		createAlienArrays();
+		setGUIaliens();
+	}
+	
+	
     public void createAlienArrays(){
-        for (int i = 0; i < numAliens ; i++) {
-            alienRowOne[i] = new Alien();
-            alienRowTwo[i] = new Alien(); 
-            alienRowThree[i]= new Alien();
+        for (int r=0; r<rowsAliens ; r++) {
+			for (int c=0; c<numAliens; c++){
+				aliens[r][c] = new Alien();
+			}
         }
     }
     
-    public void setAliens(){ 
-        for (int i = 0; i < numAliens ; i++) {
-            alienRowOne[i].setAlienX(20+40*i); //change the 60 to modify 'spacing' between aliens 
-            alienRowOne[i].setAlienY(10); 
-            alienRowTwo[i].setAlienX(20+40*i); //change the 60 to modify 'spacing' between aliens 
-            alienRowTwo[i].setAlienY(40);
-            alienRowThree[i].setAlienX(20+40*i); //change the 60 to modify 'spacing' between aliens 
-            alienRowThree[i].setAlienY(70); //40 is vertical spacing 
+
+    public void setAliens(){
+		for (int r = 0; r < rowsAliens ; r++) {
+			for (int c=0; c<numAliens;c++){
+				aliens[r][c].setAlienX(4+2*c);
+				if (r%2!=0){
+					aliens[r][c].setAlienY(r+1);
+				}else{
+					aliens[r][c].setAlienY(r);
+				}
+			}
         }
     }
 
     
-    public void aliensMovement(){
-        
+    public void aliensMovement(int width){
+		boolean stop=false;
         if (moveRight){
-            if (alienRowOne[numAliens-1].getAlienX()>900){ //330 is the RIGHT boundary of the Jframe window 
-                for (int i = 0; i < numAliens ; i++) {
-                    alienRowOne[i].moveDown();
-                    alienRowTwo[i].moveDown();
-                    alienRowThree[i].moveDown();
-                }
+			for (int r = 0; r < rowsAliens ; r++) {
+				for (int c=0; c<numAliens;c++){
+					aliens[r][c].moveRight();
+					if(aliens[1][numAliens-1].getAlienX() >= width-3){
+						stop=true;
+						break;
+					}
+				}
+			}
+			if(stop){
+				for (int r = 0; r < rowsAliens ; r++) {
+					for (int c=0; c<numAliens;c++){
+						aliens[r][c].moveDown();
+						stop= false;
+					}
+				}
                 moveRight=false;
                 return; 
             }
-
-            for (int i = 0; i < numAliens ; i++) {
-                alienRowOne[i].moveRight();
-                alienRowTwo[i].moveRight();
-                alienRowThree[i].moveRight();
-            }
-        }
-        
-        else{
-            if (alienRowOne[0].getAlienX()<22){ //22 is the LEFT boundary of jframe window
-                for (int i = 0; i < numAliens ; i++) {
-                    alienRowOne[i].moveDown();
-                    alienRowTwo[i].moveDown();
-                    alienRowThree[i].moveDown();
-                }
+	
+        }else{
+			for (int r = 0; r < rowsAliens ; r++) {
+				for (int c=0; c<numAliens;c++){
+					aliens[r][c].moveLeft();
+					if(aliens[rowsAliens-1][1].getAlienX() <= 2){
+						stop=true;
+						break;
+					}
+				}
+			}
+			if(stop){
+				for (int r = 0; r < rowsAliens ; r++) {
+					for (int c=0; c<numAliens;c++){
+						aliens[r][c].moveDown();
+						stop=false;
+					}
+				}
                 moveRight=true;
-                return;
-            }
-
-            for (int i = 0; i < numAliens ; i++) {
-                alienRowOne[i].moveLeft();
-                alienRowTwo[i].moveLeft();
-                alienRowThree[i].moveLeft();
+                return; 
             }
         }
-    }
+    } 
 
-    public void drawAliens(Graphics g) { //drawing aliens
-        for (int i = 0; i < numAliens; i++) {
-            alienRowOne[i].drawAlien(g);
-            alienRowTwo[i].drawAlien(g);
-            alienRowThree[i].drawAlien(g);
-        } 
-    
-    }  
+
+	public void drawAlienArray(Graphics g){
+		//setGUIaliens();
+		for (int r=0; r<rowsAliens;r++){
+			for (int c=0; c<numAliens;c++){
+				if (aliens[r][c].isAlive()){
+					aliens[r][c].draw(g);
+				}
+			}
+		}
+	}
+	
+	public void setGUIaliens(){
+		int whereX=5;
+		int whereY=0;
+		createAlienArrays();
+		for (int r=0; r<rowsAliens;r++){
+			for (int c=0; c<numAliens;c++){
+				whereX+=15;
+				aliens[r][c].setAlienX(whereX);
+				aliens[r][c].setAlienY(whereY);
+			}
+			whereX=5;
+			whereY+=15;
+		}
+	}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }

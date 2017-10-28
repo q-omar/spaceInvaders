@@ -19,7 +19,7 @@ public class playerShot{
     int initialRow;
     int shotRow;
     int lastShotRow;
-    int shotColumn = 195;
+    int shotColumn;
     int speed;
 
     public playerShot(int startingRow, int newSpeed) { // This is for the text version, where width and length will be 0 by default
@@ -37,7 +37,10 @@ public class playerShot{
         width = newWidth;
         length = newLength;
     }
-    
+	
+    public void where(int location){
+		shotColumn=location;
+	}
     /** shotFired method is used with getShotFired method where
      * @param shotStatus is passed from InvadersGame class to check if a shot 
      * is on the board or not
@@ -108,7 +111,29 @@ public class playerShot{
         }
     }
 
+	public boolean checkHit(int targetX, int targetY, int targetRadius) {
+        boolean hit = false;
+        int xCoord;
+        targetX += targetRadius; // Set x and y to center of target circle
+        targetY += targetRadius;
 
+        if (shotColumn >= targetX) {
+            xCoord = shotColumn; // Checks top left point of bullet
+        } else {
+            xCoord = shotColumn + width; // Checks top right point of bullet
+        }
+
+        // From Prof. Verwaal's code for the distance method in the Point class used in Team Assignment 4
+        int xdiff = xCoord - targetX;
+        int ydiff = shotRow - targetY;
+        double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff);
+
+        if (distance <= targetRadius) {
+            hit = true;
+        }
+
+        return hit;
+    }
      /** the checkHit method uses
       * @param targetRow,targetCol which are passed from InvadersGame class, being
       * the aliens current row and columns to check if there is a match with the shots
@@ -126,7 +151,7 @@ public class playerShot{
 
     public void draw(Graphics g) {
         g.setColor(Color.RED);
-        g.fillRect(shotColumn,shotRow, width, length);
+        g.fillRect(shotRow,shotColumn, width, length);
     }
 
 }

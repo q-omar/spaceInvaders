@@ -3,31 +3,20 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 
+
 public class Alien{
 /*************************************************
 This class holds the method mechanics of the alien ship
 *************************************************/
-	private boolean moveRight = true; //not used anymore 
-	private int alienYcoord = 0;
-	private int lastAlienY = alienYcoord;
-	private int alienXcoord = 0;
-	private int lastAlienX = alienXcoord;
-
-	private int horizontalSpeed = 30; 
-	private int verticalSpeed = 50;
-
-	private boolean isAlive = true;
-
-	private  int alienWidth = 20; 
-	private int alienHeight  = 20;   
-
-	public int getAlienWidth(){
-		return alienWidth;
-	}
 	
-	public int getAlienHeight(){
-		return alienHeight;
-	}
+	private int alienYcoord;
+	private int lastAlienY = alienYcoord;
+	private int alienXcoord; 
+	private int lastAlienX = alienXcoord;
+	private int horizontalSpeed = 3; 
+	private int verticalSpeed = 3;
+	private boolean isAlive = true;
+	private int radius=5;
 	
 	/************************
 	method: setAlienX
@@ -43,11 +32,6 @@ This class holds the method mechanics of the alien ship
 	*************************/
 	public void setAlienY( int yCoord){
 		alienYcoord= yCoord;
-	}
-
-	public void setAlienPos (int yInput, int xInput){ //used for GUI version 
-		alienYcoord = yInput;
-		alienXcoord = xInput;
 	}
 	
 	
@@ -83,6 +67,10 @@ This class holds the method mechanics of the alien ship
 		return lastAlienX;
 	}
 	
+	
+	public int getRadius(){
+        return radius;
+    }
 	/*******************************************
 	method: isAlive
 	@return returns bool indicating whether alien is alive
@@ -121,7 +109,7 @@ This class holds the method mechanics of the alien ship
 			of spaces
 	@param boardWidth - index width of board
 	*********************************************************************************************************/
-	public void moveRight(){ // Just added boardWidth as a parameter instead of hard-coding 60
+	public void moveRight(){ 
 		lastAlienY = alienYcoord;
 		lastAlienX = alienXcoord;
 		alienXcoord += horizontalSpeed;
@@ -138,45 +126,16 @@ This class holds the method mechanics of the alien ship
 			if it reaches or overreaches the lefthand boundary of the board, keeping it in the index before
 			the first index of the width of board if so, and moving it down vertically by verticalSpeed number
 			of spaces
-	*********************************************************************************************************/
+			*********************************************************************************************************/
 	public void moveLeft() {
 		lastAlienX = alienXcoord;
 		lastAlienY = alienYcoord;
 		alienXcoord -= horizontalSpeed;
 	}
-
-	public void drawAlien(Graphics g) {
+	
+	public void draw(Graphics g) {
         g.setColor(Color.GREEN);
-        g.fillOval(alienXcoord,alienYcoord,alienWidth,alienHeight);
-	}
-	
-	public void alienMovement(){  //method not used anymore, i used it for one alien at first 
-		if (moveRight){
-
-			if (getAlienX()>300){
-				moveDown();
-			
-				moveRight = false;
-				return;
-			}
-			moveRight();
-			
-			
-		}
-		else {
-			
-			if (getAlienX()<30){
-				
-				moveDown();
-
-				moveRight = true;
-				return;
-			}
-			moveLeft();
-			
-		}
-
-	}
-	
+        g.fillOval(alienXcoord,alienYcoord,radius*2,radius*2);
+    }
 
 }
