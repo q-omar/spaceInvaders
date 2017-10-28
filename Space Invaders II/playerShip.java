@@ -84,17 +84,17 @@ This class holds the method mechanics of the player ship
 
     }
 	
-	public void moveRight(int amount){
+	public void moveRight(){
 		lastLocation = location;
-		location +=amount;
+		location += speed;
 	}
 	
-	public void moveLeft(int amount){
+	public void moveLeft(){
 		lastLocation = location;
-		location-=amount;
+		location-= speed;
 	}
 	public void draw(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(location-25,440, 20, 20);
+        g.fillRect(location-10,440, 20, 20);
     }
 }
