@@ -49,11 +49,11 @@ This class holds the method mechanics of the player ship
 	
 	
     public void inBounds(int boardWidth) { 
-        if (location >= boardWidth) {
-            location = boardWidth - speed;
+        if (location >= boardWidth-25) {
+            location = boardWidth - speed-25;
         } 
-		else if (location < speed) {
-            location += 25 ;
+		else if (location < speed+25) {
+            location = 25 ;
         }
     }
     
