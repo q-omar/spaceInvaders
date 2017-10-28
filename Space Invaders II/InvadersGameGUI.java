@@ -18,24 +18,25 @@ import java.awt.Dimension;
 public class InvadersGameGUI implements KeyListener {
 	private boolean shipRight;
 	private boolean shipLeft;
-    private int windowWidth = 400;
-    private int windowHeight = 500;
+    private int windowWidth = 1000;
+    private int windowHeight = 600;
 
 
     private playerShot shot = new playerShot(350, 5, 10, 30);
-    private playerShip ship = new playerShip(windowWidth, 3);
-    private Alien alien1= new Alien();
+    private playerShip ship = new playerShip();
+    private AlienArray alienInvaders = new AlienArray();
+
     private InvadersGameScreen screen = new InvadersGameScreen();
 	
 	public InvadersGameGUI() {
         
-        Timer timer = new Timer(60,
+        Timer timer = new Timer(720,
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     update();
                 }
             });
-        timer.setInitialDelay(200);
+        timer.setInitialDelay(10);
         timer.start();
 		init();
     }
@@ -116,7 +117,10 @@ public class InvadersGameGUI implements KeyListener {
 
         private class Canvas extends JComponent{
 			
-			
+			public void drawAliens(Graphics g){
+                alienInvaders.drawAliens(g);
+                alienInvaders.aliensMovement();
+            }
 
             @Override
             public void paintComponent(Graphics g){
@@ -125,11 +129,8 @@ public class InvadersGameGUI implements KeyListener {
                 g.fillRect(0,0,windowWidth,windowHeight);
 
                 // Draw aliens
-                int xcoord = alien1.getAlienX();
-                int ycoord= alien1.getAlienY();
-
-                g.setColor(Color.GREEN);
-                g.fillOval(xcoord,ycoord,45,40);
+                drawAliens(g);
+                
 
                 // Draw ship
 				ship.draw(g);

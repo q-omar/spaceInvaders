@@ -13,10 +13,7 @@ This class holds the method mechanics of the player ship
     * Constructor that centers the starting location of the ship based on the length of the screen and lets
     * one set its speed.
     */
-    public playerShip(int screenLength, int newSpeed) {
-        location = screenLength/2;
-        speed = newSpeed;
-    }
+    
 
 
     /****************************
