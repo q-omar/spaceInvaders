@@ -115,22 +115,28 @@ public class playerShot{
     */
 
     public boolean checkHit(int targetX, int targetY, int targetRadius) {
-      boolean hit = false;
+        boolean hit = false;
+        int xCoord;
 
-      // From Prof. Verwaal's code for the distance method in the Point class used in Team Assignment 4
-      int xdiff = shotColumn - (targetX + targetRadius);
-      int ydiff = shotRow - (targetY + targetRadius);
-      int xsquare = xdiff * xdiff;
-      int ysquare = ydiff * ydiff;
-      double distance = Math.sqrt(xsquare + ysquare);
+        if (shotColumn >= (targetX + 2*targetRadius)) { // Checks top left point of bullet
+            xCoord = shotColumn;
+        } else {
+            xCoord = shotColumn + width; // Checks top right point of bullet
+        }
 
-      if (distance <= targetRadius) {
-        hit = true;
-      }
+        // From Prof. Verwaal's code for the distance method in the Point class used in Team Assignment 4
+        int xdiff = xCoord - (targetX + targetRadius);
+        int ydiff = shotRow - (targetY + targetRadius);
+        int xsquare = xdiff * xdiff;
+        int ysquare = ydiff * ydiff;
+        double distance = Math.sqrt(xsquare + ysquare);
 
-      return hit;
+        if (distance <= targetRadius) {
+            hit = true;
+        }
+
+        return hit;
     }
-
 
      /** the checkHit method uses
       * @param targetRow,targetCol which are passed from InvadersGame class, being
