@@ -1,3 +1,7 @@
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Color;
+
 public class playerShot{
    
     /** This class contains mechanics for when the player ship decides to shoot 
@@ -9,15 +13,30 @@ public class playerShot{
 
     boolean shotFired;
 
-    int width = 10; // In pixels, for GUI
-    int length = 30;
+    int width;
+    int length;
 
-    int shotRow = 250;
-    int lastShotRow = shotRow;
-    int shotColumn = 200;
-    int speed = 5;
+    int initialRow;
+    int shotRow;
+    int lastShotRow;
+    int shotColumn = 195;
+    int speed;
 
+    public playerShot(int startingRow, int newSpeed) { // This is for the text version, where width and length will be 0 by default
+        initialRow = startingRow;
+        shotRow = initialRow;
+        lastShotRow = initialRow;
+        speed = newSpeed;
+    }
 
+    public playerShot(int startingRow, int newSpeed, int newWidth, int newLength) { // This is for the GUI version
+        initialRow = startingRow;
+        shotRow = startingRow;
+        lastShotRow = shotRow;
+        speed = newSpeed;
+        width = newWidth;
+        length = newLength;
+    }
     
     /** shotFired method is used with getShotFired method where
      * @param shotStatus is passed from InvadersGame class to check if a shot 
@@ -67,10 +86,7 @@ public class playerShot{
         shotColumn = column;
     }
 
-    public void setShotRow(int row) {
-        lastShotRow = shotRow;
-        shotRow = row;
-    }
+
     /** method moveShot actually updating the shots location as a number so that the
      * getter methods can be used to display them on the board and speed is how
      * many rows up it moves 
@@ -81,13 +97,38 @@ public class playerShot{
     }
     
     /** the inBounds method checks if the bullet goes past the top of the screen, 
-     * shotFired being set to false will stop the board from attemping to draw it.
+     *  fired being set to false will stop the board from attemping to draw it.
      *  The next time a bullet is fired, shotRow will be reset.
      */
-    public void inBounds() { 
-        if (shotRow < 0) {
+
+    public void inBounds() {
+        if (shotRow + length < 0) {
             shotFired = false;
+            shotRow = initialRow;
         }
+    }
+    /**
+    * This method is for the GUI version. It checks collisions of the bullet with the circular aliens
+    * and returns true if they overlap.
+    *
+    *
+    */
+
+    public boolean checkHit(int targetX, int targetY, int targetRadius) {
+      boolean hit = false;
+
+      // From Prof. Verwaal's code for the distance method in the Point class used in Team Assignment 4
+      int xdiff = shotColumn - (targetX + targetRadius);
+      int ydiff = shotRow - (targetY + targetRadius);
+      int xsquare = xdiff * xdiff;
+      int ysquare = ydiff * ydiff;
+      double distance = Math.sqrt(xsquare + ysquare);
+
+      if (distance <= targetRadius) {
+        hit = true;
+      }
+
+      return hit;
     }
 
 
@@ -104,6 +145,11 @@ public class playerShot{
             System.out.println("A hit!");
         }
         return hit;
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(Color.RED);
+        g.fillRect(shotColumn,shotRow, width, length);
     }
 
 }

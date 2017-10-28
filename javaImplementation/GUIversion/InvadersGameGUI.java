@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 
 import java.awt.event.*;
+import java.awt.Dimension;
 
 /**
 * This class acts as the controller for the GUI version of the Invaders Game. It responds to
@@ -15,105 +16,113 @@ import java.awt.event.*;
 
 public class InvadersGameGUI implements KeyListener {
 
-	private int windowWidth = 400;
-	private int windowHeight = 500;
+    private int windowWidth = 400;
+    private int windowHeight = 500;
 
-	private playerShot shot = new playerShot();
-	private playerShip ship = new playerShip();
-	private Alien alien1= new Alien();
-	private InvadersGameScreen screen = new InvadersGameScreen();
+    private playerShot shot = new playerShot(350, 5, 10, 30);
+    private playerShip ship = new playerShip(windowWidth, 3);
+    private Alien alien1= new Alien();
+    private InvadersGameScreen screen = new InvadersGameScreen();
 
 
-	public InvadersGameGUI() {
-		screen.addKeyListener(this);
-	}
+    public InvadersGameGUI() {
+        screen.addKeyListener(this);
+    }
 
-	public void play() { //Placeholder
+    public void play() { //Placeholder
 
-	}
+    }
 
-	public void updateScreen() {
-		screen.repaint();
-	}
+    public void updateScreen() {
+        screen.repaint();
+    }
 
-	// Keyboard event handling
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyChar() == 'f') {
-			shot.moveShot();
-			updateScreen();
-		}
-			
-	}
+    // Keyboard event handling
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == 'F' && !shot.getShotFired()) { // Press F to make a shot
+            shot.shotFired(true);
+        } else if (e.getKeyCode() == KeyEvent.VK_SPACE && shot.getShotFired()) { // For now, move the bullet up with space
+            shot.moveShot();
+        }
 
-	@Override
-	public void keyReleased(KeyEvent e) {}
+        if (shot.checkHit(alien1.getAlienX(), alien1.getAlienY(), alien1.getRadius())) {
+            alien1.destroyAlien();
+            updateScreen();
+        }
 
-	@Override
-	public void keyTyped(KeyEvent e) {}
+        shot.inBounds();
 
-	/****** GUI interface ******/
+        updateScreen();
+            
+    }
 
-	private class InvadersGameScreen extends JFrame {
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
-		public InvadersGameScreen() {
+    @Override
+    public void keyTyped(KeyEvent e) {}
 
-			super("Space Invaders Game");
-			super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    /****** GUI interface ******/
 
-			this.setSize(windowWidth,windowHeight);
+    private class InvadersGameScreen extends JFrame {
 
-			this.setLocationRelativeTo(null);
+        public InvadersGameScreen() {
 
-			Canvas canvas = new Canvas();
+            super("Space Invaders Game");
+            super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.setLocationRelativeTo(null);
 
-			this.add(canvas);
+            Canvas canvas = new Canvas();
 
-			this.setVisible(true);
-		
-		}
+            /* Code from Stack Overflow answer (https://stackoverflow.com/questions/
+            * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) */
+            canvas.setPreferredSize(new Dimension(windowWidth, windowHeight));
+            this.getContentPane().add(canvas);
+            this.pack();
 
-		private class Canvas extends JComponent{
+            this.setVisible(true);
+        
+        }
 
-			@Override
-			public void paintComponent(Graphics g){
+        private class Canvas extends JComponent{
 
-				// Draw background
-				g.setColor(Color.BLACK);
-				g.fillRect(0,0,windowWidth,windowHeight);
+            @Override
+            public void paintComponent(Graphics g){
 
-				// Draw aliens
-				int xcoord = alien1.getAlienX();
-				int ycoord= alien1.getAlienY();
+                // Draw background
+                g.setColor(Color.BLACK);
+                g.fillRect(0,0,windowWidth,windowHeight);
 
-				g.setColor(Color.GREEN);
-				g.fillOval(xcoord,ycoord,45,40);
+                if (alien1.isAlive()) {
+                    alien1.draw(g);
+                }
 
-				// Draw ship
-				int xcoordShip= ship.getLocation();
+                // Draw ship
+                int xcoordShip= ship.getLocation();
+                g.setColor(Color.WHITE);
+                g.fillRect(xcoordShip-25,450,50,50);
 
-				g.setColor(Color.WHITE);
-				g.fillRect(xcoordShip-50,400,50,50);
+                // Draw bullet
+                if (shot.getShotFired()) {
+                    shot.draw(g);
+                }
 
-				// Draw bullet
-				g.setColor(Color.RED);
-				g.fillRect(shot.getShotColumn(),shot.getShotRow(), shot.getWidth(), shot.getLength());
+            }
+    
+        }
 
-			}
-	
-		}
+    }
 
-	}
+    // Main method
 
-	// Main method
-
-	public static void main (String[] args){
-		javax.swing.SwingUtilities.invokeLater(new Runnable(){
-			public void run(){
-				InvadersGameGUI game = new InvadersGameGUI();
-			}
-		});
-	}
+    public static void main (String[] args){
+        javax.swing.SwingUtilities.invokeLater(new Runnable(){
+            public void run(){
+                InvadersGameGUI game = new InvadersGameGUI();
+            }
+        });
+    }
 
 }
 
