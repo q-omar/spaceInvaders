@@ -22,8 +22,6 @@ public class InvadersGameGUI implements KeyListener {
     private playerShot shot = new playerShot(350, 5, 10, 30);
     private playerShip ship = new playerShip(windowWidth, 3);
     private AlienArray alienInvaders = new AlienArray();
-    private Alien alien1 = new Alien();
-    boolean moveRight = true;
 
     private InvadersGameScreen screen = new InvadersGameScreen();
 
@@ -84,8 +82,8 @@ public class InvadersGameGUI implements KeyListener {
         //DRAWING happens here
         private class Canvas extends JComponent{ 
 
+            // Draw aliens
             public void drawAliens(Graphics g){
-                // Draw aliens
                 alienInvaders.drawAliens(g);
                 alienInvaders.aliensMovement();
             }
@@ -99,8 +97,6 @@ public class InvadersGameGUI implements KeyListener {
 
                 drawAliens(g);
                 
-
-
                 // Draw ship
                 int xcoordShip= ship.getLocation();
                 g.setColor(Color.WHITE);

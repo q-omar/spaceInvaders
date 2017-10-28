@@ -7,7 +7,7 @@ public class Alien{
 /*************************************************
 This class holds the method mechanics of the alien ship
 *************************************************/
-	private boolean moveRight = true;
+	private boolean moveRight = true; //not used anymore 
 	private int alienYcoord = 0;
 	private int lastAlienY = alienYcoord;
 	private int alienXcoord = 0;

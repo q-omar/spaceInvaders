@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class AlienArray{
     
-    public int numAliens = 6; //tweak number of aliens as desired
+    private int numAliens = 6; //tweak number of aliens as desired
     Alien[] alienRowOne = new Alien[numAliens];
     Alien[] alienRowTwo = new Alien[numAliens]; 
     Alien[] alienRowThree = new Alien[numAliens]; 
