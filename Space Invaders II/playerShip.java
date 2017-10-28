@@ -7,7 +7,7 @@ This class holds the method mechanics of the player ship
 
     private int location = 30;
     private int lastLocation = location;
-    private int speed = 5; //pixels
+    private int speed = 40; //pixels
 
     /**
     * Constructor that centers the starting location of the ship based on the length of the screen and lets
@@ -51,8 +51,9 @@ This class holds the method mechanics of the player ship
     public void inBounds(int boardWidth) { 
         if (location >= boardWidth) {
             location = boardWidth - speed;
-        } else if (location < speed) {
-            location = 0;
+        } 
+		else if (location < speed) {
+            location += 25 ;
         }
     }
     
@@ -61,12 +62,12 @@ This class holds the method mechanics of the player ship
             moves the player ship speed characters left or right depending on user input
     @param left or right direction the player ship is to go
     ****************************/
-    public void moveRight(double timeDiffer) {
-        location+=timeDiffer*speed;
+    public void moveRight() {
+        location+=speed;
 	}
 	
-	public void moveLeft(double timeDiffer){
-		location-=timeDiffer*speed;
+	public void moveLeft(){
+		location-=speed;
 	}
 	public void draw(Graphics g){
 		int xcoordShip = getLocation();
