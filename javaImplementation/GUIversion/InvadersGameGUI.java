@@ -1,10 +1,12 @@
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
+import javax.swing.*;
 
 import java.awt.event.*;
 import java.awt.Dimension;
@@ -16,43 +18,103 @@ import java.awt.Dimension;
 
 public class InvadersGameGUI implements KeyListener {
 
-    private int windowWidth = 400;
-    private int windowHeight = 500;
+    private int windowWidth = 800;
+    private int windowHeight = 600;
 
-    private playerShot shot = new playerShot(350, 5, 10, 30);
-    private playerShip ship = new playerShip(windowWidth, 3);
-    private Alien alien1= new Alien();
+    private playerShot shot = new playerShot(420, 20, 5, 20);
+    private playerShip ship = new playerShip(windowWidth, 10);
+    private AlienArray alienInvaders= new AlienArray();
     private InvadersGameScreen screen = new InvadersGameScreen();
 
+    private String gameStatus = "continue";
 
-    public InvadersGameGUI() {
-        screen.addKeyListener(this);
+    public void hitDetection(){
+        if (shot.getShotFired()) {
+            shot.moveShot();
+            shot.inBounds();
+
+            for (int r=0; r<alienInvaders.getRows() ; r++) {
+                for (int c=0; c<alienInvaders.getCol(); c++){
+                    
+                    if (alienInvaders.alienArray[r][c].isAlive() && shot.checkHit(alienInvaders.alienArray[r][c].getAlienX(), alienInvaders.alienArray[r][c].getAlienY(), alienInvaders.alienArray[r][c].getRadius())) {    
+                        alienInvaders.alienArray[r][c].destroyAlien();
+                        checkStatus();
+                        updateScreen();
+                    }
+                }
+            }
+        }
     }
 
-    public void play() { //Placeholder
+    public InvadersGameGUI() {
+		Timer timer = new Timer(40,
+			new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					alienInvaders.aliensMovement(windowWidth);
+                    checkStatus();
+                    hitDetection();
+					updateScreen();
+				}
+			});
+		timer.setInitialDelay(10);
+		timer.start();
+		init();
+	}
 
+
+	public void init(){
+        screen.addKeyListener(this);
     }
 
     public void updateScreen() {
         screen.repaint();
     }
 
+    public void checkStatus() { // Check win/loss conditions
+
+        if (!gameStatus.equals("loss")) {
+
+            gameStatus = "win";
+
+            for (int r=0; r<alienInvaders.getRows() ; r++) {
+                for (int c=0; c<alienInvaders.getCol(); c++){
+                            
+                    if (alienInvaders.alienArray[r][c].isAlive()) {
+                        gameStatus = "continue";
+                    }
+                }
+            }
+        }
+        
+        if (!gameStatus.equals("win")) {
+
+            for (int r=0; r<alienInvaders.getRows() ; r++) {
+                for (int c=0; c<alienInvaders.getCol(); c++){
+                    if (alienInvaders.alienArray[r][c].isAlive() && alienInvaders.alienArray[r][c].inBounds(410)) {
+                        gameStatus = "loss";
+                    }
+                }
+            }
+        }
+    }
+
     // Keyboard event handling
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == 'F' && !shot.getShotFired()) { // Press F to make a shot
-            shot.shotFired(true);
-        } else if (e.getKeyCode() == KeyEvent.VK_SPACE && shot.getShotFired()) { // For now, move the bullet up with space
-            shot.moveShot();
-        }
-
-        if (shot.checkHit(alien1.getAlienX(), alien1.getAlienY(), alien1.getRadius())) {
-            alien1.destroyAlien();
-            updateScreen();
-        }
-
-        shot.inBounds();
-
+		switch (e.getKeyCode()) {
+		case 'A':
+			ship.moveLeft();
+			break;
+		case 'D':
+			ship.moveRight();
+			break;
+		case KeyEvent.VK_SPACE:
+			if (!shot.getShotFired()){
+				shot.shotFired(true);
+				shot.setShotColumn(ship.getLocation());
+			}
+			break;
+		}
         updateScreen();
             
     }
@@ -86,27 +148,36 @@ public class InvadersGameGUI implements KeyListener {
         }
 
         private class Canvas extends JComponent{
-
+			
             @Override
             public void paintComponent(Graphics g){
+
+                super.paintComponent(g);
 
                 // Draw background
                 g.setColor(Color.BLACK);
                 g.fillRect(0,0,windowWidth,windowHeight);
 
-                if (alien1.isAlive()) {
-                    alien1.draw(g);
-                }
-
-                // Draw ship
-                int xcoordShip= ship.getLocation();
                 g.setColor(Color.WHITE);
-                g.fillRect(xcoordShip-25,450,50,50);
+                g.setFont(new Font("Arial", Font.BOLD, 36));
 
-                // Draw bullet
-                if (shot.getShotFired()) {
-                    shot.draw(g);
+                if (gameStatus.equals("win")) {
+                    g.drawString("YOU WON!", windowWidth/3,windowHeight/2);
+
+                } else if (gameStatus.equals("loss")) {
+                    g.drawString("GAME OVER", windowWidth/3,windowHeight/2);
+
+                } else {
+
+                    ship.draw(g);
+                
+                    alienInvaders.drawAliens(g);
+                
+                    if (shot.getShotFired()) {
+                        shot.draw(g);
+                    }
                 }
+				
 
             }
     
@@ -125,4 +196,3 @@ public class InvadersGameGUI implements KeyListener {
     }
 
 }
-
