@@ -9,13 +9,24 @@ This class holds the method mechanics of the alien ship
     
     private int alienYcoord;
     private int lastAlienY = alienYcoord;
-    private int alienXcoord = 197; 
+    private int alienXcoord = 0; 
     private int lastAlienX = alienXcoord;
     private int horizontalSpeed = 10; 
     private int verticalSpeed = 5;
     private boolean isAlive = true;
 
-    private int radius = 20;
+    private int radius;
+
+    public Alien(int hSpeed, int vSpeed) {
+        horizontalSpeed = hSpeed;
+        verticalSpeed = vSpeed;
+    }
+
+    public Alien(int hSpeed, int vSpeed, int newRadius) {
+        horizontalSpeed = hSpeed;
+        verticalSpeed = vSpeed;
+        radius = newRadius;
+    }
     
     /************************
     method: setAlienX
@@ -118,8 +129,6 @@ This class holds the method mechanics of the alien ship
     }
     
     public void moveDown(){
-        lastAlienY = alienYcoord;
-        lastAlienX = alienXcoord;
         alienYcoord += verticalSpeed;
     }
     /*********************************************************************************************************

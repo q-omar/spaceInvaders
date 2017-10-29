@@ -5,8 +5,8 @@ import java.awt.Color;
 
 public class AlienArray{
     
-    private int numAliens = 5;  // Currently the GUI version can run fine
-    private int rowsAliens = 3;
+    private int numAliens;  // Currently the GUI version can run fine
+    private int rowsAliens;
     private boolean moveRight = true;
     Alien[][] aliens = new Alien[rowsAliens][numAliens];
     
@@ -15,10 +15,14 @@ public class AlienArray{
         if (version.equals("GUI")) {
         	numAliens = 5;
         	rowsAliens = 3;
+        	aliens = new Alien[rowsAliens][numAliens];
         	createAlienArrays();
         	setGUIaliens();
 
         } else {
+        	numAliens = 5;
+        	rowsAliens = 3;
+        	aliens = new Alien[rowsAliens][numAliens];
         	createAlienArrays();
         	setAliens();  // One of the issues is the text version and GUI having a different array size, maybe an array list would work since its length is flexible?
         }
@@ -36,7 +40,7 @@ public class AlienArray{
     public void createAlienArrays(){
         for (int r=0; r<rowsAliens ; r++) {
             for (int c=0; c<numAliens; c++){
-                aliens[r][c] = new Alien();
+                aliens[r][c] = new Alien(10, 5, 20);
             }
         }
     }
@@ -44,7 +48,7 @@ public class AlienArray{
     public void setAliens(){
         for (int r = 0; r < rowsAliens ; r++) {
             for (int c=0; c< numAliens;c++){
-            	aliens[r][c] = new Alien();
+            	aliens[r][c] = new Alien(3, 3);
             	System.out.println("test");
                 aliens[r][c].setAlienX(4+2*c);
                 if (r%2!=0){
@@ -65,7 +69,8 @@ public class AlienArray{
             for (int r = 0; r < rowsAliens ; r++) {
                 for (int c=0; c<numAliens;c++){
                     aliens[r][c].moveRight();
-                    if(aliens[rowsAliens-1][numAliens-1].getAlienX() >= width - aliens[r][c].getRadius()*2){
+
+                    if (aliens[rowsAliens-1][numAliens-1].getAlienX() >= width - aliens[r][c].getRadius()*2){
                         stop=true;
                         break;
                     }
@@ -91,7 +96,7 @@ public class AlienArray{
                 }
             }
 
-            if(aliens[rowsAliens-1][0].getAlienX() <= 0) { // Moved this out of the loop so aliens don't go out of sync
+            if(aliens[rowsAliens-1][0].getAlienX() <= 1) { // Moved this out of the loop so aliens don't go out of sync
                 stop=true;
             }
 

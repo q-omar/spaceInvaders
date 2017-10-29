@@ -81,7 +81,7 @@ public class InvadersGame{
     public void drawAliens(){ 
 		for (int r = 0; r < alienInvaders.getRowsAliens() ; r++) {
 			for (int c=0; c<alienInvaders.getNumAliens();c++){
-                System.out.println("draw test");
+
 				board[alienInvaders.aliens[r][c].getLastAlienY()][alienInvaders.aliens[r][c].getLastAlienX()] = ' ';
 				board[alienInvaders.aliens[r][c].getLastAlienY()][alienInvaders.aliens[r][c].getLastAlienX()] = ' ';
             
@@ -131,7 +131,7 @@ public class InvadersGame{
         }
 
         handleShot("part2");
-        alienInvaders.aliensMovement(boardWidth);
+        alienInvaders.aliensMovement(boardWidth - 4);
     }
 	
 	
