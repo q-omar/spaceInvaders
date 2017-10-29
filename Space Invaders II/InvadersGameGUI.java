@@ -1,6 +1,7 @@
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -25,12 +26,15 @@ public class InvadersGameGUI implements KeyListener {
     private AlienArray alienInvaders= new AlienArray();
     private InvadersGameScreen screen = new InvadersGameScreen();
 
+    private String gameStatus = "continue";
+
 
     public InvadersGameGUI() {
 		Timer timer = new Timer(40,
 			new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					alienInvaders.aliensMovement(windowWidth);
+                    checkStatus();
 
                     if (shot.getShotFired()) {
                         shot.moveShot();
@@ -41,6 +45,7 @@ public class InvadersGameGUI implements KeyListener {
                                 
                                 if (alienInvaders.aliens[r][c].isAlive() && shot.checkHit(alienInvaders.aliens[r][c].getAlienX(), alienInvaders.aliens[r][c].getAlienY(), alienInvaders.aliens[r][c].getRadius())) {    
                                     alienInvaders.aliens[r][c].destroyAlien();
+                                    checkStatus();
                                     updateScreen();
                                 }
                             }
@@ -53,12 +58,42 @@ public class InvadersGameGUI implements KeyListener {
 		timer.start();
 		init();
 	}
+
+
 	public void init(){
         screen.addKeyListener(this);
     }
 
     public void updateScreen() {
         screen.repaint();
+    }
+
+    public void checkStatus() { // Check win/loss conditions
+
+        if (!gameStatus.equals("loss")) {
+
+            gameStatus = "win";
+
+            for (int r=0; r<alienInvaders.rowsAliens ; r++) {
+                for (int c=0; c<alienInvaders.numAliens; c++){
+                            
+                    if (alienInvaders.aliens[r][c].isAlive()) {
+                        gameStatus = "continue";
+                    }
+                }
+            }
+        }
+        
+        if (!gameStatus.equals("win")) {
+
+            for (int r=0; r<alienInvaders.rowsAliens ; r++) {
+                for (int c=0; c<alienInvaders.numAliens; c++){
+                    if (alienInvaders.aliens[r][c].isAlive() && alienInvaders.aliens[r][c].inBounds(420)) {
+                        gameStatus = "loss";
+                    }
+                }
+            }
+        }
     }
 
     // Keyboard event handling
@@ -115,17 +150,33 @@ public class InvadersGameGUI implements KeyListener {
             @Override
             public void paintComponent(Graphics g){
 
+                super.paintComponent(g);
+
                 // Draw background
                 g.setColor(Color.BLACK);
                 g.fillRect(0,0,windowWidth,windowHeight);
-				
-				ship.draw(g);
-				
-				alienInvaders.drawAlienArray(g);
-				
-                if (shot.getShotFired()) {
-                    shot.draw(g);
+
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial", Font.BOLD, 36));
+
+                if (gameStatus.equals("win")) {
+                    g.drawString("YOU WON!", 112,200);
+
+                } else if (gameStatus.equals("loss")) {
+                    g.drawString("GAME OVER", 98,200);
+
+                } else {
+
+                    ship.draw(g);
+                
+                    alienInvaders.drawAlienArray(g);
+                
+                    if (shot.getShotFired()) {
+                        shot.draw(g);
+                    }
                 }
+				
+
             }
     
         }

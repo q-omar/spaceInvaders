@@ -12,7 +12,7 @@ This class holds the method mechanics of the alien ship
     private int alienXcoord = 197; 
     private int lastAlienX = alienXcoord;
     private int horizontalSpeed = 5; 
-    private int verticalSpeed = 5;
+    private int verticalSpeed = 10;
     private boolean isAlive = true;
 
     private int radius = 20;
@@ -95,9 +95,9 @@ This class holds the method mechanics of the alien ship
             sets alienEnd flag to true if so, "ending" the alien
     @return the status of alien
     **************************/
-    public boolean inBounds(int boardHeight) {
+    public boolean inBounds(int boundary) {
         boolean alienEnd = false;
-        if (alienYcoord >= boardHeight - 1){
+        if (alienYcoord >= boundary - 1){
             alienEnd = true;
         }
         return alienEnd;
