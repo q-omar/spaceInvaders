@@ -88,7 +88,7 @@ public class InvadersGameGUI implements KeyListener {
 
             for (int r=0; r<alienInvaders.rowsAliens ; r++) {
                 for (int c=0; c<alienInvaders.numAliens; c++){
-                    if (alienInvaders.aliens[r][c].isAlive() && alienInvaders.aliens[r][c].inBounds(420)) {
+                    if (alienInvaders.aliens[r][c].isAlive() && alienInvaders.aliens[r][c].inBounds(410)) {
                         gameStatus = "loss";
                     }
                 }

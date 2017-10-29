@@ -11,8 +11,8 @@ This class holds the method mechanics of the alien ship
     private int lastAlienY = alienYcoord;
     private int alienXcoord = 197; 
     private int lastAlienX = alienXcoord;
-    private int horizontalSpeed = 5; 
-    private int verticalSpeed = 10;
+    private int horizontalSpeed = 10; 
+    private int verticalSpeed = 5;
     private boolean isAlive = true;
 
     private int radius = 20;
