@@ -14,7 +14,7 @@ public class InvadersGame{
     int boardHeight = 30;
     int boardWidth = 60;
     
-    AlienArray alienInvaders = new AlienArray();
+    AlienArray alienInvaders = new AlienArray("text");
     playerShip ship = new playerShip(boardWidth, 3);
     playerShot shot = new playerShot(boardHeight - 1, 5);
     
@@ -22,8 +22,6 @@ public class InvadersGame{
 
     public void play(){
         createBoard();
-        alienInvaders.createAlienArrays();
-        alienInvaders.setAliens();
         
         while(!quit){
             drawCurrentState();
@@ -49,8 +47,6 @@ public class InvadersGame{
             System.out.println("|"); 
         }
     }
-
- 
     
     public void drawShip(){
         board[boardHeight-1][ship.getLocation()] = 'X';
@@ -60,8 +56,8 @@ public class InvadersGame{
     }
     
     public void drawShot(){
-        for (int r = 0; r < alienInvaders.rowsAliens ; r++) {
-			for (int c=0; c<alienInvaders.numAliens;c++){
+        for (int r = 0; r < alienInvaders.getRowsAliens() ; r++) {
+			for (int c=0; c<alienInvaders.getNumAliens();c++){
 				
 				if (shot.checkHit(alienInvaders.aliens[r][c].getAlienY(), alienInvaders.aliens[r][c].getAlienX()) && shot.getShotFired()) {
 					shot.shotFired(false); 
@@ -83,8 +79,9 @@ public class InvadersGame{
 
 
     public void drawAliens(){ 
-		for (int r = 0; r < alienInvaders.rowsAliens ; r++) {
-			for (int c=0; c<alienInvaders.numAliens;c++){
+		for (int r = 0; r < alienInvaders.getRowsAliens() ; r++) {
+			for (int c=0; c<alienInvaders.getNumAliens();c++){
+                System.out.println("draw test");
 				board[alienInvaders.aliens[r][c].getLastAlienY()][alienInvaders.aliens[r][c].getLastAlienX()] = ' ';
 				board[alienInvaders.aliens[r][c].getLastAlienY()][alienInvaders.aliens[r][c].getLastAlienX()] = ' ';
             
@@ -140,16 +137,16 @@ public class InvadersGame{
 	
     public void quitCondition(){
 		int count=0;
-        if (alienInvaders.aliens[alienInvaders.rowsAliens -1][1].inBounds(boardHeight)) {
+        if (alienInvaders.aliens[alienInvaders.getRowsAliens() -1][1].inBounds(boardHeight)) {
             quit = true;
             System.out.println("Game over, the aliens got you!");
         } else{
-			for (int r = 0; r < alienInvaders.rowsAliens ; r++) {
-				for ( int c=0; c<alienInvaders.numAliens; c++){
+			for (int r = 0; r < alienInvaders.getRowsAliens() ; r++) {
+				for ( int c=0; c<alienInvaders.getNumAliens(); c++){
 					if (!alienInvaders.aliens[r][c].isAlive()){
 						count+=1;
 					}
-					if (count == (alienInvaders.rowsAliens*alienInvaders.numAliens)){
+					if (count == (alienInvaders.getRowsAliens()*alienInvaders.getNumAliens())){
 						quit=true;
 						System.out.println("You won!!");
 					}

@@ -23,7 +23,7 @@ public class InvadersGameGUI implements KeyListener {
 
     private playerShot shot = new playerShot(420, 20, 5, 20);
     private playerShip ship = new playerShip(windowWidth, 10);
-    private AlienArray alienInvaders= new AlienArray();
+    private AlienArray alienInvaders= new AlienArray("GUI");
     private InvadersGameScreen screen = new InvadersGameScreen();
 
     private String gameStatus = "continue";
@@ -40,8 +40,8 @@ public class InvadersGameGUI implements KeyListener {
                         shot.moveShot();
                         shot.inBounds();
 
-                        for (int r=0; r<alienInvaders.rowsAliens ; r++) {
-                            for (int c=0; c<alienInvaders.numAliens; c++){
+                        for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
+                            for (int c=0; c<alienInvaders.getNumAliens(); c++){
                                 
                                 if (alienInvaders.aliens[r][c].isAlive() && shot.checkHit(alienInvaders.aliens[r][c].getAlienX(), alienInvaders.aliens[r][c].getAlienY(), alienInvaders.aliens[r][c].getRadius())) {    
                                     alienInvaders.aliens[r][c].destroyAlien();
@@ -74,8 +74,8 @@ public class InvadersGameGUI implements KeyListener {
 
             gameStatus = "win";
 
-            for (int r=0; r<alienInvaders.rowsAliens ; r++) {
-                for (int c=0; c<alienInvaders.numAliens; c++){
+            for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
+                for (int c=0; c<alienInvaders.getNumAliens(); c++){
                             
                     if (alienInvaders.aliens[r][c].isAlive()) {
                         gameStatus = "continue";
@@ -86,8 +86,8 @@ public class InvadersGameGUI implements KeyListener {
         
         if (!gameStatus.equals("win")) {
 
-            for (int r=0; r<alienInvaders.rowsAliens ; r++) {
-                for (int c=0; c<alienInvaders.numAliens; c++){
+            for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
+                for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     if (alienInvaders.aliens[r][c].isAlive() && alienInvaders.aliens[r][c].inBounds(410)) {
                         gameStatus = "loss";
                     }

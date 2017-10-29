@@ -5,16 +5,33 @@ import java.awt.Color;
 
 public class AlienArray{
     
-    int numAliens=5;
-    int rowsAliens=3;
+    private int numAliens = 5;  // Currently the GUI version can run fine
+    private int rowsAliens = 3;
     private boolean moveRight = true;
     Alien[][] aliens = new Alien[rowsAliens][numAliens];
     
-    public AlienArray(){
-        createAlienArrays();
-        setGUIaliens();
+    public AlienArray(String version){
+
+        if (version.equals("GUI")) {
+        	numAliens = 5;
+        	rowsAliens = 3;
+        	createAlienArrays();
+        	setGUIaliens();
+
+        } else {
+        	createAlienArrays();
+        	setAliens();  // One of the issues is the text version and GUI having a different array size, maybe an array list would work since its length is flexible?
+        }
+        
     }
     
+    public int getNumAliens() {
+    	return numAliens;
+    }
+
+    public int getRowsAliens() {
+    	return rowsAliens;
+    }
     
     public void createAlienArrays(){
         for (int r=0; r<rowsAliens ; r++) {
@@ -26,13 +43,17 @@ public class AlienArray{
     
     public void setAliens(){
         for (int r = 0; r < rowsAliens ; r++) {
-            for (int c=0; c<numAliens;c++){
+            for (int c=0; c< numAliens;c++){
+            	aliens[r][c] = new Alien();
+            	System.out.println("test");
                 aliens[r][c].setAlienX(4+2*c);
                 if (r%2!=0){
-                    aliens[r][c].setAlienY(r+1);
+                    aliens[r][c].setAlienY(r+1);     // There's an out of bounds error when running the text version, I have some print statements to troubleshoot
                 }else{
                     aliens[r][c].setAlienY(r);
                 }
+
+                System.out.println("Alien X: " + aliens[r][c].getAlienX() + "  Alien Y: " + aliens[r][c].getAlienY());
             }
         }
     }
@@ -89,7 +110,6 @@ public class AlienArray{
 
 
     public void drawAlienArray(Graphics g){
-        //setGUIaliens();
         for (int r=0; r<rowsAliens;r++){
             for (int c=0; c<numAliens;c++){
                 if (aliens[r][c].isAlive()){
@@ -102,7 +122,6 @@ public class AlienArray{
     public void setGUIaliens(){
         int whereX=5;
         int whereY=0;
-        createAlienArrays();
 
         for (int r=0; r<rowsAliens;r++){
             for (int c=0; c<numAliens;c++){
@@ -114,14 +133,6 @@ public class AlienArray{
             whereY+=40;
         }
     }
-        
-        
-        
-        
-        
-        
-        
-        
         
         
 }
