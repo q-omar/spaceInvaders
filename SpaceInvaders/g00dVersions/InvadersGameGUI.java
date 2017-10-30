@@ -142,7 +142,7 @@ public class InvadersGameGUI implements KeyListener {
     */
     private class InvadersGameScreen extends JFrame {
 
-        /*
+        /**
         *  The InvadersGameScreen constructor initializes the frame and the "canvas" component which is painted on.
         */
         public InvadersGameScreen() {
@@ -153,8 +153,9 @@ public class InvadersGameGUI implements KeyListener {
 
             Canvas canvas = new Canvas();
 
-            /* Code from Stack Overflow answer (https://stackoverflow.com/questions/
-            * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) */
+            /** Code from Stack Overflow answer (https://stackoverflow.com/questions/
+            * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) 
+			*/
             canvas.setPreferredSize(new Dimension(windowWidth, windowHeight));
             this.getContentPane().add(canvas);
             this.pack();
