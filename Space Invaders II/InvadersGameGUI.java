@@ -5,17 +5,19 @@ import java.awt.Font;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.BoxLayout;
-import javax.swing.*;
+import javax.swing.Timer;
 
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 
 /**
 * This class acts as the controller for the GUI version of the Invaders Game. It responds to
-* keyboard input and timer events.
+* keyboard input and timer events. It contains the InvadersGameScreen class which draws the actual frame
+* using the coordinates of the objects contained in InvadersGameGUI.
 */
-
 public class InvadersGameGUI implements KeyListener {
 
     private int windowWidth = 400;
@@ -28,7 +30,10 @@ public class InvadersGameGUI implements KeyListener {
 
     private String gameStatus = "continue";
 
-
+    /**
+    *  Constructor for InvadersGameGUI which creates the game's timer and begins the game. It updates coordinates and status for all the objects when
+    *  the timer is activated. It also checks if the game has been won or lost.
+    */
     public InvadersGameGUI() {
 		Timer timer = new Timer(40,
 			new ActionListener(){
@@ -59,19 +64,26 @@ public class InvadersGameGUI implements KeyListener {
 		init();
 	}
 
-
+    /**
+    *  This method initializes the screen by making it responsive to user keyboard input.
+    */
 	public void init(){
         screen.addKeyListener(this);
     }
 
+    /**
+    *  This method calls the screen to be repainted.
+    */
     public void updateScreen() {
         screen.repaint();
     }
 
-    public void checkStatus() { // Check win/loss conditions
+    /**
+    *  This method checks whether or not the game has been won or lost and updates the boolean gameStatus appropriately.
+    */
+    public void checkStatus() {
 
         if (!gameStatus.equals("loss")) {
-
             gameStatus = "win";
 
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
@@ -85,7 +97,6 @@ public class InvadersGameGUI implements KeyListener {
         }
         
         if (!gameStatus.equals("win")) {
-
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     if (alienInvaders.aliens[r][c].isAlive() && alienInvaders.aliens[r][c].inBounds(410)) {
@@ -96,7 +107,11 @@ public class InvadersGameGUI implements KeyListener {
         }
     }
 
-    // Keyboard event handling
+    /**
+    *  This method responds to keyboard input and updates the screen. When the user presses A/D, the ship moves left or right.
+    *  When the user presses the space key, a bullet will be fired if one is not already active.
+    *  @param  e  a key pressed by the user
+    */
     @Override
     public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -114,7 +129,6 @@ public class InvadersGameGUI implements KeyListener {
 			break;
 		}
         updateScreen();
-            
     }
 
     @Override
@@ -123,10 +137,14 @@ public class InvadersGameGUI implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {}
 
-    /****** GUI interface ******/
-
+    /**
+    *  This class extends JFrame and draws the window for the invaders game.
+    */
     private class InvadersGameScreen extends JFrame {
 
+        /*
+        *  The InvadersGameScreen constructor initializes the frame and the "canvas" component which is painted on.
+        */
         public InvadersGameScreen() {
 
             super("Space Invaders Game");
@@ -142,11 +160,20 @@ public class InvadersGameGUI implements KeyListener {
             this.pack();
 
             this.setVisible(true);
-        
         }
 
+        /**
+        *  The Canvas class is a JComponent with an overridden paintComponent method allowing one to draw
+        *  objects on it.
+        */
         private class Canvas extends JComponent{
-			
+
+            /**
+            *  This method draws the background, aliens, player ship and bullets onto the screen by calling
+            *  the draw methods of the appropriate object. It also draws the win and game over screens
+            *  based on gameStatus.
+            *  @param  g  the grpahics object
+            */
             @Override
             public void paintComponent(Graphics g){
 
@@ -176,15 +203,15 @@ public class InvadersGameGUI implements KeyListener {
                     }
                 }
 				
-
             }
     
         }
 
     }
 
-    // Main method
-
+    /**
+    *  The main method creates a new instance of InvadersGameGUI which starts the game.
+    */
     public static void main (String[] args){
         javax.swing.SwingUtilities.invokeLater(new Runnable(){
             public void run(){

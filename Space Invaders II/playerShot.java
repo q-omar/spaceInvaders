@@ -5,10 +5,11 @@ import java.awt.Color;
 public class playerShot{
    
     /** This class contains mechanics for when the player ship decides to shoot 
-    @param shotFired used when a shot should be displayed on the board or not 
-    @param shotRow,lastShotRow control how shot moves upward and erases previous row location
-    @param shotColumn column in which shot travelsmn
-    @param speed setting how fast shot should travel upward in rows on the board
+    @param shotFired used to determine if a shot should be displayed on the board or not 
+    @param shotRow and lastShotRow control how shot moves upward and erases previous row location
+    @param initialRow is used to reset the shot's position when refiring
+    @param shotColumn column in which shot travels
+    @param speed setting how fast shot should travel upward
     */
 
     boolean shotFired;
@@ -22,14 +23,26 @@ public class playerShot{
     int shotColumn;
     int speed;
 
-    public playerShot(int startingRow, int newSpeed) { // This is for the text version, where width and length will be 0 by default
+    /**
+    *  Constructor for the text version of the game.
+    * @param  startingRow  sets the initial y-axis position of the shot
+    * @param  newSpeed     sets the distance the shot should travel
+    */
+    public playerShot(int startingRow, int newSpeed) {
         initialRow = startingRow;
         shotRow = initialRow;
         lastShotRow = initialRow;
         speed = newSpeed;
     }
 
-    public playerShot(int startingRow, int newSpeed, int newWidth, int newLength) { // This is for the GUI version
+    /**
+    *  Constructor for the GUI version of the game.
+    * @param  startingRow  sets the initial y-axis position of the shot
+    * @param  newSpeed     sets the distance the shot should travel
+    * @param  newWidth     sets width of the bullet in pixels
+    * @param  newLength    sets height of the bullet in pixels
+    */
+    public playerShot(int startingRow, int newSpeed, int newWidth, int newLength) {
         initialRow = startingRow;
         shotRow = startingRow;
         lastShotRow = shotRow;
@@ -38,58 +51,75 @@ public class playerShot{
         length = newLength;
     }
     
-    /** shotFired method is used with getShotFired method where
-     * @param shotStatus is passed from InvadersGame class to check if a shot 
-     * is on the board or not
-     */
-
+    /** 
+    * Sets whether or not the bullet is currently active. Only one bullet can be fired at a time.
+    * @param  shotStatus  new boolean value for shotFired
+    */
     public void shotFired(boolean shotStatus){
         shotFired = shotStatus;
     }
 
+    /**
+    * Used to check if a bullet is currently active.
+    * @return  shotFired  boolean status of the bullet; true when the bullet is on screen
+    */
+    public boolean getShotFired(){
+        return shotFired;
+    }
+
+    /**
+    * Returns the width of the bullet.
+    * @return  width  the width of the shot in pixels
+    */
     public int getWidth() {
         return width;
     }
 
+    /**
+    * Returns the length of the bullet.
+    * @return  length  the length of the shot in pixels
+    */
     public int getLength() {
         return length;
     }
 
-    public boolean getShotFired(){
-        return shotFired;
-    }
-   
-    /** if there is no current shot on board, getShotRow, getLastShotRow and 
-     * setShotRow are all used in conjunction.
-     * @param row in line 55 sets location of row shot is fired from and then 
-     * getter methods display and 'erase' the shot 
-     */
-
+    /**
+    * Returns the y axis location/"row" of the bullet.
+    * @return  shotRow  the row the bullet is in currently
+    */
     public int getShotRow(){
         return shotRow;
     }
 
+    /**
+    * Returns the y axis location/"row" of the bullet before its last move.
+    * Used in the text version to redraw the bullet.
+    * @return  lastShotRow  the last row the bullet was in
+    */
     public int getLastShotRow(){
         return lastShotRow;
     }
 
-    /** the getter and setter methods for shot column are similar where first 
-     * @param column in line 52 is the ships current column and the getter method
-     * is used to display it on the board  
-     */
-
+    /**
+    * Returns the x axis location/"column" of the bullet.
+    * @return  shotColumn  the column the bullet is in currently
+    */
     public int getShotColumn(){
         return shotColumn;
     }
 
+    /**
+    * Sets the x axis location of the bullet to the passed parameter.
+    * @param  column  the new horizontal location for the shot
+    */
     public void setShotColumn(int column) {
         shotColumn = column;
     }
 
 
-    /** method moveShot actually updating the shots location as a number so that the
-     * getter methods can be used to display them on the board and speed is how
-     * many rows up it moves 
+    /** method moveShot updates the shot's location as a number so that the
+     * getter methods can be used to display them on the board. The location is changed
+     * by the speed of the shot.
      */
     public void moveShot() {
         lastShotRow = shotRow;
@@ -97,10 +127,9 @@ public class playerShot{
     }
     
     /** the inBounds method checks if the bullet goes past the top of the screen, 
-     *  fired being set to false will stop the board from attemping to draw it.
+     *  shotFired being set to false will stop the board from attemping to draw it.
      *  The next time a bullet is fired, shotRow will be reset.
      */
-
     public void inBounds() {
         if (shotRow + length < 0) {
             shotFired = false;
@@ -108,12 +137,14 @@ public class playerShot{
         }
     }
     /**
-    * This method is for the GUI version. It checks collisions of the bullet with a circular alien
-    * and returns true if they overlap.
+    * This method is for the GUI version. It checks collisions of the top left/right corners of the bullet 
+    * with a circular object and returns true if they overlap.
     *
-    *
+    * @param  targetX       the x-coordinate for the top left point of the circle
+    * @param  targetY       the y-coordinate for the top left point of the circle
+    * @param  targetRadius  the radius of the circle
+    * @return hit           whether or not a collision was detected
     */
-
     public boolean checkHit(int targetX, int targetY, int targetRadius) {
         boolean hit = false;
         int xCoord;
@@ -140,10 +171,11 @@ public class playerShot{
         return hit;
     }
 
-     /** the checkHit method uses
-      * @param targetRow,targetCol which are passed from InvadersGame class, being
-      * the aliens current row and columns to check if there is a match with the shots
-      * location at which point it returns either false or true  
+     /** 
+      * This method is for the text version. Checks if the bullet "collides" with a given target.
+      * @param   targetRow  the array row the target is in
+      * @param   targetCol  the array column the target is in
+      * @return  hit        whether or not a the bullet "hit" the target 
      */
     
     public boolean checkHit(int targetRow, int targetCol) {
@@ -155,6 +187,10 @@ public class playerShot{
         return hit;
     }
 
+    /**
+    *  Draws the shot onto the GUI screen.
+    *  @param  g  the graphics object
+    */
     public void draw(Graphics g) {
         g.setColor(Color.RED);
         g.fillRect(shotColumn,shotRow, width, length);
