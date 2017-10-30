@@ -16,23 +16,12 @@ This class holds the method mechanics of the alien ship
     private boolean isAlive = true;
 
     private int radius;
-/*************************************************
-A constructor for Alien class. It takes a horiontal and vertical speed as arguements
-This is used in the Text version
-@param hSpeed is the horiontal speed
-@param vSpeed is the vertical speed
-*************************************************/
+
     public Alien(int hSpeed, int vSpeed) {
         horizontalSpeed = hSpeed;
         verticalSpeed = vSpeed;
     }
-/*************************************************
-A constructor for Alien class. It takes a horiontal, vertical speed and radius as arguements
-This is used for the GUI version
-@param hSpeed is the horiontal speed
-@param vSpeed is the vertical speed
-@param newRadius is the radius of the alien
-*************************************************/
+
     public Alien(int hSpeed, int vSpeed, int newRadius) {
         horizontalSpeed = hSpeed;
         verticalSpeed = vSpeed;
@@ -140,6 +129,8 @@ This is used for the GUI version
     }
     
     public void moveDown(){
+        lastAlienX = alienXcoord;
+        lastAlienY = alienYcoord;
         alienYcoord += verticalSpeed;
     }
     /*********************************************************************************************************
@@ -155,10 +146,10 @@ This is used for the GUI version
         alienXcoord -= horizontalSpeed;
     }
 
-    /******************************************************************
+    /**
     * Draws the alien as a circle onto the screen.
     * @param the Graphics object  
-    ********************************************************************/
+    */
     public void draw(Graphics g) {
          g.setColor(Color.GREEN);
          g.fillOval(alienXcoord,alienYcoord,radius*2,radius*2);
