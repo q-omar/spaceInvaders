@@ -1,8 +1,14 @@
 # spaceInvaders
 
-Space Invaders Java version by Unlucky Team 13 :)
+Space Invaders Java version by Team Unlucky 13 :)
 
-![ScreenShot](outputV1.png)
+Previous output progress can be viewed in output folder. Most recent output is below:
 
-In V1, a blank board is printed with a character 'X' for the ship which the user can move left or right.
-Current bugs: handling out of boundary array
+![ScreenShot](outputs/outputV5.gif)
+
+In 'V5', array functionality is added where you can choose the rows and amount of aliens within each row, traversing down in a zigzag pattern. Current bugs: shot hitting two aliens at a time. 
+
+
+![ScreenShot](outputs/outputV7.gif)
+
+In 'V7', a basic form of Space Invaders is nearly complete with a group of aliens traversing further down the screen with player able to move ship and fire shots, resulting in appropriate 'you win' or 'game over' screens. 
