@@ -64,51 +64,41 @@ public class AlienArray{
 
     
     public void aliensMovement(int width){
-        boolean stop=false;
         if (moveRight){
-            for (int r = 0; r < rowsAliens ; r++) {
-                for (int c=0; c<numAliens;c++){
-                    aliens[r][c].moveRight();
-
-                    if (aliens[rowsAliens-1][numAliens-1].getAlienX() >= width - aliens[r][c].getRadius()*2){
-                        stop=true;
-                        break;
-                    }
-                }
-            }
-
-            if(stop){
+            if (aliens[0][numAliens-1].getAlienX()>=width - aliens[0][0].getRadius()*2){ 
                 for (int r = 0; r < rowsAliens ; r++) {
-                    for (int c=0; c<numAliens;c++){
+                    for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();
-                    }
+                    } 
                 }
-                stop= false;
-                moveRight=false;
+                moveRight = false;
                 return; 
             }
-    
-        }else{
 
             for (int r = 0; r < rowsAliens ; r++) {
-                for (int c=0; c<numAliens;c++){
+                for (int c = 0; c < numAliens; c++){
+                    aliens[r][c].moveRight();
+                }
+            }
+        }
+        
+        else{
+            
+            if (aliens[0][0].getAlienX()<=1){ 
+                for (int r = 0; r < rowsAliens ; r++) {
+                    for (int c = 0; c < numAliens; c++){
+                        aliens[r][c].moveDown();
+                    }
+                    
+                }
+                moveRight = true;
+                return; 
+            }
+
+            for (int r = 0; r < rowsAliens ; r++) {
+                for (int c = 0; c < numAliens; c++){
                     aliens[r][c].moveLeft();
                 }
-            }
-
-            if(aliens[rowsAliens-1][0].getAlienX() <= 1) { // Moved this out of the loop so aliens don't go out of sync
-                stop=true;
-            }
-
-            if(stop){
-                for (int r = 0; r < rowsAliens ; r++) {
-                    for (int c=0; c<numAliens;c++){
-                        aliens[r][c].moveDown();
-                        stop=false;
-                    }
-                }
-                moveRight=true;
-                return; 
             }
         }
     } 
