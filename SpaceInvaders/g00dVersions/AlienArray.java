@@ -15,6 +15,8 @@ public class AlienArray{
     private int rowsAliens;
     private boolean moveRight = true;
     Alien[][] aliens = new Alien[rowsAliens][numAliens];
+    private int leftBoundary;
+    private int rightBoundary;
 
     /** A constructor for AlienArray that takes a String input.
 	* @param determines whether the text ot GUI version of aliens need to be drawn. 
@@ -79,6 +81,37 @@ public class AlienArray{
             }
         }
     }
+
+    /** This method checks to see if there is an alien alive in the rightmost and leftmost
+     * columns. If there is, that column becomes the boundary for the movement method and if there 
+     * is not an alien alive, it moves to the next column over and that column then becomes the boundary.
+    */ 
+
+    public void checkBoundary(){
+        leftBoundary = 0;
+        rightBoundary = 0;
+        
+        for (int c = 0; c <numAliens;c++){
+            int count = 0;
+            for (int r = 0; r < rowsAliens ; r++) {
+                if (aliens[r][c].isAlive()){
+                    count++;
+                    rightBoundary = c;
+                }
+            }
+        }
+        for (int c = numAliens-1; c>-1;c--){
+            int count = 0;
+            for (int r = 0; r < rowsAliens ; r++) {
+                if (aliens[r][c].isAlive()){
+                    count++;
+                    leftBoundary = c;
+                }
+            }
+        }  
+    }
+
+
     /** This method handles all alien movement. If moveRight is true, it shifts all the aliens right every time the game updates. 
 	*When the last alien reaches the end of the board, moveRight is set to false 
 	*and the aliens move down and start going left. 
@@ -89,7 +122,8 @@ public class AlienArray{
     public void aliensMovement(int width){
         
         if (moveRight){
-            if (aliens[0][numAliens-1].getAlienX()>=width - aliens[0][0].getRadius()*2){ 
+            checkBoundary();
+            if (aliens[0][rightBoundary].getAlienX()>=width - aliens[0][0].getRadius()*2){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();
@@ -108,7 +142,7 @@ public class AlienArray{
         
         else{
             
-            if (aliens[0][0].getAlienX()<=1){ 
+            if (aliens[0][leftBoundary].getAlienX()<=1){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();

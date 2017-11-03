@@ -11,10 +11,10 @@ This class holds the method mechanics of the player ship
     private int lastLocation = location;
     private int speed = 3;
 
-    /**
+    /*****************************************************************
     * Constructor that centers the starting location of the ship based on the length of the screen and lets
     * one set its speed.
-    */
+    *****************************************************************/
     public playerShip(int screenLength, int newSpeed) {
         location = screenLength/2;
         speed = newSpeed;
@@ -83,16 +83,27 @@ This class holds the method mechanics of the player ship
         }
 
     }
-	
+	/**********************************
+	method: moveRight
+			moves the ship right when A is the input
+	*************************************/
 	public void moveRight(){
 		lastLocation = location;
 		location += speed;
 	}
-	
+	/**********************************
+	method: moveLeft
+			moves the ship left when D is the input
+	*************************************/
 	public void moveLeft(){
 		lastLocation = location;
 		location-= speed;
 	}
+	/**********************************
+	method: draw
+			draws the ship
+			@param Graphics object,g
+	*************************************/
 	public void draw(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(location-10,440, 20, 20);

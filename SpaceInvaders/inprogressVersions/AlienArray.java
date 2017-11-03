@@ -5,15 +5,28 @@ import java.awt.Color;
 
 public class AlienArray{
     
-    private int numAliens;  // Currently the GUI version can run fine
+    /** This class creates an array of aliens for the GUI and the text version of InvadersGame. 
+	* @param numAliens is the number of aliens in each row.
+	* @param rowsAliens is the number of rows of aliens. 
+	* @param moveRight is true if the aliens need to be moving right and is set to false if the ship needs to move left
+    */
+    
+    private int numAliens; 
     private int rowsAliens;
     private boolean moveRight = true;
     Alien[][] aliens = new Alien[rowsAliens][numAliens];
+    private int leftBoundary;
+    private int rightBoundary;
+
+    /** A constructor for AlienArray that takes a String input.
+	* @param determines whether the text ot GUI version of aliens need to be drawn. 
+	* This is needed because the text and GUI versions need different methods to set the aliens.
+    */
     
     public AlienArray(String version){
 
         if (version.equals("GUI")) {
-        	numAliens = 5;
+        	numAliens = 6;
         	rowsAliens = 3;
         	aliens = new Alien[rowsAliens][numAliens];
         	createAlienArrays();
@@ -24,10 +37,14 @@ public class AlienArray{
         	rowsAliens = 3;
         	aliens = new Alien[rowsAliens][numAliens];
         	createAlienArrays();
-        	setAliens();  // One of the issues is the text version and GUI having a different array size, maybe an array list would work since its length is flexible?
+        	setAliens();  
         }
         
     }
+    
+    /** the getter methods for numAliens and rowsAliens return the respective values
+	* @return numAliens and rowAliens. 
+    */
     
     public int getNumAliens() {
     	return numAliens;
@@ -36,6 +53,9 @@ public class AlienArray{
     public int getRowsAliens() {
     	return rowsAliens;
     }
+
+    /** creates an array on which the aliens will be drawn on. This method is the same for GUI and Text Version
+    */
     
     public void createAlienArrays(){
         for (int r=0; r<rowsAliens ; r++) {
@@ -44,28 +64,66 @@ public class AlienArray{
             }
         }
     }
+
+    /** Sets the aliens in place for the text version of the game. Specifies the location of each alien, which are drawn in InvadersGame
+    */
     
     public void setAliens(){
         for (int r = 0; r < rowsAliens ; r++) {
             for (int c=0; c< numAliens;c++){
             	aliens[r][c] = new Alien(3, 3);
-            	System.out.println("test");
                 aliens[r][c].setAlienX(4+2*c);
                 if (r%2!=0){
-                    aliens[r][c].setAlienY(r+1);     // There's an out of bounds error when running the text version, I have some print statements to troubleshoot
+                    aliens[r][c].setAlienY(r+1); 
                 }else{
                     aliens[r][c].setAlienY(r);
                 }
-
-                System.out.println("Alien X: " + aliens[r][c].getAlienX() + "  Alien Y: " + aliens[r][c].getAlienY());
             }
         }
     }
 
+    /** This method checks to see if there is an alien alive in the rightmost and leftmost
+     * columns. If there is, that column becomes the boundary for the movement method and if there 
+     * is not an alien alive, it moves to the next column over and that column then becomes the boundary.
+    */ 
+
+    public void checkBoundary(){
+        leftBoundary = 0;
+        rightBoundary = 0;
+        
+        for (int c = 0; c <numAliens;c++){
+            int count = 0;
+            for (int r = 0; r < rowsAliens ; r++) {
+                if (aliens[r][c].isAlive()){
+                    count++;
+                    rightBoundary = c;
+                }
+            }
+        }
+        for (int c = numAliens-1; c>-1;c--){
+            int count = 0;
+            for (int r = 0; r < rowsAliens ; r++) {
+                if (aliens[r][c].isAlive()){
+                    count++;
+                    leftBoundary = c;
+                }
+            }
+        }  
+    }
+
+
+    /** This method handles all alien movement. If moveRight is true, it shifts all the aliens right every time the game updates. 
+	*When the last alien reaches the end of the board, moveRight is set to false 
+	*and the aliens move down and start going left. 
+	*When they reach the left limit, moveRight is set to true again.
+	*@param width of board. 
+    */ 
     
     public void aliensMovement(int width){
+        
         if (moveRight){
-            if (aliens[0][numAliens-1].getAlienX()>=width - aliens[0][0].getRadius()*2){ 
+            checkBoundary();
+            if (aliens[0][rightBoundary].getAlienX()>=width - aliens[0][0].getRadius()*2){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();
@@ -84,7 +142,7 @@ public class AlienArray{
         
         else{
             
-            if (aliens[0][0].getAlienX()<=1){ 
+            if (aliens[0][leftBoundary].getAlienX()<=1){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();
@@ -103,7 +161,10 @@ public class AlienArray{
         }
     } 
 
-
+    /** This method draws the GUI alien array.
+	* @param Graphics object, g
+    */
+    
     public void drawAlienArray(Graphics g){
         for (int r=0; r<rowsAliens;r++){
             for (int c=0; c<numAliens;c++){
@@ -113,7 +174,10 @@ public class AlienArray{
             }
         }
     }
-    
+
+    /** This method sets the location for aliens to be drawn
+	*/
+
     public void setGUIaliens(){
         int whereX=5;
         int whereY=0;
