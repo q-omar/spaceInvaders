@@ -120,9 +120,8 @@ public class AlienArray{
     */ 
     
     public void aliensMovement(int width){
-        
+        checkBoundary();
         if (moveRight){
-            checkBoundary();
             if (aliens[0][rightBoundary].getAlienX()>=width - aliens[0][0].getRadius()*2){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
