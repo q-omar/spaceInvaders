@@ -2,23 +2,35 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class playerShip{
+public class playerShip extends Shape{
 /*************************************************
 This class holds the method mechanics of the player ship
 *************************************************/  
-
-    private int location = 30;
+	private int location = 30;
     private int lastLocation = location;
-    private int speed = 3;
+	private int speed = 3;
+	
+	/**
+    * A constructor for the playerS class. Creates a new Square with the specified values.
+    * @param  newTopLeftPoint  a Point object with new coordinates for the square's top left point
+	* @param  newSize          an integer describing the new size of the object square
+    */
+    public playerShip(Point newTopLeftPoint,int newLength, int newWidth) {
+        super(newTopLeftPoint, newLength, newWidth);
+    }
+	
+	public playerShip(Point newTopLeftPoint) {
+        super(newTopLeftPoint);
+    }
 
     /*****************************************************************
     * Constructor that centers the starting location of the ship based on the length of the screen and lets
     * one set its speed.
     *****************************************************************/
-    public playerShip(int screenLength, int newSpeed) {
-        location = screenLength/2;
-        speed = newSpeed;
-    }
+    //public playerShip(int screenLength, int newSpeed) {
+      //  location = screenLength/2;
+        //speed = newSpeed;
+    
 
     /****************************
     method: getLocation
@@ -44,14 +56,6 @@ This class holds the method mechanics of the player ship
     public void setLocation(int newLocation) {
         lastLocation = location;
         location = newLocation;
-    }
-    
-    /****************************
-    method: getSpeed
-    @return amount of characters that the player ship can move left or right
-    ****************************/
-    public int getSpeed() {
-        return speed;
     }
     
     /****************************
@@ -84,28 +88,14 @@ This class holds the method mechanics of the player ship
 
     }
 	/**********************************
-	method: moveRight
-			moves the ship right when A is the input
-	*************************************/
-	public void moveRight(){
-		lastLocation = location;
-		location += speed;
-	}
-	/**********************************
-	method: moveLeft
-			moves the ship left when D is the input
-	*************************************/
-	public void moveLeft(){
-		lastLocation = location;
-		location-= speed;
-	}
-	/**********************************
 	method: draw
 			draws the ship
 			@param Graphics object,g
 	*************************************/
 	public void draw(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(location-10,440, 20, 20);
+        g.fillRect(getTopLeft().getXCoord(), getTopLeft().getYCoord(), 
+				getLength() * 2, 
+				getWidth() * 2);
     }
 }
