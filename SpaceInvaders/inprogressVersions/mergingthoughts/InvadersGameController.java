@@ -28,7 +28,7 @@ public class InvadersGameController implements KeyListener{
     		playGui();
     	} else if (input.equals("T")) {
     		logic = new InvadersGameLogic("Text");
-			text = new InvadersGameText();
+			text = new InvadersGameText(logic);
     		playText();
     	}
     }
@@ -58,7 +58,7 @@ public class InvadersGameController implements KeyListener{
     public void playText() { // Plays text version of the game, need to implement board printing
     	boolean quit = false;
 		
-		text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray());
+		text.drawCurrentState();
 		
     	while (!quit) {
             System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
