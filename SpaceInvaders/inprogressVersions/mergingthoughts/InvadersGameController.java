@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 import javax.swing.Timer;
 import java.awt.event.KeyEvent;
@@ -11,12 +12,31 @@ import java.awt.event.ActionEvent;
 
 public class InvadersGameController implements KeyListener{
     
-    private InvadersGameLogic logic = new InvadersGameLogic("GUI");
-    private InvadersGameGUI gui = new InvadersGameGUI(this, logic);
-    private InvadersGameLogic logicText = new InvadersGameLogic("Text");
-    private InvadersGameText text = new InvadersGameText(logicText);
+	private Scanner keyboard = new Scanner(System.in);
+    private InvadersGameLogic logic;
+    private InvadersGameGUI gui;
+    //private InvadersGameLogic logicText = new InvadersGameLogic("Text");
         
-    public InvadersGameController(){
+    public InvadersGameController() {
+    	
+    	System.out.println("Let's play the InvadersGame!\nEnter T to launch the text version or G to launch the GUI version.");
+    	String input = keyboard.nextLine().toUpperCase();
+    	
+    	if (input.equals("G")) {
+    		logic = new InvadersGameLogic("GUI");
+    		gui = new InvadersGameGUI(logic);
+    		playGui();
+    	} else if (input.equals("T")) {
+    		logic = new InvadersGameLogic("Text");
+    		playText();
+    	}
+    }
+    
+    /**
+    *  This method starts and plays the GUI version of the game.
+    */
+    public void playGui(){
+    	
         Timer timer = new Timer(40, new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 
@@ -29,15 +49,31 @@ public class InvadersGameController implements KeyListener{
         
         timer.setInitialDelay(10);
         timer.start();
-        init();
+    	gui.addKeyListener(this);
     }
     
-    /**
-    *  This method initializes the screen by making it responsive to user keyboard input.
-    */
-    public void init(){
-        gui.addKeyListener(this);
-    }
+    // Since there are some of the same steps in both of these "play" methods we can probably reduce code repetition more
+    
+    public void playText() { // Plays text version of the game, need to implement board printing
+    	boolean quit = false;
+
+    	while (!quit) {
+            System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
+            String selection = keyboard.nextLine().toUpperCase(); 
+            
+            if (selection.equals("Q")) {
+                quit = true;
+                System.out.println("You quit the game.");
+            } else if (selection.equals("A") || selection.equals("D")) {
+                logic.shipMovement(selection);
+            } else if (selection.equals("F")) {
+                logic.shotAttempt();
+            }
+            
+            logic.handleShotInteraction();
+            logic.moveAliens();;
+    	}
+     }
     
      /**
     *  This method responds to keyboard input and updates the screen. When the user presses A/D, the ship moves left or right.
@@ -49,42 +85,17 @@ public class InvadersGameController implements KeyListener{
     public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case 'A':
-			logic.getShip().moveLeft();
+			logic.shipMovement("A");
 			break;
 		case 'D':
-			logic.getShip().moveRight();
+			logic.shipMovement("D");
 			break;
 		case KeyEvent.VK_SPACE:
-			if (!logic.getShot().getShotFired()){
-				logic.getShot().shotFired(true);
-				logic.getShot().setShotColumn(logic.getShip().getLocation());
-			}
+			logic.shotAttempt();
 			break;
 		}
+		gui.updateScreen();
         
-    }
-    
-    //adjust this method to fit with the keyevents above 
-    public void handleEvents(){
-        Scanner keyboard = new Scanner(System.in);
-        System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
-        String selection = keyboard.nextLine(); 
-        String upperSelection = selection.toUpperCase();
-
-        if (upperSelection.equals("A") || upperSelection.equals("D")) {
-            ship.shipMovement(upperSelection);
-            ship.inBounds(boardWidth);    
-            
-        } else if (upperSelection.equals("F")) {
-            handleShot("part1");
-            
-        } else if (upperSelection.equals("Q")) {
-            quit = true;
-            System.out.println("You quit the game.");
-        }
-
-        handleShot("part2");
-        alienInvaders.aliensMovement(boardWidth - 4);
     }
 
     @Override
@@ -92,5 +103,7 @@ public class InvadersGameController implements KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {}
+    
+
 
 }
