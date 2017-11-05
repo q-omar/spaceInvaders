@@ -18,7 +18,7 @@ public class InvadersGameLogic{
         	gameVersion = version;
             screenHeight = 500;
             screenWidth = 400;
-            ship = new playerShip(screenWidth, 5);  // Temporarily using same constructors as before, update later to correspond to version
+            ship = new playerShip(screenWidth, screenHeight + 60, 20, 5);  // Temporarily using same constructors as before, update later to correspond to version
             shot = new playerShot(420, 20, 5, 20);
             alienInvaders = new AlienArray("GUI");
 
@@ -26,8 +26,8 @@ public class InvadersGameLogic{
         	gameVersion = version;
             screenWidth = 60;
             screenHeight = 30;
-            ship = new playerShip(screenWidth, 3); 
-            shot = new playerShot(screenWidth-1, 5);
+            ship = new playerShip(screenWidth, screenHeight-1, 0, 3); 
+            shot = new playerShot(screenHeight-1, 5);
             alienInvaders = new AlienArray("Text");
         }
     }
@@ -78,6 +78,7 @@ public class InvadersGameLogic{
                 }
             }
         }
+        
         if (!gameStatus.equals("win")) {
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
@@ -105,7 +106,7 @@ public class InvadersGameLogic{
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     
-                    if (alienInvaders.aliens[r][c].isAlive() && shot.checkHit(alienInvaders.aliens[r][c].getAlienX(), alienInvaders.aliens[r][c].getAlienY(), alienInvaders.aliens[r][c].getRadius())) {    
+                    if (alienInvaders.aliens[r][c].isAlive() && shot.checkHit(alienInvaders.aliens[r][c].getXCoord(), alienInvaders.aliens[r][c].getYCoord(), alienInvaders.aliens[r][c].getWidth())) {    
                         alienInvaders.aliens[r][c].destroyAlien(); 
                     }
                 }
@@ -116,7 +117,7 @@ public class InvadersGameLogic{
     // Called when the user presses F
     public void shotAttempt() {
     	if (!shot.getShotFired()) {
-    		shot.resetShot(true, ship.getLocation());
+    		shot.resetShot(true, ship.getXCoord());
     	} else {
     		if (gameVersion.equals("TEXT")) {
     			System.out.println("Out of ammo!");

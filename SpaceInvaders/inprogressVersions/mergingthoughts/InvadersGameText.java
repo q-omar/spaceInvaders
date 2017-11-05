@@ -3,11 +3,6 @@ public class InvadersGameText{
     int boardHeight = 30;
     int boardWidth = 60;
     char[][] board = new char[boardHeight][boardWidth]; 
-	private InvadersGameLogic logic;
-	
-	public InvadersGameText(InvadersGameLogic newLogic){
-		logic = newLogic;
-	}
 
     public void createBoard(){
         for (int r = 0; r < boardHeight; r++) {
@@ -34,10 +29,10 @@ public class InvadersGameText{
 	method: drawShip
 			prints the location of the player ship on the board
 	******************************************************/
-    public void drawShip(){
-        board[boardHeight-1][logic.getShip().getLocation()] = 'X';
-        if (logic.getShip().getLocation() != logic.getShip().getLastLocation()) {
-            board[boardHeight-1][logic.getShip().getLastLocation()] = ' ';
+    public void drawShip(playerShip ship){
+        board[boardHeight-1][ship.getXCoord()] = 'X';
+        if (ship.getXCoord() != ship.getLastXCoord()) {
+            board[boardHeight-1][ship.getLastXCoord()] = ' ';
         }
     }
     
@@ -49,25 +44,25 @@ public class InvadersGameText{
 			checks if shot is within the bounds of the board
 			replaces last shot position on board with a space character
 	******************************************************/
-    public void drawShot(){
-        for (int r = 0; r < logic.getArray().getRowsAliens() ; r++) {
-			for (int c=0; c < logic.getArray().getNumAliens();c++){
+    public void drawShot(playerShot shot, AlienArray array){
+        for (int r = 0; r < array.getRowsAliens() ; r++) {
+			for (int c=0; c < array.getNumAliens();c++){
 				
-				if (logic.getShot().checkHit(logic.getArray().aliens[r][c].getAlienY(), logic.getArray().aliens[r][c].getAlienX()) && logic.getShot().getShotFired()) {
-					logic.getShot().shotFired(false); 
-					logic.getArray().aliens[r][c].destroyAlien();
+				if (shot.checkHit(array.aliens[r][c].getYCoord(), array.aliens[r][c].getXCoord()) && shot.getShotFired()) {
+					shot.shotFired(false); 
+					array.aliens[r][c].destroyAlien();
 				}
 				
             } 
         }
 
-        logic.getShot().inBounds();
+        shot.inBounds();
 
-        if (logic.getShot().getShotRow() != logic.getShot().getLastShotRow() && logic.getShot().getLastShotRow() >= 0) { 
-            board[logic.getShot().getLastShotRow()][logic.getShot().getShotColumn()] = ' ';
+        if (shot.getShotRow() != shot.getLastShotRow() && shot.getLastShotRow() >= 0) { 
+            board[shot.getLastShotRow()][shot.getShotColumn()] = ' ';
         }
-        if (logic.getShot().getShotFired()) { 
-            board[logic.getShot().getShotRow()][logic.getShot().getShotColumn()] = '*';
+        if (shot.getShotFired()) { 
+            board[shot.getShotRow()][shot.getShotColumn()] = '*';
         }
     }
 
@@ -76,15 +71,15 @@ public class InvadersGameText{
 			draws array of aliens on the board, replacing last alien positions with spaces first
 			and then setting the new alien positions if they are still "alive"
 	******************************************************/
-    public void drawAliens(){ 
-		for (int r = 0; r < logic.getArray().getRowsAliens() ; r++) {
-			for (int c=0; c < logic.getArray().getNumAliens();c++){
+    public void drawAliens(AlienArray array){ 
+		for (int r = 0; r < array.getRowsAliens() ; r++) {
+			for (int c=0; c < array.getNumAliens();c++){
 
-				board[logic.getArray().aliens[r][c].getLastAlienY()][logic.getArray().aliens[r][c].getLastAlienX()] = ' ';
-				board[logic.getArray().aliens[r][c].getLastAlienY()][logic.getArray().aliens[r][c].getLastAlienX()] = ' ';
+				board[array.aliens[r][c].getLastYCoord()][array.aliens[r][c].getLastXCoord()] = ' ';
+				board[array.aliens[r][c].getLastYCoord()][array.aliens[r][c].getLastXCoord()] = ' ';
             
-				if (logic.getArray().aliens[r][c].isAlive()) {
-					board[logic.getArray().aliens[r][c].getAlienY()][logic.getArray().aliens[r][c].getAlienX()] = 'U';
+				if (array.aliens[r][c].isAlive()) {
+					board[array.aliens[r][c].getYCoord()][array.aliens[r][c].getXCoord()] = 'U';
                 }
             }
         }
@@ -94,10 +89,10 @@ public class InvadersGameText{
 	method: drawCurrentState
 			draws the current iteration of the game onto the board
 	******************************************************/
-    public void drawCurrentState(){ 
-        drawShip();
-        drawShot();
-        drawAliens();
+    public void drawCurrentState(playerShip ship, playerShot shot, AlienArray array){ 
+        drawShip(ship);
+        drawShot(shot, array);
+        drawAliens(array);
         printBoard();
     }
 }

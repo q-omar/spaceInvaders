@@ -1,87 +1,18 @@
-import java.awt.Component;
+
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class Alien{
+public class Alien extends Shape{
 /*************************************************
 This class holds the method mechanics of the alien ship
 *************************************************/
-    
-    private int alienYcoord;
-    private int lastAlienY = alienYcoord;
-    private int alienXcoord = 0; 
-    private int lastAlienX = alienXcoord;
-    private int horizontalSpeed = 10; 
-    private int verticalSpeed = 5;
+
     private boolean isAlive = true;
 
-    private int radius;
-
-    public Alien(int hSpeed, int vSpeed) {
-        horizontalSpeed = hSpeed;
-        verticalSpeed = vSpeed;
-    }
-
-    public Alien(int hSpeed, int vSpeed, int newRadius) {
-        horizontalSpeed = hSpeed;
-        verticalSpeed = vSpeed;
-        radius = newRadius;
-    }
-    
-    /************************
-    method: setAlienX
-            sets alien horizontal index position
-    *************************/
-    public void setAlienX(int xCoord){
-        alienXcoord= xCoord;
-    }
-    
-    /************************
-    method: setAlienY
-            sets alien vertical index position
-    *************************/
-    public void setAlienY( int yCoord){
-        alienYcoord= yCoord;
-    }
-    
-    /************************
-    method: getAlienY
-    @return returns alien's vertical index position
-    *************************/
-    public int getAlienY() {
-        return alienYcoord;
-    }
-    
-    /**************************
-    method: getAlienX
-    @return returns alien's horizontal index position
-    **************************/
-    public int getAlienX(){
-        return alienXcoord;
-    }
-    
-    /***************************
-    method: getLastAlienY
-    @return returns alien's previous vertical index position
-    ****************************/
-    public int getLastAlienY(){
-        return lastAlienY;
-    }
-    
-    /*****************************
-    method: getLastAlienX
-    @return returns alien's previous horizontal index position
-    ******************************/
-    public int getLastAlienX(){
-        return lastAlienX;
-    }
-
-    /*****************************
-    method: getSize
-    @return diameter of the alien
-    ******************************/
-    public int getRadius(){
-        return radius;
+    public Alien(int hSpeed, int vSpeed, int newSize) {
+    	super(0, 0, newSize, newSize);
+        setHSpeed(hSpeed);
+        setVSpeed(vSpeed);
     }
     
     /*******************************************
@@ -108,7 +39,7 @@ This class holds the method mechanics of the alien ship
     **************************/
     public boolean inBounds(int boundary) {
         boolean alienEnd = false;
-        if (alienYcoord >= boundary - 1){
+        if (getYCoord() >= boundary - 1){
             alienEnd = true;
         }
         return alienEnd;
@@ -123,15 +54,11 @@ This class holds the method mechanics of the alien ship
     @param boardWidth - index width of board
     *********************************************************************************************************/
     public void moveRight(){ 
-        lastAlienY = alienYcoord;
-        lastAlienX = alienXcoord;
-        alienXcoord += horizontalSpeed;
+        setXCoord(getXCoord()+getHSpeed());
     }
     
     public void moveDown(){
-        lastAlienX = alienXcoord;
-        lastAlienY = alienYcoord;
-        alienYcoord += verticalSpeed;
+    	setYCoord(getYCoord()+getVSpeed());
     }
     /*********************************************************************************************************
     method: moveLeft
@@ -141,9 +68,7 @@ This class holds the method mechanics of the alien ship
             of spaces
     *********************************************************************************************************/
     public void moveLeft() {
-        lastAlienX = alienXcoord;
-        lastAlienY = alienYcoord;
-        alienXcoord -= horizontalSpeed;
+    	setXCoord(getXCoord()-getHSpeed());
     }
 
     /**
@@ -152,7 +77,7 @@ This class holds the method mechanics of the alien ship
     */
     public void draw(Graphics g) {
          g.setColor(Color.GREEN);
-         g.fillOval(alienXcoord,alienYcoord,radius*2,radius*2);
+         g.fillOval(getXCoord(),getYCoord(),getWidth(),getHeight());
 
     }
 
