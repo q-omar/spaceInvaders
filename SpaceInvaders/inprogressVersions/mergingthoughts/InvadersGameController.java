@@ -61,6 +61,9 @@ public class InvadersGameController implements KeyListener{
 		text.drawCurrentState();
 		
     	while (!quit) {
+			
+			text.drawCurrentState();
+			
             System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
             String selection = keyboard.nextLine().toUpperCase(); 
             
@@ -75,6 +78,8 @@ public class InvadersGameController implements KeyListener{
             
             logic.handleShotInteraction();
             logic.moveAliens();;
+			
+			//quit condition needed
     	}
      }
     
