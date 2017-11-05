@@ -14,7 +14,7 @@ public class InvadersGameController implements KeyListener{
     private InvadersGameLogic logic = new InvadersGameLogic("GUI");
     private InvadersGameGUI gui = new InvadersGameGUI(this, logic);
     private InvadersGameLogic logicText = new InvadersGameLogic("Text");
-    private InvadersGameText text = new InvadersGameText(logic);
+    private InvadersGameText text = new InvadersGameText(logicText);
         
     public InvadersGameController(){
         Timer timer = new Timer(40, new ActionListener(){
