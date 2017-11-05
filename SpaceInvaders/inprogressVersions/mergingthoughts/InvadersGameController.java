@@ -13,9 +13,9 @@ import java.awt.event.ActionEvent;
 public class InvadersGameController implements KeyListener{
     
 	private Scanner keyboard = new Scanner(System.in);
-    private InvadersGameLogic logic;
+    private InvadersGameText text;
+	private InvadersGameLogic logic;
     private InvadersGameGUI gui;
-    //private InvadersGameLogic logicText = new InvadersGameLogic("Text");
         
     public InvadersGameController() {
     	
@@ -28,6 +28,7 @@ public class InvadersGameController implements KeyListener{
     		playGui();
     	} else if (input.equals("T")) {
     		logic = new InvadersGameLogic("Text");
+			text = new InvadersGameText();
     		playText();
     	}
     }
@@ -56,7 +57,9 @@ public class InvadersGameController implements KeyListener{
     
     public void playText() { // Plays text version of the game, need to implement board printing
     	boolean quit = false;
-
+		
+		text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray());
+		
     	while (!quit) {
             System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
             String selection = keyboard.nextLine().toUpperCase(); 
