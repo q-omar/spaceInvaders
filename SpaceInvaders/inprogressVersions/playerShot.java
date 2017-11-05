@@ -2,7 +2,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class playerShot{
+public class playerShot extends Shape{
    
     /** This class contains mechanics for when the player ship decides to shoot 
     @param shotFired used when a shot should be displayed on the board or not 
@@ -22,35 +22,16 @@ public class playerShot{
     int shotColumn;
     int speed;
 	
-	/** This method is a constructor for playerShot class, used in the text version, where width and length are 0 by default.
-	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
-	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
-	*/
-    public playerShot(int startingRow, int newSpeed) {
-        initialRow = startingRow;
-        shotRow = initialRow;
-        lastShotRow = initialRow;
-        speed = newSpeed;
+	
+	public playerShot(Point newTopLeftPoint,int newLength, int newWidth) {
+        super(newTopLeftPoint, newLength, newWidth);
     }
-	/** This method is a constructor for playerShot class, used in the GUI version. where width and length need to be specified
- 	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
-	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
-	* @param newWidth and newLength are the width and length of the shot.
-	*/
-    public playerShot(int startingRow, int newSpeed, int newWidth, int newLength) {
-
-        initialRow = startingRow;
-        shotRow = startingRow;
-        lastShotRow = shotRow;
-        speed = newSpeed;
-        width = newWidth;
-        length = newLength;
+	
+	public playerShot(Point newTopLeftPoint) {
+        super(newTopLeftPoint);
     }
-    
-    /** shotFired method is used with getShotFired method where
-     * @param shotStatus is passed from InvadersGame class to check if a shot 
-     * is on the board or not
-     */
+	
+	
 
     public void shotFired(boolean shotStatus){
         shotFired = shotStatus;
