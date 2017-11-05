@@ -18,7 +18,7 @@ public class InvadersGameLogic{
         	gameVersion = version;
             screenHeight = 500;
             screenWidth = 400;
-            ship = new playerShip(screenWidth, screenHeight + 60, 20, 5);  // Temporarily using same constructors as before, update later to correspond to version
+            ship = new playerShip(screenWidth, screenHeight - 60, 20, 5);  // Temporarily using same constructors as before, update later to correspond to version
             shot = new playerShot(420, 20, 5, 20);
             alienInvaders = new AlienArray("GUI");
 
