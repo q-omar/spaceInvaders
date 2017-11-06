@@ -14,6 +14,10 @@ public class InvadersGameLogic{
     private AlienArray alienInvaders;
     private String gameStatus = "continue";
     private String gameVersion;
+	
+	/** InvadersGameLogic constructor takes a string agruement and implements the GUI or Text-based version of the game. 
+	* This is required beacuse the text and GUI versions have different board dimensions and alien arrays are implemented differently.
+	*/
 
     public InvadersGameLogic(String version){
 
@@ -66,7 +70,9 @@ public class InvadersGameLogic{
     }
     
     /**
-    *  This method checks whether or not the game has been won or lost and updates the boolean gameStatus appropriately.
+    *  This method checks whether or not the game has been won or lost and updates the string gameStatus appropriately
+	* if the aliens reach the ship, the game is lost.
+	* If all the aliens are killed, the game is won.
     */
     public void checkStatus() {
         if (!gameStatus.equals("loss")) {
@@ -93,6 +99,9 @@ public class InvadersGameLogic{
         }
     }
     
+	/**This method takes a string arguement and moves the ship appropriately. It prevents the ship from going out of bounds.
+	* @param is the string input used to decide which way the string moves.
+	*/
     public void shipMovement(String direction) {
     	ship.move(direction);
     	ship.inBounds(screenWidth - ship.getWidth());
@@ -117,7 +126,9 @@ public class InvadersGameLogic{
         }
     }
     
-    // Called when the user presses F
+    /** This method attempts to fire a shot if thre isn't already a shot on the screen. 
+	* It prevents the user from firing the shot if there is a shot on the screen.
+	*/
     public void shotAttempt() {
     	if (!shot.getShotFired()) {
     		shot.resetShot(true, ship.getXCoord());
