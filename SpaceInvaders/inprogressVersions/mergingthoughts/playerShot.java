@@ -1,14 +1,13 @@
-
 import java.awt.Graphics;
 import java.awt.Color;
 
 public class playerShot {
    
-    /** This class contains mechanics for when the player ship decides to shoot 
-    @param shotFired used when a shot should be displayed on the board or not 
-    @param shotRow,lastShotRow control how shot moves upward and erases previous row location
-    @param shotColumn column in which shot travelsmn
-    @param speed setting how fast shot should travel upward in rows on the board
+    /**This class contains mechanics for when the player ship decides to shoot 
+    * @param shotFired used when a shot should be displayed on the board or not 
+    * @param shotRow,lastShotRow control how shot moves upward and erases previous row location
+    * @param shotColumn column in which shot travelsmn
+    * @param speed setting how fast shot should travel upward in rows on the board
     */
     boolean shotFired;
 
@@ -22,7 +21,7 @@ public class playerShot {
     int shotColumn;
     int speed;
 
-	/** This method is a constructor for playerShot class, used in the text version, where width and length are 0 by default.
+	/**This method is a constructor for playerShot class, used in the text version, where width and length are 0 by default.
 	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
 	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
 	*/
@@ -32,7 +31,7 @@ public class playerShot {
         lastShotRow = initialY;
         speed = newSpeed;
     }
-	/** This method is a constructor for playerShot class, used in the GUI version. where width and length need to be specified
+	/**This is a constructor for playerShot class, used in the GUI version. where width and length need to be specified
  	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
 	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
 	* @param newWidth and newLength are the width and length of the shot.
@@ -47,22 +46,22 @@ public class playerShot {
         length = newLength;
     }
     
-    /** shotFired method is used with getShotFired method where
-     * @param shotStatus is passed from InvadersGame class to check if a shot 
-     * is on the board or not
-     */
-    
+    /** This is a getter method for the row of the shot.
+	* @return the row of the shot
+    */
     public int getShotRow(){
         return shotRow;
     }
-
+	
+    /** This is a getter method for the last row of the shot.
+	* @return the last row of the shot
+    */
     public int getLastShotRow(){
         return lastShotRow;
     }
 
     /** the getter and setter methods for shot column are similar where first 
-     * @param column in line 52 is the ships current column and the getter method
-     * is used to display it on the board . 
+     * the ships current column and the getter method is used to display it on the board . 
 	 * @return the current column of the ship. 
      */
 
@@ -74,13 +73,14 @@ public class playerShot {
         shotColumn = column;
     }
     
-    
-    
-
+	/** This is a setter method for shotFired that returns whether or not a shot was fired 
+	*/
     public void shotFired(boolean shotStatus){
         shotFired = shotStatus;
     }
     
+	/** This method resets the shot's position if a shot was fired and it is off screen
+	*/
     public void resetShot(boolean shotStatus, int newX) {
     	shotFired = shotStatus;
     	shotColumn = newX;
