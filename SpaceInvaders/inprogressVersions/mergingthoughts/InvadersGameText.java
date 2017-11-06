@@ -74,10 +74,7 @@ public class InvadersGameText{
     public void drawAliens(AlienArray array){ 
 		for (int r = 0; r < array.getRowsAliens() ; r++) {
 			for (int c=0; c < array.getNumAliens();c++){
-
 				board[array.aliens[r][c].getLastYCoord()][array.aliens[r][c].getLastXCoord()] = ' ';
-				board[array.aliens[r][c].getLastYCoord()][array.aliens[r][c].getLastXCoord()] = ' ';
-            
 				if (array.aliens[r][c].isAlive()) {
 					board[array.aliens[r][c].getYCoord()][array.aliens[r][c].getXCoord()] = 'U';
                 }

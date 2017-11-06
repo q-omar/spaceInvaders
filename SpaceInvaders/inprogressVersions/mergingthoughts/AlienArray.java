@@ -75,8 +75,6 @@ public class AlienArray{
                 aliens[r][c].setXCoord(4+2*c);
                 if (r%2!=0){
                     aliens[r][c].setYCoord(r+1); 
-                }else{
-                    aliens[r][c].setYCoord(r);
                 }
             }
         }
@@ -88,8 +86,8 @@ public class AlienArray{
     */ 
 
     public void checkBoundary(){
-        leftBoundary = 0;
-        rightBoundary = 0;
+        //leftBoundary = 0;
+        //rightBoundary = 0;
         
         for (int c = 0; c <numAliens;c++){
             int count = 0;
@@ -123,7 +121,7 @@ public class AlienArray{
         
         if (moveRight){
             checkBoundary();
-            if (aliens[0][rightBoundary].getXCoord()>=width - aliens[0][0].getWidth()){ 
+            if ((aliens[0][rightBoundary].getXCoord()+aliens[0][rightBoundary].getHSpeed())>=width - aliens[0][0].getWidth()){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();
