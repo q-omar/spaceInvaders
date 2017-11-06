@@ -22,7 +22,6 @@ public class playerShot {
     int shotColumn;
     int speed;
 
-
 	/** This method is a constructor for playerShot class, used in the text version, where width and length are 0 by default.
 	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
 	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
@@ -31,7 +30,7 @@ public class playerShot {
         initialY = startingRow;
         shotRow = initialY;
         lastShotRow = initialY;
-        //setVSpeed(newSpeed);
+        speed = newSpeed;
     }
 	/** This method is a constructor for playerShot class, used in the GUI version. where width and length need to be specified
  	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 

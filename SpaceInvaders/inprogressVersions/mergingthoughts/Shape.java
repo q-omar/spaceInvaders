@@ -72,9 +72,11 @@ public abstract class Shape {
             sets horizontal position
     *************************/
     public void setXCoord(int newX){
-    	lastXCoord = xCoord;
-    	lastYCoord = yCoord;
-        xCoord = newX;
+    	if (newX != xCoord) {
+        	lastXCoord = xCoord;
+        	lastYCoord = yCoord;
+            xCoord = newX;
+    	}
     }
     
     /************************
@@ -100,8 +102,5 @@ public abstract class Shape {
 	* @param  the Graphics object
 	*/
 	public abstract void draw(Graphics g);
-	
-
-	
 	
 }

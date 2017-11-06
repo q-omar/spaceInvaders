@@ -27,7 +27,7 @@ public class InvadersGameLogic{
             screenWidth = 60;
             screenHeight = 30;
             ship = new playerShip(screenWidth, screenHeight-1, 0, 3); 
-            shot = new playerShot(screenHeight-1, 5);
+            shot = new playerShot(screenHeight-3, 5);
             alienInvaders = new AlienArray("Text");
         }
     }
@@ -92,7 +92,7 @@ public class InvadersGameLogic{
     
     public void shipMovement(String direction) {
     	ship.move(direction);
-    	ship.inBounds(screenWidth);
+    	ship.inBounds(screenWidth - ship.getWidth());
     }
 
      /** 

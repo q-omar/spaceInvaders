@@ -49,4 +49,9 @@ This class holds the method mechanics of the player ship
         g.setColor(Color.WHITE);
         g.fillRect(getXCoord()-10,getYCoord(), getWidth(), getHeight());
     }
+	
+	@Override
+    public String toString() {
+        return "Column: " + getXCoord() + "  Speed:  " + getHSpeed() + "  Last X: " + getLastXCoord(); // Made this for testing
+    }
 }

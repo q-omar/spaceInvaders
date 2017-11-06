@@ -86,8 +86,6 @@ public class AlienArray{
     */ 
 
     public void checkBoundary(){
-        //leftBoundary = 0;
-        //rightBoundary = 0;
         
         for (int c = 0; c <numAliens;c++){
             int count = 0;
