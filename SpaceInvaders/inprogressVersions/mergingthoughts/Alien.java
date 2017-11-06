@@ -1,42 +1,40 @@
-
 import java.awt.Graphics;
 import java.awt.Color;
 
 public class Alien extends Shape{
-/*************************************************
-This class holds the method mechanics of the alien ship
-*************************************************/
+	/**This class holds the method mechanics of the alien ship
+	* @param isAlive is a boolean for the status of an alien
+	*/
 
     private boolean isAlive = true;
-
+	
+	/**This is a constructor for the Alien class that calls the Shape constructor that sets the coordinates, size and speed
+	* @param hSpeed, vSpeed are the horizontal and vertical of an alien
+	* @param newSize is the length and width of the shape
+	*/
     public Alien(int hSpeed, int vSpeed, int newSize) {
     	super(0, 0, newSize, newSize);
         setHSpeed(hSpeed);
         setVSpeed(vSpeed);
     }
     
-    /*******************************************
-    method: isAlive
-    @return returns bool indicating whether alien is alive
-    ********************************************/
+    /**This is a getter for the status of an alien
+    * @return returns bool indicating whether or not alien is alive
+    */
     public boolean isAlive() {
         return isAlive;
     }
 
-    /*************************
-    method: destroyAlien
-            sets isAlive to false
-    **************************/
+    /** This class sets isAlive to false
+    */
     public void destroyAlien() {
         isAlive = false;
     }
 
-    /*************************
-    method: inBounds
-            checks if alien ship reaches one row on board before the last row
-            sets alienEnd flag to true if so, "ending" the alien
-    @return the status of alien
-    **************************/
+    /** This class checks if alien ship reaches one row on board before the last row
+    * sets alienEnd flag to true if so, "ending" the alien
+    * @return the status of alien
+    */
     public boolean inBounds(int boundary) {
         boolean alienEnd = false;
         if (getYCoord() >= boundary - 1){
@@ -45,36 +43,26 @@ This class holds the method mechanics of the alien ship
         return alienEnd;
     }
     
-    /*********************************************************************************************************
-    method: moveRight
-            moves the alien's horizontal index to the right by horizontalSpeed number of spaces, checking
-            if it reaches or overreaches the righthand boundary of the board, keeping it in the index before
-            the last index of the width of board if so, and moving it down vertically by verticalSpeed number   
-            of spaces
-    @param boardWidth - index width of board
-    *********************************************************************************************************/
+    /**This class moves the alien's horizontal index to the right by hSpeed number of spaces
+    */
     public void moveRight(){ 
         setXCoord(getXCoord()+getHSpeed());
     }
     
+	/**This class moves the alien's vertical index down by vSpeed number of spaces when the alien reaches either border of the board
+    */
     public void moveDown(){
     	setYCoord(getYCoord()+getVSpeed());
     }
-    /*********************************************************************************************************
-    method: moveLeft
-            moves the alien's horizontal index to the left by horizontal speed number of spaces, checking   
-            if it reaches or overreaches the lefthand boundary of the board, keeping it in the index before
-            the first index of the width of board if so, and moving it down vertically by verticalSpeed number
-            of spaces
-    *********************************************************************************************************/
+    /**This class moves the alien's horizontal index to the left by hSpeed number of spaces
+    */
     public void moveLeft() {
     	setXCoord(getXCoord()-getHSpeed());
     }
 
-    /**
-    * Draws the alien as a circle onto the screen.
-    * @param the Graphics object  
-    */
+    /** the draw method sets the color and dimensions of the shot
+	 * @param the Graphics object g
+	*/
     public void draw(Graphics g) {
          g.setColor(Color.GREEN);
          g.fillOval(getXCoord(),getYCoord(),getWidth(),getHeight());
