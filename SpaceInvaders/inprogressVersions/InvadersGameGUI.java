@@ -84,9 +84,61 @@ public class InvadersGameGUI extends JFrame {
 
                 logic.getShip().draw(g);
                 logic.getArray().drawAlienArray(g);
+                if (logic.getShot().getHit1() == 3){
+					g.setColor(Color.GREEN);
+				}
+				else if (logic.getShot().getHit1() == 2){
+					g.setColor(Color.YELLOW);
+				}
+				else if (logic.getShot().getHit1() == 1){
+					g.setColor(Color.ORANGE);
+				}
+				else if (logic.getShot().getHit1() == 0){
+					g.setColor(Color.RED);
+				}
+				else {
+					g.setColor(Color.BLACK);
+				}
+				
+				g.fillRect(windowWidth-345,windowHeight-100, 60, 20);
+				if (logic.getShot().getHit2() == 3){
+					g.setColor(Color.GREEN);
+				}
+				else if (logic.getShot().getHit2() == 2){
+					g.setColor(Color.YELLOW);
+				}
+				else if (logic.getShot().getHit2() == 1){
+					g.setColor(Color.ORANGE);
+				}
+				else if (logic.getShot().getHit2() == 0){
+					g.setColor(Color.RED);
+				}
+				else {
+					g.setColor(Color.BLACK);
+				}
+				
+				g.fillRect(windowWidth-230,windowHeight-100, 60, 20);
+	
+				if (logic.getShot().getHit3() == 3){
+					g.setColor(Color.GREEN);
+				}
+				else if (logic.getShot().getHit3() == 2){
+					g.setColor(Color.YELLOW);
+				}
+				else if (logic.getShot().getHit3() == 1){
+					g.setColor(Color.ORANGE);
+				}
+				else if (logic.getShot().getHit3() == 0){
+					g.setColor(Color.RED);
+				}
+				else {
+					g.setColor(Color.BLACK);
+				}
+				g.fillRect(windowWidth-115,windowHeight-100, 60, 20);
             
                 if (logic.getShot().getShotFired()) {
                     logic.getShot().draw(g);
+                    
                 }
                 if (logic.getAlienShots().getShotFired()){
                     logic.getAlienShots().drawAlienShot(g); 
