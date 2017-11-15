@@ -1,8 +1,8 @@
-
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class playerShot {
+public class playerShot{
    
     /** This class contains mechanics for when the player ship decides to shoot 
     @param shotFired used when a shot should be displayed on the board or not 
@@ -10,26 +10,28 @@ public class playerShot {
     @param shotColumn column in which shot travelsmn
     @param speed setting how fast shot should travel upward in rows on the board
     */
-    boolean shotFired;
 
-    int initialY;
-    
-    int width;
+    boolean shotFired;
+	int hitCount1=3;
+	int hitCount2=3;
+	int hitCount3=3;
+    int width=0;
     int length;
 
+    int initialRow;
     int shotRow;
     int lastShotRow;
     int shotColumn;
     int speed;
-
+	
 	/** This method is a constructor for playerShot class, used in the text version, where width and length are 0 by default.
 	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
 	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
 	*/
     public playerShot(int startingRow, int newSpeed) {
-        initialY = startingRow;
-        shotRow = initialY;
-        lastShotRow = initialY;
+        initialRow = startingRow;
+        shotRow = initialRow;
+        lastShotRow = initialRow;
         speed = newSpeed;
     }
 	/** This method is a constructor for playerShot class, used in the GUI version. where width and length need to be specified
@@ -39,7 +41,7 @@ public class playerShot {
 	*/
     public playerShot(int startingRow, int newSpeed, int newWidth, int newLength) {
 
-        initialY = startingRow;
+        initialRow = startingRow;
         shotRow = startingRow;
         lastShotRow = shotRow;
         speed = newSpeed;
@@ -51,7 +53,60 @@ public class playerShot {
      * @param shotStatus is passed from InvadersGame class to check if a shot 
      * is on the board or not
      */
-    
+
+    public void shotFired(boolean shotStatus){
+        shotFired = shotStatus;
+    }
+	/** This method returns the width of the shot set by the constructor.
+	* @return width of shot
+	*/
+    public int getWidth() {
+        return width;
+    }
+	
+	public void setHit1(int aHit1){
+        hitCount1 -= aHit1;
+		//System.out.print(hitCount1);
+    }
+	
+	public void setHit2(int aHit2){
+        hitCount2 -= aHit2;
+    }
+	
+	public void setHit3(int aHit3){
+        hitCount3 -= aHit3;
+    }
+	public int getHit1(){
+		return hitCount1;
+	}
+	
+	public int getHit2(){
+		return hitCount2;
+	}
+	
+	public int getHit3(){
+		return hitCount3;
+	}
+	/** This method returns the length of the shot set by the constructor.
+	* @return length of shot
+	*/
+    public int getLength() {
+        return length;
+    }
+	/** This method is used with shotFired and 
+	* @return true if a shot is fired, false otherwise.
+	*/
+	
+    public boolean getShotFired(){
+        return shotFired;
+    }
+   
+    /** if there is no current shot on board, getShotRow, getLastShotRow and 
+     * setShotRow are all used in conjunction.
+     * @param row in line 55 sets location of row shot is fired from and then 
+     * getter methods display and 'erase' the shot 
+     */
+
     public int getShotRow(){
         return shotRow;
     }
@@ -73,26 +128,7 @@ public class playerShot {
     public void setShotColumn(int column) {
         shotColumn = column;
     }
-    
-    
-    
 
-    public void shotFired(boolean shotStatus){
-        shotFired = shotStatus;
-    }
-    
-    public void resetShot(boolean shotStatus, int newX) {
-    	shotFired = shotStatus;
-    	shotColumn = newX;
-    }
-    
-	/** This method is used with shotFired and 
-	* @return true if a shot is fired, false otherwise.
-	*/
-	
-    public boolean getShotFired(){
-        return shotFired;
-    }
 
     /** method moveShot actually updates the shots location as a number so that the
      * getter methods can be used to display them on the board and speed is how
@@ -111,7 +147,7 @@ public class playerShot {
     public void inBounds() {
         if (shotRow + length < 0) {
             shotFired = false;
-            shotRow = initialY;
+            shotRow = initialRow;
         }
     }
     /**
@@ -121,32 +157,65 @@ public class playerShot {
     * @return true if the alien was hit, false otherwise. 
     */
 
-    public boolean checkHit(int targetX, int targetY, int targetWidth) {
+    public boolean checkHit(int targetX, int targetY, int targetRadius) {
         boolean hit = false;
-        int xToCheck;
-        targetX += targetWidth/2; // Set x and y to center of target circle
-        targetY += targetWidth/2;
+        int xCoord;
+        targetX += targetRadius; // Set x and y to center of target circle
+        targetY += targetRadius;
 
         if (shotColumn >= targetX - 0.5 * width) {
-            xToCheck = shotColumn; // Checks top left point of bullet
+            xCoord = shotColumn; // Checks top left point of bullet
         } else {
-            xToCheck = shotColumn + width; // Checks top right point of bullet
+            xCoord = shotColumn + width; // Checks top right point of bullet
         }
 
         // From Prof. Verwaal's code for the distance method in the Point class used in Team Assignment 4
-        int xdiff = xToCheck - targetX;
+        int xdiff = xCoord - targetX;
         int ydiff = shotRow - targetY;
         double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff);
 
-        if (distance <= targetWidth) {
+        if (distance <= targetRadius) {
             hit = true;
             shotFired = false;
-            shotRow = initialY;
+            shotRow = initialRow;
         }
 
         return hit;
     }
 
+	public void checkBarrierHit(int barrier1, int barrierHeight, int barrierWidth, int targetY){
+		int targetRadius = 30;
+		//Math.sqrt((barrierHeight*barrierHeight)+(barrierWidth*barrierWidth));
+		barrier1 += targetRadius;
+		targetY -=barrierHeight;
+		int xCoord;
+				
+		if (shotColumn >= barrier1 - 0.5 * width) {
+            xCoord = shotColumn; // Checks top left point of bullet
+        } else {
+            xCoord = shotColumn + width; // Checks top right point of bullet
+        }
+		
+		int xdiff1 = xCoord - barrier1;
+        int ydiff = shotRow - targetY;
+        double distance1 = Math.sqrt(xdiff1 * xdiff1 + ydiff * ydiff);
+        if (distance1 <= targetRadius) {
+            shotRow = initialRow;
+			shotFired = false;	
+			shotRow = initialRow;
+			if (barrier1 == 85){
+				setHit1(1);
+			}
+			else if (barrier1 == 200){
+				setHit2(1);
+			}
+			else if (barrier1 == 315){
+				setHit3(1);
+			}
+        }
+	}
+		
+	
      /** the checkHit method uses
       * @param targetRow,targetCol which are passed from InvadersGame class, being
       * the aliens current row and columns to check if there is a match with the shots
@@ -169,5 +238,9 @@ public class playerShot {
         g.setColor(Color.RED);
         g.fillRect(shotColumn,shotRow, width, length);
     }
-
+	
+	public void resetShot(boolean shotStatus, int newX) {
+    	shotFired = shotStatus;
+    	shotColumn = newX;
+}
 }
