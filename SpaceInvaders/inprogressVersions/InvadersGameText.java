@@ -33,7 +33,7 @@ public class InvadersGameText{
 		for (int i = 6; i<boardWidth-45; i++){
 			board[boardHeight-5][i] = '_';
 		}
-		
+	
 		board[boardHeight-5][boardWidth-35] = '|';
 		board[boardHeight-5][boardWidth-25] = '|';
 		for (int i = 26; i<boardWidth-25; i++){
