@@ -24,7 +24,36 @@ public class InvadersGameText{
             System.out.println("|"); 
         }
     }
-    
+    public void drawBarriers(Barrier barriers){
+		board[boardHeight-5][boardWidth-55] = '|';
+		board[boardHeight-5][boardWidth-45] = '|';
+		for (int i = 6; i<boardWidth-45; i++){
+			board[boardHeight-6][i] = '_';
+		}
+		for (int i = 6; i<boardWidth-45; i++){
+			board[boardHeight-5][i] = '_';
+		}
+		
+		board[boardHeight-5][boardWidth-35] = '|';
+		board[boardHeight-5][boardWidth-25] = '|';
+		for (int i = 26; i<boardWidth-25; i++){
+			board[boardHeight-6][i] = '_';
+		}
+		for (int i = 26; i<boardWidth-25; i++){
+			board[boardHeight-5][i] = '_';
+		}
+		board[boardHeight-5][boardWidth-15] = '|';
+		board[boardHeight-5][boardWidth-5] = '|';
+		for (int i = 46; i<boardWidth-5; i++){
+			board[boardHeight-6][i] = '_';
+		}
+		for (int i = 46; i<boardWidth-5; i++){
+			board[boardHeight-5][i] = '_';
+		}
+		
+		
+		
+	}
 	/******************************************************
 	method: drawShip
 			prints the location of the player ship on the board
@@ -95,5 +124,6 @@ public class InvadersGameText{
         drawShot(shot, array);
         drawAliens(array);
         printBoard();
+	drawBarriers();
     }
 }
