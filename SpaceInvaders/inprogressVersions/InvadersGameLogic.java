@@ -125,6 +125,15 @@ public class InvadersGameLogic{
         if (shot.getShotFired()) {
             shot.moveShot();
             shot.inBounds();
+			if (shot.getHit1() >=0){
+				shot.checkBarrierHit(screenWidth-345,20,60,screenHeight-100);
+			}
+			if (shot.getHit2() >=0){
+				shot.checkBarrierHit(screenWidth-230,20,60,screenHeight-100);
+			}
+			if (shot.getHit3() >=0){
+				shot.checkBarrierHit(screenWidth-115,20,60,screenHeight-100);
+			}
 
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
