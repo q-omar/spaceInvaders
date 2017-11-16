@@ -35,7 +35,7 @@ public class InvadersGameText{
 	method: drawShip
 			prints the location of the player ship on the board
 	******************************************************/
-    public void drawShip(playerShip ship){
+    public void drawShip(PlayerShip ship){
     	
         board[boardHeight-1][ship.getXCoord()] = 'X';
         if (ship.getXCoord() != ship.getLastXCoord() && ship.getLastXCoord() <= (boardWidth-1) && ship.getLastXCoord() >= 0) {
@@ -51,7 +51,7 @@ public class InvadersGameText{
 			checks if shot is within the bounds of the board
 			replaces last shot position on board with a space character
 	******************************************************/
-    public void drawShot(playerShot shot, AlienArray array){
+    public void drawShot(PlayerShot shot, AlienArray array){
         for (int r = 0; r < array.getRowsAliens() ; r++) {
 			for (int c=0; c < array.getNumAliens();c++){
 				
@@ -96,7 +96,7 @@ public class InvadersGameText{
 	method: drawCurrentState
 			draws the current iteration of the game onto the board
 	******************************************************/
-    public void drawCurrentState(playerShip ship, playerShot shot, AlienArray array){ 
+    public void drawCurrentState(PlayerShip ship, PlayerShot shot, AlienArray array){ 
         drawShip(ship);
         drawShot(shot, array);
         drawAliens(array);

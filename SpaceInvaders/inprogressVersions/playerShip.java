@@ -2,7 +2,7 @@
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class playerShip extends Shape{
+public class PlayerShip extends Shape{
 /*************************************************
 This class holds the method mechanics of the player ship
 *************************************************/  
@@ -11,7 +11,7 @@ This class holds the method mechanics of the player ship
     * Constructor that centers the starting location of the ship based on the length of the screen and lets
     * one set its speed.
     *****************************************************************/
-    public playerShip(int screenLength, int newY, int size, int newSpeed) {
+    public PlayerShip(int screenLength, int newY, int size, int newSpeed) {
     	super(screenLength/2, newY, size, size);
         setHSpeed(newSpeed);
     }

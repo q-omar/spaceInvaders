@@ -1,7 +1,7 @@
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class playerShip extends Shape{
+public class PlayerShip extends Shape{
 	/**
 	* This class holds the method mechanics of the player ship
 	*/  
@@ -13,7 +13,7 @@ public class playerShip extends Shape{
 	* @param size is the size of the ship
 	* @newSpeed the horizontal speed of the ship
     *****************************************************************/
-    public playerShip(int screenLength, int newY, int size, int newSpeed) {
+    public PlayerShip(int screenLength, int newY, int size, int newSpeed) {
     	super(screenLength/2, newY, size, size);
         setHSpeed(newSpeed);
     }

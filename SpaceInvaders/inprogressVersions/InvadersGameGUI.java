@@ -138,10 +138,12 @@ public class InvadersGameGUI extends JFrame {
             
                 if (logic.getShot().getShotFired()) {
                     logic.getShot().draw(g);
-                    
+    
                 }
                 if (logic.getAlienShots().getShotFired()){
-                    logic.getAlienShots().drawAlienShot(g); 
+                    logic.getAlienShots().draw(g); 
+                    
+                    
                 }
             }
             
