@@ -9,6 +9,6 @@ Previous output progress can be viewed in output folder. Most recent output is b
 In 'V5', array functionality is added where you can choose the rows and amount of aliens within each row, traversing down in a zigzag pattern. Current bugs: shot hitting two aliens at a time. 
 
 
-![ScreenShot](outputs/outputV8.gif)
+![ScreenShot](outputs/outputV9.gif)
 
-In 'V8', aliens can now shoot down at the player and if there is contact, the game ends. 
+In 'V9', barriers are added that change color when player hits them. Further hit detection is required for alien shots to interact with barriers.
