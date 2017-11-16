@@ -14,7 +14,7 @@ public class AlienArray{
     private int numAliens; 
     private int rowsAliens;
     private boolean moveRight = true;
-    Alien[][] aliens = new Alien[rowsAliens][numAliens];
+    private Alien[][] aliens;
     private int leftBoundary;
     private int rightBoundary;
 
@@ -23,23 +23,28 @@ public class AlienArray{
 	* This is needed because the text and GUI versions need different methods to set the aliens.
     */
     
+    public AlienArray(){
+        numAliens = 6;
+        rowsAliens = 3;
+        aliens = new Alien[rowsAliens][numAliens];
+        createAlienArrays();
+        setGUIaliens();
+    }
+
     public AlienArray(String version){
 
-        if (version.equals("GUI")) {
-        	numAliens = 6;
-        	rowsAliens = 3;
-        	aliens = new Alien[rowsAliens][numAliens];
-        	createAlienArrays();
-        	setGUIaliens();
-
-        } else {
+        if (version.equals("TEXT")) {
         	numAliens = 5;
         	rowsAliens = 3;
         	aliens = new Alien[rowsAliens][numAliens];
         	createAlienArrays();
-        	setAliens();  
+            setAliens();
         }
         
+    }
+
+    public Alien[][] getAliens(){
+        return aliens;
     }
     
     /** the getter methods for numAliens and rowsAliens return the respective values
@@ -60,7 +65,7 @@ public class AlienArray{
     public void createAlienArrays(){
         for (int r=0; r<rowsAliens ; r++) {
             for (int c=0; c<numAliens; c++){
-                aliens[r][c] = new Alien(10, 5, 20);
+                aliens[r][c] = new Alien(10, 5, 40);
             }
         }
     }
@@ -71,12 +76,10 @@ public class AlienArray{
     public void setAliens(){
         for (int r = 0; r < rowsAliens ; r++) {
             for (int c=0; c< numAliens;c++){
-            	aliens[r][c] = new Alien(3, 3);
-                aliens[r][c].setAlienX(4+2*c);
+            	aliens[r][c] = new Alien(3, 3, 0);
+                aliens[r][c].setXCoord(4+2*c);
                 if (r%2!=0){
-                    aliens[r][c].setAlienY(r+1); 
-                }else{
-                    aliens[r][c].setAlienY(r);
+                    aliens[r][c].setYCoord(r+1); 
                 }
             }
         }
@@ -92,19 +95,15 @@ public class AlienArray{
         rightBoundary = 0;
         
         for (int c = 0; c <numAliens;c++){
-            int count = 0;
             for (int r = 0; r < rowsAliens ; r++) {
                 if (aliens[r][c].isAlive()){
-                    count++;
                     rightBoundary = c;
                 }
             }
         }
         for (int c = numAliens-1; c>-1;c--){
-            int count = 0;
             for (int r = 0; r < rowsAliens ; r++) {
                 if (aliens[r][c].isAlive()){
-                    count++;
                     leftBoundary = c;
                 }
             }
@@ -122,7 +121,7 @@ public class AlienArray{
     public void aliensMovement(int width){
         checkBoundary();
         if (moveRight){
-            if (aliens[0][rightBoundary].getAlienX()>=width - aliens[0][0].getRadius()*2){ 
+            if ((aliens[0][rightBoundary].getXCoord()+aliens[0][rightBoundary].getHSpeed())>=width - aliens[0][0].getWidth()){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();
@@ -141,7 +140,7 @@ public class AlienArray{
         
         else{
             
-            if (aliens[0][leftBoundary].getAlienX()<=1){ 
+            if (aliens[0][leftBoundary].getXCoord()<=1){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();
@@ -184,8 +183,8 @@ public class AlienArray{
         for (int r=0; r<rowsAliens;r++){
             for (int c=0; c<numAliens;c++){
                 whereX+=50;
-                aliens[r][c].setAlienX(whereX);
-                aliens[r][c].setAlienY(whereY);
+                aliens[r][c].setXCoord(whereX);
+                aliens[r][c].setYCoord(whereY);
             }
             whereX=5;
             whereY+=40;

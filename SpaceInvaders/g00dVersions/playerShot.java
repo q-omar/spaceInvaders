@@ -2,7 +2,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class playerShot{
+public class PlayerShot{
    
     /** This class contains mechanics for when the player ship decides to shoot 
     @param shotFired used when a shot should be displayed on the board or not 
@@ -12,8 +12,10 @@ public class playerShot{
     */
 
     boolean shotFired;
-
-    int width;
+	int hitCount1=3;
+	int hitCount2=3;
+	int hitCount3=3;
+    int width=0;
     int length;
 
     int initialRow;
@@ -22,22 +24,22 @@ public class playerShot{
     int shotColumn;
     int speed;
 	
-	/** This method is a constructor for playerShot class, used in the text version, where width and length are 0 by default.
+	/** This method is a constructor for PlayerShot class, used in the text version, where width and length are 0 by default.
 	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
 	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
 	*/
-    public playerShot(int startingRow, int newSpeed) {
+    public PlayerShot(int startingRow, int newSpeed) {
         initialRow = startingRow;
         shotRow = initialRow;
         lastShotRow = initialRow;
         speed = newSpeed;
     }
-	/** This method is a constructor for playerShot class, used in the GUI version. where width and length need to be specified
+	/** This method is a constructor for PlayerShot class, used in the GUI version. where width and length need to be specified
  	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
 	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
 	* @param newWidth and newLength are the width and length of the shot.
 	*/
-    public playerShot(int startingRow, int newSpeed, int newWidth, int newLength) {
+    public PlayerShot(int startingRow, int newSpeed, int newWidth, int newLength) {
 
         initialRow = startingRow;
         shotRow = startingRow;
@@ -61,6 +63,30 @@ public class playerShot{
     public int getWidth() {
         return width;
     }
+	
+	public void setHit1(int aHit1){
+        hitCount1 -= aHit1;
+		//System.out.print(hitCount1);
+    }
+	
+	public void setHit2(int aHit2){
+        hitCount2 -= aHit2;
+    }
+	
+	public void setHit3(int aHit3){
+        hitCount3 -= aHit3;
+    }
+	public int getHit1(){
+		return hitCount1;
+	}
+	
+	public int getHit2(){
+		return hitCount2;
+	}
+	
+	public int getHit3(){
+		return hitCount3;
+	}
 	/** This method returns the length of the shot set by the constructor.
 	* @return length of shot
 	*/
@@ -157,6 +183,39 @@ public class playerShot{
         return hit;
     }
 
+	public void checkBarrierHit(int barrier1, int barrierHeight, int barrierWidth, int targetY){
+		int targetRadius = 30;
+		//Math.sqrt((barrierHeight*barrierHeight)+(barrierWidth*barrierWidth));
+		barrier1 += targetRadius;
+		targetY -=barrierHeight;
+		int xCoord;
+				
+		if (shotColumn >= barrier1 - 0.5 * width) {
+            xCoord = shotColumn; // Checks top left point of bullet
+        } else {
+            xCoord = shotColumn + width; // Checks top right point of bullet
+        }
+		
+		int xdiff1 = xCoord - barrier1;
+        int ydiff = shotRow - targetY;
+        double distance1 = Math.sqrt(xdiff1 * xdiff1 + ydiff * ydiff);
+        if (distance1 <= targetRadius) {
+            shotRow = initialRow;
+			shotFired = false;	
+			shotRow = initialRow;
+			if (barrier1 == 85){
+				setHit1(1);
+			}
+			else if (barrier1 == 200){
+				setHit2(1);
+			}
+			else if (barrier1 == 315){
+				setHit3(1);
+			}
+        }
+	}
+		
+	
      /** the checkHit method uses
       * @param targetRow,targetCol which are passed from InvadersGame class, being
       * the aliens current row and columns to check if there is a match with the shots
@@ -179,5 +238,9 @@ public class playerShot{
         g.setColor(Color.RED);
         g.fillRect(shotColumn,shotRow, width, length);
     }
-
+	
+	public void resetShot(boolean shotStatus, int newX) {
+    	shotFired = shotStatus;
+    	shotColumn = newX;
+}
 }

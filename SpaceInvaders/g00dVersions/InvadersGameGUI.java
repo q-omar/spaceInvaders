@@ -1,11 +1,10 @@
-import java.awt.Component;
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import java.awt.event.KeyListener;
 
 
 /**
@@ -18,6 +17,31 @@ public class InvadersGameGUI extends JFrame {
     
     private int windowWidth = 400;
     private int windowHeight = 500;
+    private InvadersGameLogic logic;
+
+    /*
+    *  The InvadersGameGUI constructor initializes the frame and the "canvas" component which is painted on.
+    */
+    public InvadersGameGUI(InvadersGameLogic newLogic) {
+
+        super("Space Invaders Game");
+        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+
+        logic = newLogic;
+
+        Canvas canvas = new Canvas();
+
+        /* Code from Stack Overflow answer (https://stackoverflow.com/questions/
+        * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) */
+        canvas.setPreferredSize(new Dimension(windowWidth, windowHeight));
+        this.getContentPane().add(canvas);
+        this.pack();
+        
+        this.setVisible(true);
+        getContentPane().setFocusable(true);
+        requestFocusInWindow();
+    }
 
     /**
     *  This method calls the screen to be repainted.
@@ -27,50 +51,18 @@ public class InvadersGameGUI extends JFrame {
         repaint();
     }
 
-    /*
-    *  The InvadersGameGUI constructor initializes the frame and the "canvas" component which is painted on.
-    */
-    public InvadersGameGUI(KeyListener listener, InvadersGameLogic logic) {
-
-        super("Space Invaders Game");
-        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-
-        Canvas canvas = new Canvas(logic);
-
-        /* Code from Stack Overflow answer (https://stackoverflow.com/questions/
-        * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) */
-        canvas.setPreferredSize(new Dimension(windowWidth, windowHeight));
-        this.getContentPane().add(canvas);
-        this.pack();
-
-        this.setVisible(true);
-    }
-
     /**
     *  The Canvas class is a JComponent with an overridden paintComponent method allowing one to draw
     *  objects on it.
     */
     private class Canvas extends JComponent{
-        private InvadersGameLogic logic;
+
         /**
         *  This method draws the background, aliens, player ship and bullets onto the screen by calling
         *  the draw methods of the appropriate object. It also draws the win and game over screens
         *  based on gameStatus.
-        *  @param  g  the grpahics object
+        *  @param  g  the graphics object
         */
-        
-        public Canvas(InvadersGameLogic inputLogic){
-            logic = inputLogic;
-        }
-
-        /**
-            *  This method draws the background, aliens, player ship and bullets onto the screen by calling
-            *  the draw methods of the appropriate object. It also draws the win and game over screens
-            *  based on gameStatus.
-            *  @param  g  the grpahics object
-            */
-        @Override
         public void paintComponent(Graphics g){
 
             super.paintComponent(g);
@@ -86,15 +78,72 @@ public class InvadersGameGUI extends JFrame {
 
             } else if (logic.getGameStatus().equals("loss")) {
                 g.drawString("GAME OVER", windowWidth/3,windowHeight/2);
-
             }
+            
             else{ 
 
                 logic.getShip().draw(g);
                 logic.getArray().drawAlienArray(g);
+                if (logic.getShot().getHit1() == 3){
+					g.setColor(Color.GREEN);
+				}
+				else if (logic.getShot().getHit1() == 2){
+					g.setColor(Color.YELLOW);
+				}
+				else if (logic.getShot().getHit1() == 1){
+					g.setColor(Color.ORANGE);
+				}
+				else if (logic.getShot().getHit1() == 0){
+					g.setColor(Color.RED);
+				}
+				else {
+					g.setColor(Color.BLACK);
+				}
+				
+				g.fillRect(windowWidth-345,windowHeight-100, 60, 20);
+				if (logic.getShot().getHit2() == 3){
+					g.setColor(Color.GREEN);
+				}
+				else if (logic.getShot().getHit2() == 2){
+					g.setColor(Color.YELLOW);
+				}
+				else if (logic.getShot().getHit2() == 1){
+					g.setColor(Color.ORANGE);
+				}
+				else if (logic.getShot().getHit2() == 0){
+					g.setColor(Color.RED);
+				}
+				else {
+					g.setColor(Color.BLACK);
+				}
+				
+				g.fillRect(windowWidth-230,windowHeight-100, 60, 20);
+	
+				if (logic.getShot().getHit3() == 3){
+					g.setColor(Color.GREEN);
+				}
+				else if (logic.getShot().getHit3() == 2){
+					g.setColor(Color.YELLOW);
+				}
+				else if (logic.getShot().getHit3() == 1){
+					g.setColor(Color.ORANGE);
+				}
+				else if (logic.getShot().getHit3() == 0){
+					g.setColor(Color.RED);
+				}
+				else {
+					g.setColor(Color.BLACK);
+				}
+				g.fillRect(windowWidth-115,windowHeight-100, 60, 20);
             
                 if (logic.getShot().getShotFired()) {
                     logic.getShot().draw(g);
+    
+                }
+                if (logic.getAlienShots().getShotFired()){
+                    logic.getAlienShots().draw(g); 
+                    
+                    
                 }
             }
             
