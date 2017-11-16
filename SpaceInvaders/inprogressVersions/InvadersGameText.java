@@ -24,7 +24,7 @@ public class InvadersGameText{
             System.out.println("|"); 
         }
     }
-    public void drawBarriers(Barrier barriers){
+    public void drawBarriers(){
 		board[boardHeight-5][boardWidth-55] = '|';
 		board[boardHeight-5][boardWidth-45] = '|';
 		for (int i = 6; i<boardWidth-45; i++){
