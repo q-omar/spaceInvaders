@@ -14,7 +14,7 @@ public class AlienArray{
     private int numAliens; 
     private int rowsAliens;
     private boolean moveRight = true;
-    private Alien[][] aliens;
+    Alien[][] aliens;
     private int leftBoundary;
     private int rightBoundary;
 
@@ -23,34 +23,32 @@ public class AlienArray{
 	* This is needed because the text and GUI versions need different methods to set the aliens.
     */
     
-    public AlienArray(){ // GUI version?
-        numAliens = 6;
-        rowsAliens = 3;
-        aliens = new Alien[rowsAliens][numAliens];
-        createAlienArrays();
-        setGUIaliens();
-    }
-
     public AlienArray(String version){
 
-        if (version.equals("TEXT")) {
+        if (version.equals("GUI")) {
+        	numAliens = 6;
+        	rowsAliens = 3;
+        	aliens = new Alien[rowsAliens][numAliens];
+        	createAlienArrays();
+        	setGUIaliens();
+
+        } else {
         	numAliens = 5;
         	rowsAliens = 2;
         	aliens = new Alien[rowsAliens][numAliens];
         	//createAlienArrays();
-            setAliens();
+        	setAliens();  
         }
         
-    }
-
-    public Alien[][] getAliens(){
-        return aliens;
     }
     
     /** the getter methods for numAliens and rowsAliens return the respective values
 	* @return numAliens and rowAliens. 
     */
     
+	public Alien[][] getAliens(){
+        return aliens;
+    }
     public int getNumAliens() {
     	return numAliens;
     }
@@ -80,7 +78,7 @@ public class AlienArray{
                 aliens[r][c].setXCoord(4+2*c);
                 if (r%2!=0){
                     aliens[r][c].setYCoord(r+1); 
-                } else {
+                }else {
                 	aliens[r][c].setYCoord(r);
                 }
             }
@@ -95,7 +93,6 @@ public class AlienArray{
     public void checkBoundary(){
         leftBoundary = 0;
         rightBoundary = 0;
-        
         for (int c = 0; c <numAliens;c++){
             for (int r = 0; r < rowsAliens ; r++) {
                 if (aliens[r][c].isAlive()){
@@ -181,7 +178,7 @@ public class AlienArray{
     public void setGUIaliens(){
         int whereX=5;
         int whereY=0;
-
+		// the aliens are spaced out evenly
         for (int r=0; r<rowsAliens;r++){
             for (int c=0; c<numAliens;c++){
                 whereX+=50;
