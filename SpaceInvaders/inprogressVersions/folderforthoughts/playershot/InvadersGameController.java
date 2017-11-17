@@ -65,7 +65,7 @@ public class InvadersGameController implements KeyListener{
     		
             System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
             String selection = keyboard.nextLine().toUpperCase(); 
-            logic.handleShotInteraction();
+            //logic.handleShotInteraction();
 			
             if (selection.equals("Q")) {
                 quit = true;
@@ -76,15 +76,8 @@ public class InvadersGameController implements KeyListener{
                 logic.shotAttempt();
             }
             
-            logic.handleShotInteraction();
+            logic.handleShotText();
             logic.moveAliens();
-			if (logic.getGameStatus() == "loss"){
-				System.out.println("You lost!");
-				quit=true;
-			} else if (logic.getGameStatus() == "win" ){
-				System.out.println("You won!");
-				quit=true;
-			}
     	}
      }
     

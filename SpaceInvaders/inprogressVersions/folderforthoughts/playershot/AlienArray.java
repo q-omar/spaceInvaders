@@ -14,7 +14,7 @@ public class AlienArray{
     private int numAliens; 
     private int rowsAliens;
     private boolean moveRight = true;
-    Alien[][] aliens = new Alien[rowsAliens][numAliens];
+    Alien[][] aliens;
     private int leftBoundary;
     private int rightBoundary;
 
@@ -34,9 +34,9 @@ public class AlienArray{
 
         } else {
         	numAliens = 5;
-        	rowsAliens = 3;
+        	rowsAliens = 2;
         	aliens = new Alien[rowsAliens][numAliens];
-        	createAlienArrays();
+        	//createAlienArrays();
         	setAliens();  
         }
         
@@ -46,6 +46,9 @@ public class AlienArray{
 	* @return numAliens and rowAliens. 
     */
     
+	public Alien[][] getAliens(){
+        return aliens;
+    }
     public int getNumAliens() {
     	return numAliens;
     }
@@ -75,6 +78,8 @@ public class AlienArray{
                 aliens[r][c].setXCoord(4+2*c);
                 if (r%2!=0){
                     aliens[r][c].setYCoord(r+1); 
+                }else {
+                	aliens[r][c].setYCoord(r);
                 }
             }
         }
@@ -86,21 +91,18 @@ public class AlienArray{
     */ 
 
     public void checkBoundary(){
-        
+        leftBoundary = 0;
+        rightBoundary = 0;
         for (int c = 0; c <numAliens;c++){
-            int count = 0;
             for (int r = 0; r < rowsAliens ; r++) {
                 if (aliens[r][c].isAlive()){
-                    count++;
                     rightBoundary = c;
                 }
             }
         }
         for (int c = numAliens-1; c>-1;c--){
-            int count = 0;
             for (int r = 0; r < rowsAliens ; r++) {
                 if (aliens[r][c].isAlive()){
-                    count++;
                     leftBoundary = c;
                 }
             }
@@ -116,10 +118,8 @@ public class AlienArray{
     */ 
     
     public void aliensMovement(int width){
-        
+        checkBoundary();
         if (moveRight){
-            checkBoundary();
-			// checks if the alien right boundary is close to the right end of the board, if true aliens move down
             if ((aliens[0][rightBoundary].getXCoord()+aliens[0][rightBoundary].getHSpeed())>=width - aliens[0][0].getWidth()){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){

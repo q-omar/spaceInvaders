@@ -52,25 +52,27 @@ public class InvadersGameText{
 			replaces last shot position on board with a space character
 	******************************************************/
     public void drawShot(playerShot shot, AlienArray array){
-        for (int r = 0; r < array.getRowsAliens() ; r++) {
-			for (int c=0; c < array.getNumAliens();c++){
-				
-				if (shot.checkHit(array.aliens[r][c].getYCoord(), array.aliens[r][c].getXCoord()) && shot.getShotFired()) {
-					shot.shotFired(false); 
-					array.aliens[r][c].destroyAlien();
-				}
-				
-            } 
-        }
-
+		if (shot.getShotFired()){
+			
+			for (int r = 0; r < array.getRowsAliens() ; r++) {
+				for (int c=0; c < array.getNumAliens();c++){
+					
+					if (array.aliens[r][c].isAlive() && shot.checkTextHit(array.aliens[r][c].getYCoord(), array.aliens[r][c].getXCoord(), array.aliens[r][c].getLastXCoord())) {
+						//shot.shotFired(false); 
+						array.aliens[r][c].destroyAlien();
+					}
+					
+				} 
+			}
+		}
         shot.inBounds();
-		if (shot.getShotFired()) { 
-            board[shot.getYCoord()][shot.getXCoord()] = '*';
-        }
-        if (shot.getYCoord() != shot.getLastYCoord() && shot.getLastYCoord() >= 0) { 
-            board[shot.getLastYCoord()][shot.getLastXCoord()] = ' ';
-        }
-        
+		if (shot.getYCoord() != shot.getLastYCoord() && shot.getLastYCoord() >=0) {
+       		 board[shot.getLastYCoord()][shot.getXCoord()] = '*';
+      	}
+       	if (shot.getShotFired()) { 
+       	 	 board[shot.getYCoord()][shot.getXCoord()] = ' ';
+       	}
+      
     }
 
 	/******************************************************
@@ -82,7 +84,6 @@ public class InvadersGameText{
 		for (int r = 0; r < array.getRowsAliens() ; r++) {
 			for (int c=0; c < array.getNumAliens();c++){
 
-				board[array.aliens[r][c].getLastYCoord()][array.aliens[r][c].getLastXCoord()] = ' ';
 				board[array.aliens[r][c].getLastYCoord()][array.aliens[r][c].getLastXCoord()] = ' ';
             
 				if (array.aliens[r][c].isAlive()) {

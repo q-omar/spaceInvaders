@@ -1,10 +1,4 @@
 public class InvadersGameLogic{
-	/**this class takes action input from the controller, updates the objects, and then
-	* passes those updated objects back to controller.
-	* @param screenHeight, screenWidth are the dimensions of the board
-	* @param gameStatus lets the program know if the game should continue or not.
-	* @param gameVersion lets the constructor know whether the text and GUI wasnt 
-	*/
 
     private int screenHeight = 500;
     private int screenWidth = 400;
@@ -79,13 +73,11 @@ public class InvadersGameLogic{
     public void checkStatus() {
         if (!gameStatus.equals("loss")) {
             gameStatus = "win";
-			int count=0;
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     if (alienInvaders.aliens[r][c].isAlive()) {
                         gameStatus = "continue";
-                    } else{
-						count+=1;
+                    }
                 }
             }
         }
@@ -99,9 +91,6 @@ public class InvadersGameLogic{
                 }
             }
         }
-		if (count == (alienInvaders.getRowsAliens()*alienInvaders.getNumAliens()))
-			gameStatus ="win";
-		}
     }
 
     /**This method takes a string arguement and moves the ship appropriately. It prevents the ship from going out of bounds.
@@ -112,7 +101,14 @@ public class InvadersGameLogic{
     	ship.move(direction);
     	ship.inBounds(screenWidth - ship.getWidth());
     }
-
+	
+	public void handleShotText() {
+        if (shot.getShotFired()) {
+            shot.moveShot();
+            shot.inBounds();
+        }
+    }
+	
      /** 
     *  This method handles the shot firing and interaction of the shot with the aliens.
     */
@@ -125,7 +121,7 @@ public class InvadersGameLogic{
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     
                     if (alienInvaders.aliens[r][c].isAlive() && shot.checkHit(alienInvaders.aliens[r][c].getXCoord(), alienInvaders.aliens[r][c].getYCoord(), alienInvaders.aliens[r][c].getWidth())) {
-						shot.shotFired(false);
+						//shot.shotFired(false);
                         alienInvaders.aliens[r][c].destroyAlien(); 
                     }
                 }

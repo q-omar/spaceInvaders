@@ -10,7 +10,7 @@ public class playerShot extends Shape {
 	*/
 	
     public playerShot(int startingRow, int newSpeed) {
-        super(startingRow,0,0,0);
+        super(0,startingRow,0,0);
 		setHSpeed(newSpeed);
 		
     }
@@ -21,7 +21,7 @@ public class playerShot extends Shape {
 	* @param newWidth and newLength are the width and length of the shot.
 	*/
     public playerShot(int startingRow, int newSpeed, int newWidth, int newLength, int screenHeight) {
-		super(startingRow,0,newWidth, newLength);
+		super(0,startingRow,newWidth, newLength);
 		setHSpeed(newSpeed);
 		screenheight= screenHeight;
     }
@@ -77,7 +77,7 @@ public class playerShot extends Shape {
         int ydiff = getYCoord() - targetY;
         double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff);
 
-        if (distance <= targetWidth) {
+        if (distance <= (targetWidth/2)) {
             hit = true;
             shotFired(false);
             setYCoord(screenheight);
@@ -92,12 +92,22 @@ public class playerShot extends Shape {
 	  * @return whether a shot hits an alien
      */
     
-    public boolean checkHit(int targetRow, int targetCol) {
+    public boolean checkTextHit(int targetRow, int targetCol, int lastCol) {
         boolean hit = false;
-        if (targetCol == getXCoord() && getYCoord() <= targetRow && getYCoord() >= targetRow - getHSpeed()) {
-            hit = true;
-            System.out.println("A hit!");
-        }
+		if( getYCoord() <= targetRow && getYCoord()>=targetRow - getHSpeed()){
+			if(targetCol == lastCol && getXCoord() ==targetCol){
+				hit = true;
+			} else if ( targetCol >= getXCoord() && getXCoord() > lastCol){
+				hit = true;
+			} else if (targetCol <= getXCoord() && getXCoord() < lastCol){
+				hit = true;
+			}
+		}
+		if (hit){
+			System.out.println("A hit!");
+			setYCoord(screenheight);
+			shotFired(false);
+		}
         return hit;
     }
 	/** the draw method sets the color and dimensions of the shot
@@ -109,3 +119,15 @@ public class playerShot extends Shape {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

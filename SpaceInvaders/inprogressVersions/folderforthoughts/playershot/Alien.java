@@ -13,7 +13,7 @@ public class Alien extends Shape{
 	* @param newSize is the length and width of the shape
 	*/
     public Alien(int hSpeed, int vSpeed, int newSize) {
-    	super(0, 0, newSize, newSize);
+    	super(0, 5, newSize, newSize);
         setHSpeed(hSpeed);
         setVSpeed(vSpeed);
     }
