@@ -27,7 +27,7 @@ public class InvadersGameLogic{
         	gameVersion = version;
             screenWidth = 60;
             screenHeight = 30;
-            ship = new PlayerShip(screenWidth, screenHeight-1, 0, 3); 
+            ship = new PlayerShip(screenWidth, screenHeight-1, 0, 5); 
             shot = new PlayerShot(screenHeight-3, 5);
             alienInvaders = new AlienArray("TEXT");
 			alienShots = new AlienShots(0,0,0,0,0);
@@ -111,6 +111,13 @@ public class InvadersGameLogic{
     	ship.move(direction);
     	ship.inBounds(screenWidth - ship.getWidth());
     }
+    
+    public void handleShotText() {
+        if (shot.getShotFired()) {
+            shot.moveShot();
+            shot.inBounds();
+        }
+    }
 
      /** 
     *  This method handles the shot firing and interaction of the shot with the aliens.
@@ -134,7 +141,7 @@ public class InvadersGameLogic{
             shot.checkBarrierHit(screenWidth-115,20,60,screenHeight-100);
         }
            
-
+            
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     
@@ -145,6 +152,8 @@ public class InvadersGameLogic{
             }
         }
     }
+    
+    
     
     // Called when the user presses F
     public void shotAttempt() {

@@ -10,7 +10,7 @@ This class holds the method mechanics of the alien ship
     private boolean isAlive = true;
 
     public Alien(int hSpeed, int vSpeed, int newSize) {
-    	super(0, 0, newSize, newSize);
+    	super(0, 5, newSize, newSize);  // 5 is arbitrary, will get changed upon alien setting
         setHSpeed(hSpeed);
         setVSpeed(vSpeed);
     }

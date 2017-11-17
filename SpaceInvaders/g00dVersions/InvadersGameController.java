@@ -70,7 +70,7 @@ public class InvadersGameController implements KeyListener{
 				
 	*******/
     
-    public void playText() { // Plays text version of the game, need to implement board printing
+    public void playText() {
     	boolean quit = false;
 
     	while (!quit) {
@@ -89,8 +89,8 @@ public class InvadersGameController implements KeyListener{
                 logic.shotAttempt();
             }
             
-            logic.handleShotInteraction();
-            logic.moveAliens();;
+            logic.handleShotText(); // Temporary
+            logic.moveAliens();
     	}
      }
     

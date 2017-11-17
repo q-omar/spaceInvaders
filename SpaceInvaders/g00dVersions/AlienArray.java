@@ -23,7 +23,7 @@ public class AlienArray{
 	* This is needed because the text and GUI versions need different methods to set the aliens.
     */
     
-    public AlienArray(){
+    public AlienArray(){ // GUI version?
         numAliens = 6;
         rowsAliens = 3;
         aliens = new Alien[rowsAliens][numAliens];
@@ -35,9 +35,9 @@ public class AlienArray{
 
         if (version.equals("TEXT")) {
         	numAliens = 5;
-        	rowsAliens = 3;
+        	rowsAliens = 2;
         	aliens = new Alien[rowsAliens][numAliens];
-        	createAlienArrays();
+        	//createAlienArrays();
             setAliens();
         }
         
@@ -80,6 +80,8 @@ public class AlienArray{
                 aliens[r][c].setXCoord(4+2*c);
                 if (r%2!=0){
                     aliens[r][c].setYCoord(r+1); 
+                } else {
+                	aliens[r][c].setYCoord(r);
                 }
             }
         }

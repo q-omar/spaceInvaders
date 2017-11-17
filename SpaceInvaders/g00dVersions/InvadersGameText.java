@@ -51,8 +51,6 @@ public class InvadersGameText{
 			board[boardHeight-5][i] = '_';
 		}
 		
-		
-		
 	}
 	/******************************************************
 	method: drawShip
@@ -75,16 +73,18 @@ public class InvadersGameText{
 			replaces last shot position on board with a space character
 	******************************************************/
     public void drawShot(PlayerShot shot, AlienArray array){
-        for (int r = 0; r < array.getRowsAliens() ; r++) {
-			for (int c=0; c < array.getNumAliens();c++){
-				
-				if (shot.checkHit(array.getAliens()[r][c].getYCoord(), array.getAliens()[r][c].getXCoord()) && shot.getShotFired()) {
-					shot.shotFired(false); 
-					array.getAliens()[r][c].destroyAlien();
-				}
-				
-            } 
-        }
+    	
+    	if (shot.getShotFired()) {
+            for (int r = 0; r < array.getRowsAliens() ; r++) {
+    			for (int c=0; c < array.getNumAliens();c++){
+    				
+    				if (array.getAliens()[r][c].isAlive() && shot.checkTextHit(array.getAliens()[r][c].getYCoord(), array.getAliens()[r][c].getXCoord(), array.getAliens()[r][c].getLastXCoord())) {
+    					array.getAliens()[r][c].destroyAlien();
+    				}
+    				
+                } 
+            }
+    	}
 
         shot.inBounds();
 
@@ -104,8 +104,7 @@ public class InvadersGameText{
     public void drawAliens(AlienArray array){ 
 		for (int r = 0; r < array.getRowsAliens() ; r++) {
 			for (int c=0; c < array.getNumAliens();c++){
-
-				board[array.getAliens()[r][c].getLastYCoord()][array.getAliens()[r][c].getLastXCoord()] = ' ';
+			
 				board[array.getAliens()[r][c].getLastYCoord()][array.getAliens()[r][c].getLastXCoord()] = ' ';
             
 				if (array.getAliens()[r][c].isAlive()) {
