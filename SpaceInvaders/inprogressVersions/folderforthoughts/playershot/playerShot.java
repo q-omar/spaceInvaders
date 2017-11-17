@@ -3,7 +3,7 @@ import java.awt.Color;
 
 public class playerShot extends Shape {
 	
-	private int screenheight =0;
+	private int initialY =0;
 	/**This method is a constructor for playerShot class, used in the text version, where width and length are 0 by default.
 	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
 	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
@@ -11,6 +11,7 @@ public class playerShot extends Shape {
 	
     public playerShot(int startingRow, int newSpeed) {
         super(0,startingRow,0,0);
+		initialY= startingRow;
 		setHSpeed(newSpeed);
 		
     }
@@ -21,9 +22,9 @@ public class playerShot extends Shape {
 	* @param newWidth and newLength are the width and length of the shot.
 	*/
     public playerShot(int startingRow, int newSpeed, int newWidth, int newLength, int screenHeight) {
-		super(0,startingRow,newWidth, newLength);
+		super(0,startingRow, newWidth, newLength);
 		setHSpeed(newSpeed);
-		screenheight= screenHeight;
+		initialY= startingRow;
     }
     
 	/** This method resets the shot's position if a shot was fired and it is off screen
@@ -31,7 +32,6 @@ public class playerShot extends Shape {
     public void resetShot(boolean shotStatus, int newX) {
     	shotFired(shotStatus);
     	setXCoord(newX);
-		setYCoord(screenheight);
     }
     
     /** method moveShot actually updates the shots location as a number so that the
@@ -50,7 +50,7 @@ public class playerShot extends Shape {
     public void inBounds() {
         if (getYCoord()+ getHeight() < 0) {
             shotFired(false);
-            setYCoord(screenheight);
+            //setYCoord(screenheight);
         }
     }
     /**
@@ -80,7 +80,7 @@ public class playerShot extends Shape {
         if (distance <= (targetWidth/2)) {
             hit = true;
             shotFired(false);
-            setYCoord(screenheight);
+            setYCoord(initialY);
         }
         return hit;
     }
@@ -105,7 +105,7 @@ public class playerShot extends Shape {
 		}
 		if (hit){
 			System.out.println("A hit!");
-			setYCoord(screenheight);
+			//setYCoord(initialY);
 			shotFired(false);
 		}
         return hit;

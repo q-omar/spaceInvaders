@@ -135,6 +135,7 @@ public class InvadersGameLogic{
     public void shotAttempt() {
     	if (!shot.getShotFired()) {
     		shot.resetShot(true, ship.getXCoord());
+			shot.shotFired(true);
     	} else {
     		if (gameVersion.equals("TEXT")) {
     			System.out.println("Out of ammo!");

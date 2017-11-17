@@ -66,12 +66,12 @@ public class InvadersGameText{
 			}
 		}
         shot.inBounds();
-		if (shot.getYCoord() != shot.getLastYCoord() && shot.getLastYCoord() >=0) {
-       		 board[shot.getLastYCoord()][shot.getXCoord()] = '*';
-      	}
-       	if (shot.getShotFired()) { 
-       	 	 board[shot.getYCoord()][shot.getXCoord()] = ' ';
-       	}
+		if (shot.getShotFired()){
+			board[shot.getYCoord()][shot.getXCoord()] = '*';
+		}
+		if ( shot.getYCoord() != shot.getLastYCoord() && shot.getLastYCoord() >=0) {
+			board[shot.getLastYCoord()][shot.getXCoord()] = ' ';
+		}
       
     }
 
