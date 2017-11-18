@@ -1,26 +1,26 @@
+
 import java.awt.Graphics;
 import java.awt.Color;
 
 public class PlayerShip extends Shape{
-	/**
-	* This class holds the method mechanics of the player ship
-	*/  
+/*************************************************
+This class holds the method mechanics of the player ship
+*************************************************/  
 
-    /** Constructor that centers the starting location of the ship based on the length of the screen and lets
+    /*****************************************************************
+    * Constructor that centers the starting location of the ship based on the length of the screen and lets
     * one set its speed.
-	* @param screenLength is the length of the screen
-	* @param newY is the y coordinate of the ship
-	* @param size is the size of the ship
-	* @newSpeed the horizontal speed of the ship
     *****************************************************************/
     public PlayerShip(int screenLength, int newY, int size, int newSpeed) {
     	super(screenLength/2, newY, size, size);
         setHSpeed(newSpeed);
     }
     
-    /**This method checks if horizontal index position of player ship is out of bounds
-    * on the board array's horizontal parameter
-    */
+    /****************************
+    method: inBounds
+            checks if horizontal index position of player ship is out of bounds
+            on the board array's horizontal parameter
+    ****************************/
     public void inBounds(int boardWidth) { 
         if (getXCoord() >= boardWidth) {
             setXCoord(boardWidth - getHSpeed());
@@ -29,12 +29,10 @@ public class PlayerShip extends Shape{
         }
     }
     
-    /** This method moves the ship left or right horizontally depending on the string input by the player
-	* @param is the string input that decides which way the ship moves
-	*/
+    // Condensed ship movement to 1 method
     
     public void move(String direction) {
-    	if (direction.equals("A")) { 
+    	if (direction.equals("A")) { // If moving left, subtract speed
     		setXCoord(getXCoord()-getHSpeed());
     	} else if (direction.equals("D")) {
     		setXCoord(getXCoord()+getHSpeed());
@@ -42,9 +40,11 @@ public class PlayerShip extends Shape{
     }
     
     
-	/** This method draws the ship
-	@param Graphics object,g
-	*/
+	/**********************************
+	method: draw
+			draws the ship
+			@param Graphics object,g
+	*************************************/
 	public void draw(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(getXCoord()-10,getYCoord(), getWidth(), getHeight());
