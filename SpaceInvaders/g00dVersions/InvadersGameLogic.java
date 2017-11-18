@@ -3,8 +3,8 @@ public class InvadersGameLogic{
     private int screenHeight = 500;
     private int screenWidth = 400;
     
-    private playerShot shot;
-    private playerShip ship;
+    private PlayerShot shot;
+    private PlayerShip ship;
     private AlienArray alienInvaders;
     private String gameStatus = "continue";
     private String gameVersion;
@@ -19,17 +19,16 @@ public class InvadersGameLogic{
         	gameVersion = version;
             screenHeight = 500;
             screenWidth = 400;
-            ship = new playerShip(screenWidth, screenHeight - 60, 20, 5);  
-			// Temporarily using same constructors as before, update later to correspond to version
-            shot = new playerShot(420, 20, 5, 20,screenHeight-60);
+            ship = new PlayerShip(screenWidth, screenHeight - 60, 20, 5);  
+            shot = new PlayerShot(420, 20, 5, 20,screenHeight-60);
             alienInvaders = new AlienArray("GUI");
 
         } else if (version.equals("TEXT")) {
         	gameVersion = version;
             screenWidth = 60;
             screenHeight = 30;
-            ship = new playerShip(screenWidth, screenHeight-1, 0, 3); 
-            shot = new playerShot(screenHeight-3, 5);
+            ship = new PlayerShip(screenWidth, screenHeight-1, 0, 3); 
+            shot = new PlayerShot(screenHeight-3, 5);
             alienInvaders = new AlienArray("Text");
         }
     }
@@ -43,10 +42,10 @@ public class InvadersGameLogic{
     public AlienArray getArray(){
         return alienInvaders;
     }
-    public playerShip getShip(){
+    public PlayerShip getShip(){
         return ship;
     }
-    public playerShot getShot(){
+    public PlayerShot getShot(){
         return shot;
     }
     
@@ -116,12 +115,15 @@ public class InvadersGameLogic{
         if (shot.getShotFired()) {
             shot.moveShot();
             shot.inBounds();
+			if (shot.getShotFired()==false){
+				shot.setYCoord(shot.getInitialY());
+			}
 
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     
                     if (alienInvaders.aliens[r][c].isAlive() && shot.checkHit(alienInvaders.aliens[r][c].getXCoord(), alienInvaders.aliens[r][c].getYCoord(), alienInvaders.aliens[r][c].getWidth())) {
-						//shot.shotFired(false);
+
                         alienInvaders.aliens[r][c].destroyAlien(); 
                     }
                 }
