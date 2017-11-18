@@ -88,14 +88,14 @@ public class InvadersGameLogic{
     /**
     *  This method checks whether or not the game has been won or lost and updates the boolean gameStatus appropriately.
     */
-    public void checkAlienHit(){
+    public void checkAlienHitPlayer(){
         if (alienShot.checkGuiHit(ship.getXCoord(), 440, ship.getHeight())){
             gameStatus = "loss";
         }
     }
     
     public void checkStatus() {
-        checkAlienHit();
+        checkAlienHitPlayer();
         if (!gameStatus.equals("loss")) {
             gameStatus = "win";
 
@@ -143,11 +143,11 @@ public class InvadersGameLogic{
     }
 
 
-    public void checkAlienHits(){
+    public void checkPlayerHitAliens(){
         for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
             for (int c=0; c<alienInvaders.getNumAliens(); c++){
                 
-                if (alienInvaders.getAliens()[r][c].isAlive() && shot.checkHit(alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getYCoord(), alienInvaders.getAliens()[r][c].getWidth())) {    
+                if (alienInvaders.getAliens()[r][c].isAlive() && playerShot.checkGuiHit(alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getYCoord(), alienInvaders.getAliens()[r][c].getWidth())) {    
                     alienInvaders.getAliens()[r][c].destroyAlien(); 
                 }
             }
@@ -164,7 +164,7 @@ public class InvadersGameLogic{
             playerShot.inBounds();
         }
         checkBarrierHits();
-        checkAlienHits();
+        checkPlayerHitAliens();
         
     }
     
@@ -188,7 +188,7 @@ public class InvadersGameLogic{
         return randomNum;
     }
     
-    public void alienShotAttempt(){
+    public void alienShotAttempt(){ //renamed alienshotgeneration method to be more aligned with playershot 
         int rand1 = randInt(0, alienInvaders.getRowsAliens()-1); //generate a random number for column/row to fire 
         int rand2 = randInt(0, alienInvaders.getNumAliens()-1);
 
