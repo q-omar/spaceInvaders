@@ -140,7 +140,7 @@ public class AlienArray{
     public void aliensMovement(int width){
         checkBoundary();
         if (moveRight){
-            if ((aliens[0][rightBoundary].getXCoord()+aliens[0][rightBoundary].getHSpeed())>=width - aliens[0][0].getWidth()){ 
+            if ((aliens[0][rightBoundary].getXCoord()+aliens[0][rightBoundary].getHSpeed())>=width - 2 - aliens[0][0].getWidth()){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();
@@ -159,7 +159,7 @@ public class AlienArray{
         
         else{
             
-            if (aliens[0][leftBoundary].getXCoord()<=1){ 
+            if (aliens[0][leftBoundary].getXCoord()<=3){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();
