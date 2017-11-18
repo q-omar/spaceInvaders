@@ -2,8 +2,9 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 public class PlayerShot extends Shape {
-	
-	private int initialY =0;
+
+	private boolean shotFired = false;
+
 	/**This method is a constructor for playerShot class, used in the text version, where width and length are 0 by default.
 	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
 	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
@@ -11,8 +12,7 @@ public class PlayerShot extends Shape {
 	
     public PlayerShot(int startingRow, int newSpeed) {
         super(0,startingRow,0,0);
-		initialY= startingRow;
-		setHSpeed(newSpeed);
+		setVSpeed(newSpeed);
 		
     }
 	
@@ -23,19 +23,26 @@ public class PlayerShot extends Shape {
 	*/
     public PlayerShot(int startingRow, int newSpeed, int newWidth, int newLength, int screenHeight) {
 		super(0,startingRow, newWidth, newLength);
-		setHSpeed(newSpeed);
-		initialY= startingRow;
+		setVSpeed(newSpeed);
     }
+
+    public boolean getShotFired(){
+		return shotFired;
+	}
+	
+	public void shotFired(boolean shotStatus){
+		shotFired= shotStatus;
+	}
     
 
-	public int getInitialY(){
-		return initialY;
-	}
-	/** This method resets the shot's position if a shot was fired and it is off screen
+	/** 
+	*  Called when the user attempts to fire a new bullet.
 	*/
-    public void resetShot(boolean shotStatus, int newX) {
-    	shotFired(shotStatus);
-    	setXCoord(newX);
+    public void tryShot(int shipLocation) {
+    	if (!shotFired) {
+    		shotFired = true;
+    		setXCoord(shipLocation);
+    	}
     }
     
     /** method moveShot actually updates the shots location as a number so that the
@@ -43,7 +50,12 @@ public class PlayerShot extends Shape {
      * many rows up it moves 
      */
     public void moveShot() {
-		setYCoord(getYCoord()-getHSpeed());
+		setYCoord(getYCoord()-getVSpeed());
+
+		if (getYCoord()+ getHeight() < 1) {  // Combined inBounds with moveShot since they're always used together
+            shotFired(false);
+            resetY();
+        }
     }
     
     /** the inBounds method checks if the bullet goes past the top of the screen, 
@@ -51,11 +63,9 @@ public class PlayerShot extends Shape {
      *  The next time a bullet is fired, shotRow will be reset.
      */
 
-    public void inBounds() {
-        if (getYCoord()+ getHeight() < 1) {
-            shotFired(false);
-        }
-    }
+    
+
+
     /**
     * This method is for the GUI version. It checks collisions of the bullet with a circular alien
     * and returns true if they overlap.
@@ -83,7 +93,7 @@ public class PlayerShot extends Shape {
         if (distance <= (targetWidth/2)) {
             hit = true;
             shotFired(false);
-            setYCoord(initialY);
+            resetY();
         }
         return hit;
     }
@@ -97,7 +107,7 @@ public class PlayerShot extends Shape {
     
     public boolean checkTextHit(int targetRow, int targetCol, int lastCol) {
         boolean hit = false;
-		if( getYCoord() <= targetRow && getYCoord()>=targetRow - getHSpeed()){
+		if( getYCoord() <= targetRow && getYCoord()>=targetRow - getVSpeed()){
 			if(targetCol == lastCol && getXCoord() ==targetCol){
 				hit = true;
 			} else if ( targetCol >= getXCoord() && getXCoord() > lastCol){
@@ -109,7 +119,7 @@ public class PlayerShot extends Shape {
 		if (hit){
 			System.out.println("A hit!");
 			shotFired(false);
-			//setYCoord(initialY);
+			resetY();
 		}
         return hit;
     }

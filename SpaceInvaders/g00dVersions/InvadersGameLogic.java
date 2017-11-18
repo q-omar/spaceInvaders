@@ -104,7 +104,6 @@ public class InvadersGameLogic{
 	public void handleShotText() {
         if (shot.getShotFired()) {
             shot.moveShot();
-            shot.inBounds();
         }
     }
 	
@@ -114,10 +113,6 @@ public class InvadersGameLogic{
     public void handleShotInteraction(){
         if (shot.getShotFired()) {
             shot.moveShot();
-            shot.inBounds();
-			if (shot.getShotFired()==false){
-				shot.setYCoord(shot.getInitialY());
-			}
 
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
@@ -135,14 +130,13 @@ public class InvadersGameLogic{
 	* It prevents the user from firing the shot if there is a shot on the screen.
 	*/
     public void shotAttempt() {
-    	if (!shot.getShotFired()) {
-    		shot.resetShot(true, ship.getXCoord());
-			shot.shotFired(true);
-    	} else {
-    		if (gameVersion.equals("TEXT")) {
-    			System.out.println("Out of ammo!");
-    		}
-    	}
+
+        if (gameVersion.equals("TEXT") && shot.getShotFired()) {
+                System.out.println("Out of ammo!");
+        }
+
+        shot.tryShot(ship.getXCoord());
+
     }
 
 }

@@ -10,13 +10,13 @@ public abstract class Shape {
 	*/
     private int xCoord = 0;
     private int yCoord = 0;
+    private int initialY = 0;
     private int lastXCoord = 0;
     private int lastYCoord = 0;
 	private int hSpeed;
 	private int vSpeed;
 	private int width;
 	private int height;
-	private boolean shotFired= false;
 
 	 /** 
     * A constructor requiring the x and y coordinates of the shape and its desired size.
@@ -27,6 +27,7 @@ public abstract class Shape {
 	public Shape(int newX, int newY, int newWidth, int newHeight) {
 		xCoord = newX;
 		yCoord = newY;
+		initialY = yCoord;
 		width = newWidth;
 		height = newHeight;
 	}
@@ -57,6 +58,10 @@ public abstract class Shape {
 	public int getLastYCoord() {
 		return lastYCoord;
 	}
+
+	public int getInitialY(){
+		return initialY;
+	}
 	
 	/* This is a getter method that returns the shape's width. 
     * @return returns shape's width
@@ -85,14 +90,7 @@ public abstract class Shape {
 	public int getVSpeed() {
 		return vSpeed;
 	}
-	
-	public boolean getShotFired(){
-		return shotFired;
-	}
-	
-	public void shotFired(boolean shotStatus){
-		shotFired= shotStatus;
-	}
+
 	
     /** This class sets horizontal position of the shape.
 	* @param newX is the shape's horizontal position.
@@ -124,6 +122,10 @@ public abstract class Shape {
     */
 	public void setVSpeed(int newSpeed) {
 		vSpeed = newSpeed;
+	}
+
+	public void resetY() {  // For now this is only used by the shot class
+		yCoord = initialY;
 	}
 
 	/** 

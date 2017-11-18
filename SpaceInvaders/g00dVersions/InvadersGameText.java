@@ -64,18 +64,24 @@ public class InvadersGameText{
 			}
 		}
 
-        shot.inBounds();
+        //shot.inBounds();
+
+		if (shot.getYCoord() != shot.getLastYCoord() && shot.getLastYCoord() >=0) {
+			board[shot.getLastYCoord()][shot.getXCoord()] = ' ';
+			
+		}
+
+			/*if (shot.getShotFired() ==false){
+				shot.setYCoord(shot.getInitialY());
+			} */
+
 		if (shot.getShotFired()){
 			board[shot.getYCoord()][shot.getXCoord()] = '*';
 		}
-		if ( shot.getYCoord() != shot.getLastYCoord() && shot.getLastYCoord() >1) {
-			board[shot.getLastYCoord()][shot.getXCoord()] = ' ';
-			if (shot.getShotFired() ==false){
-				shot.setYCoord(shot.getInitialY());
-			}
-		}
+
+	}
       
-    }
+
 
 	/******************************************************
 	method: drawAliens
