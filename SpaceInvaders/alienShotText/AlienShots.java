@@ -7,39 +7,10 @@ public class AlienShots extends Shape{
     private boolean shotFired = false;
 	int lastShotRow = 0;
 	
-	//barrier stuff must be moved to likely Barrier class
-	int barrier1HP = 3;
-	int barrier2HP = 3;
-	int barrier3HP = 3;
-
     public AlienShots(int xLoc, int yLoc, int width, int height, int speed){
         super(xLoc, yLoc, width, height);
         setVSpeed(speed);
     }
-	
-	public int getBarrier1HP(){
-		return barrier1HP;
-	}
-	
-	public int getBarrier2HP(){
-		return barrier2HP;
-	}
-	
-	public int getBarrier3HP(){
-		return barrier3HP;
-	}
-	
-	public void updateBarrier1(){
-		barrier1HP--;
-	}
-	
-	public void updateBarrier2(){
-		barrier2HP--;
-	}
-	
-	public void updateBarrier3(){
-		barrier3HP--;
-	}
 	
 	public int getLastShotRow(){
 		return lastShotRow;
@@ -72,8 +43,8 @@ public class AlienShots extends Shape{
      *  The next time a bullet is fired, shotRow will be reset.
      */
 
-    public void inBounds() {
-        if (getYCoord() + getHeight() > 600) { //hardcoded screenlength for now 
+    public void inBounds(int height) {
+        if (getYCoord() + getVSpeed() > height) { 
             shotFired = false;
             setYCoord(0);
         }
@@ -82,8 +53,8 @@ public class AlienShots extends Shape{
 	public boolean alienShotShip(int shipXCoord, int shipYCoord){
 		boolean hit = false;
 		
-		if (getXCoord() == shipXCoord){
-			if (getYCoord() == shipYCoord){
+		if (getXCoord() >= shipXCoord-2 && getXCoord() <= shipXCoord+2){
+			if (getYCoord() >= shipYCoord - 2){
 				hit = true;
 			}
 		}
@@ -120,7 +91,41 @@ public class AlienShots extends Shape{
         return hit;
     }
 
-
+	//************************************************************
+	
+	public boolean checkBarrierHit(Barrier barrier, int boardWidth, int boardHeight){
+		
+		boolean hit = false;
+		
+		if (shotFired){
+			if (getYCoord() >= boardHeight-6){
+				if (getXCoord() <= boardWidth-45 && getXCoord() >= boardWidth-55){
+					if (barrier.getBarrier1HP() > 0){
+						barrier.updateBarrier1();				
+						System.out.println("BARRIER 1 HIT");
+						hit = true;
+						shotFired(false);
+					}
+				}else if (getXCoord() <= boardWidth-25 && getXCoord() >= boardWidth-35){//25 to 35 
+					if (barrier.getBarrier2HP() > 0){
+						barrier.updateBarrier2();
+						hit = true;
+						System.out.println("BARRIER 2 HIT");
+						shotFired(false);
+					}
+				}else if (getXCoord() <= boardWidth-5 && getXCoord() >= boardWidth-15){
+					if (barrier.getBarrier3HP() > 0){
+						barrier.updateBarrier3();
+						hit = true;
+						System.out.println("BARRIER 3 HIT");
+						shotFired(false);
+					}
+				}
+			}
+		}
+		return hit;
+	}
+	
    
     public void draw(Graphics g) {
         g.setColor(Color.RED);
@@ -128,3 +133,4 @@ public class AlienShots extends Shape{
     }
 
 }
+

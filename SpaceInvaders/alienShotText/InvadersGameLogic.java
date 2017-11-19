@@ -9,6 +9,7 @@ public class InvadersGameLogic{
     private PlayerShip ship;
     private AlienArray alienInvaders;
     private AlienShots alienShots;
+	private Barrier barrier;
     private String gameStatus = "continue";
     private String gameVersion;
 
@@ -29,6 +30,7 @@ public class InvadersGameLogic{
             screenHeight = 30;
             ship = new PlayerShip(screenWidth, screenHeight-1, 0, 5); 
             shot = new PlayerShot(screenHeight-3, 5);
+			barrier = new Barrier(screenWidth, screenHeight);
             alienInvaders = new AlienArray("TEXT");
 			alienShots = new AlienShots(0,0,0,0,0);
         }
@@ -48,8 +50,10 @@ public class InvadersGameLogic{
     public PlayerShot getShot(){
         return shot;
     }
-	
-	   public AlienShots getAlienShots(){
+	public Barrier getBarrier(){
+		return barrier;
+	}
+	public AlienShots getAlienShots(){
         return alienShots;
     }
     
@@ -133,7 +137,7 @@ public class InvadersGameLogic{
         }
 		if (alienShots.getShotFired()){
 			alienShots.moveShot();
-			alienShots.inBounds();
+			alienShots.inBounds(screenHeight); 
 		}
     }
 
@@ -143,7 +147,7 @@ public class InvadersGameLogic{
     public void handleShotInteraction(){
         if (alienShots.getShotFired()){
             alienShots.moveShot();
-            alienShots.inBounds();
+            alienShots.inBounds(screenHeight);
         }
         
         if (shot.getShotFired()) {
@@ -182,7 +186,8 @@ public class InvadersGameLogic{
     		}
     	}
     }
-
+	
+	//************************************************************
     //following two methods used for alien shot generation
 
     public static int randInt(int min, int max) {
@@ -215,6 +220,7 @@ public class InvadersGameLogic{
         }
     }
 
+	
 	
     /*adjust this method to fit with the checkStatus one possibly 
     public void quitCondition(){

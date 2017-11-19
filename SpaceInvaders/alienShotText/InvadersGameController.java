@@ -76,7 +76,7 @@ public class InvadersGameController implements KeyListener{
     	while (!quit) {
     		
     		if (logic.getGameStatus().equals("continue")) {
-        		text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray(), logic.getAlienShots());
+        		text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray(), logic.getAlienShots(), logic.getBarrier());
         		
                 System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
                 String selection = keyboard.nextLine().toUpperCase(); 

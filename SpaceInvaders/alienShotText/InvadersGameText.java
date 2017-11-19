@@ -24,38 +24,49 @@ public class InvadersGameText{
             System.out.println("|"); 
         }
     }
-    public void drawBarriers(AlienShots shot){
-		if (shot.getBarrier1HP() > 0){
-			board[boardHeight-5][boardWidth-55] = '|';
-			board[boardHeight-5][boardWidth-45] = '|';
-			for (int i = 6; i<boardWidth-45; i++){
+	//*********************************************************
+	//Creates barriers
+	public void createBarriers(int rightBarrier, int leftBarrier, int traversePoint){
+			board[boardHeight-5][boardWidth-rightBarrier] = '|';
+			board[boardHeight-5][boardWidth-leftBarrier] = '|';
+			for (int i = traversePoint; i<boardWidth-leftBarrier; i++){
 				board[boardHeight-6][i] = '_';
 			}
-			for (int i = 6; i<boardWidth-45; i++){
+			for (int i = traversePoint; i<boardWidth-leftBarrier; i++){
 				board[boardHeight-5][i] = '_';
 			}
+	}
+	//*********************************************************
+	//Removes barriers
+	public void emptyBarriers(int rightBarrier, int leftBarrier, int traversePoint){
+			board[boardHeight-5][boardWidth-rightBarrier] = ' ';
+			board[boardHeight-5][boardWidth-leftBarrier] = ' ';
+			for (int i = traversePoint; i<boardWidth-leftBarrier; i++){
+				board[boardHeight-6][i] = ' ';
+			}
+			for (int i = traversePoint; i<boardWidth-leftBarrier; i++){
+				board[boardHeight-5][i] = ' ';
+			}
+	}
+	//*********************************************************
+	//Draws barriers
+    public void drawBarriers(Barrier barrier){
+		if (barrier.getBarrier1HP() > 0){
+			createBarriers(55, 45, 6);
+		}else{
+			emptyBarriers(55, 45, 6);
 		}
 	
-		if (shot.getBarrier2HP() > 0){
-			board[boardHeight-5][boardWidth-35] = '|';
-			board[boardHeight-5][boardWidth-25] = '|';
-			for (int i = 26; i<boardWidth-25; i++){
-				board[boardHeight-6][i] = '_';
-			}
-			for (int i = 26; i<boardWidth-25; i++){
-				board[boardHeight-5][i] = '_';
-			}
+		if (barrier.getBarrier2HP() > 0){
+			createBarriers(35, 25, 26);
+		}else{
+			emptyBarriers(35, 25, 26);
 		}
 		
-		if (shot.getBarrier3HP() > 0){
-		board[boardHeight-5][boardWidth-15] = '|';
-			board[boardHeight-5][boardWidth-5] = '|';
-			for (int i = 46; i<boardWidth-5; i++){
-				board[boardHeight-6][i] = '_';
-			}
-			for (int i = 46; i<boardWidth-5; i++){
-				board[boardHeight-5][i] = '_';
-			}
+		if (barrier.getBarrier3HP() > 0){
+			createBarriers(15, 5, 46);
+		}else{
+			emptyBarriers(15, 5, 46);
 		}
 	}
 	/******************************************************
@@ -102,49 +113,23 @@ public class InvadersGameText{
         }
     }
 /******************************************************     */
-	public void drawAlienShot(AlienShots shot){
+	public void drawAlienShot(AlienShots shot, Barrier barrier, PlayerShip ship){
 		
 		boolean shotFired = shot.getShotFired();
 		
+		board[shot.getLastShotRow()][shot.getXCoord()] = ' ';
 		if (shotFired){
-			if (shot.getYCoord() >= boardHeight-6){
-				if (shot.getXCoord() <= boardWidth-45 && shot.getXCoord() >= boardWidth-55){
-					if (shot.getBarrier1HP() > 0){
-						board[shot.getLastShotRow()][shot.getXCoord()] = ' ';
-						shot.updateBarrier1();
-						System.out.println(shot.getBarrier1HP());
-						System.out.println("BARRIER 1 HIT");
-						shot.shotFired(false);
-					}
-				}else if (shot.getXCoord() <= boardWidth-25 && shot.getXCoord() >= boardWidth-35){//25 to 35 
-					if (shot.getBarrier2HP() > 0){
-						board[shot.getLastShotRow()][shot.getXCoord()] = ' ';
-						shot.updateBarrier2();
-						System.out.println(shot.getBarrier2HP());
-						System.out.println("BARRIER 2 HIT");
-						shot.shotFired(false);
-					}
-				}else if (shot.getXCoord() <= boardWidth-5 && shot.getXCoord() >= boardWidth-15){
-					if (shot.getBarrier3HP() > 0){
-						board[shot.getLastShotRow()][shot.getXCoord()] = ' ';
-						shot.updateBarrier3();
-						System.out.println(shot.getBarrier3HP());
-						System.out.println("BARRIER 3 HIT");
-						shot.shotFired(false);
-					}
-				}else{
-					board[shot.getLastShotRow()][shot.getXCoord()] = ' ';
-				//	board[shot.getYCoord()][shot.getXCoord()] = 'T'; crashes when shot gets to last height position
-				}	
-			}else{
-				board[shot.getLastShotRow()][shot.getXCoord()] = ' ';
-				board[shot.getYCoord()][shot.getXCoord()] = 'T';
+			if (shot.checkBarrierHit(barrier, boardWidth, boardHeight)){
+				shot.shotFired(false);
+			}else if(shot.alienShotShip(ship.getXCoord(), ship.getYCoord())){
+				shot.shotFired(false);
+			}else 
+				board[shot.getYCoord()][shot.getXCoord()] = 'Y';
 			}
+			
 			//either this can be used or inBound in AlienShots class with tweaking of that method
 			if (shot.getYCoord() > boardHeight-1){
 				shot.shotFired(false);
-			}
-			
 		}
 	}
 	
@@ -170,12 +155,12 @@ public class InvadersGameText{
 	method: drawCurrentState
 			draws the current iteration of the game onto the board
 	******************************************************/
-    public void drawCurrentState(PlayerShip ship, PlayerShot shot, AlienArray array, AlienShots alienShots){ 
+    public void drawCurrentState(PlayerShip ship, PlayerShot shot, AlienArray array, AlienShots alienShots, Barrier barrier){ 
         drawShip(ship);
         drawShot(shot, array);
         drawAliens(array);
-		drawAlienShot(alienShots);
-		drawBarriers(alienShots);
+		drawAlienShot(alienShots, barrier, ship);
+		drawBarriers(barrier);
         printBoard();
 		
     }
