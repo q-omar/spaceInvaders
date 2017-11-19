@@ -20,7 +20,7 @@ public class InvadersGameLogic{
             screenHeight = 500;
             screenWidth = 400;
             ship = new PlayerShip(screenWidth, screenHeight - 60, 20, 5);  
-            shot = new PlayerShot(420, 20, 5, 20,screenHeight-60);
+            shot = new PlayerShot(420, 20, 5, 20);
             alienInvaders = new AlienArray("GUI");
 
         } else if (version.equals("TEXT")) {
