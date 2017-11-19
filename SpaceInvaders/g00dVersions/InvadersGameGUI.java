@@ -1,4 +1,3 @@
-
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
@@ -17,23 +16,25 @@ public class InvadersGameGUI extends JFrame {
     
     private int windowWidth = 400;
     private int windowHeight = 500;
-    private InvadersGameLogic logic;
+    private String gameStatus = "continue";
+    private Object[] toDraw;
 
     /*
     *  The InvadersGameGUI constructor initializes the frame and the "canvas" component which is painted on.
     */
-    public InvadersGameGUI(InvadersGameLogic newLogic) {
+    public InvadersGameGUI(Object[] drawableObjects) {
 
         super("Space Invaders Game");
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
-        logic = newLogic;
+        toDraw = drawableObjects;
 
         Canvas canvas = new Canvas();
 
-        /* Code from Stack Overflow answer (https://stackoverflow.com/questions/
-        * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) */
+        /**Code from Stack Overflow answer (https://stackoverflow.com/questions/
+        * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) 
+		*/
         canvas.setPreferredSize(new Dimension(windowWidth, windowHeight));
         this.getContentPane().add(canvas);
         this.pack();
@@ -44,10 +45,11 @@ public class InvadersGameGUI extends JFrame {
     }
 
     /**
-    *  This method calls the screen to be repainted.
+    *  This method calls the screen to be repainted and also updates the game status
+    *  in case the game ends.
     */
-
-    public void updateScreen() {
+    public void updateScreen(String newGameStatus) {
+    	gameStatus = newGameStatus;
         repaint();
     }
 
@@ -56,7 +58,6 @@ public class InvadersGameGUI extends JFrame {
     *  objects on it.
     */
     private class Canvas extends JComponent{
-
         /**
         *  This method draws the background, aliens, player ship and bullets onto the screen by calling
         *  the draw methods of the appropriate object. It also draws the win and game over screens
@@ -72,79 +73,27 @@ public class InvadersGameGUI extends JFrame {
             g.fillRect(0,0,windowWidth,windowHeight);
             g.setFont(new Font("Arial", Font.BOLD, 36));
 
+			// Draws end game screen win or loss
             g.setColor(Color.WHITE);
-            if (logic.getGameStatus().equals("win")) {
+            if (gameStatus.equals("win")) {
                 g.drawString("YOU WON!", windowWidth/3,windowHeight/2);
 
-            } else if (logic.getGameStatus().equals("loss")) {
+            } else if (gameStatus.equals("loss")) {
                 g.drawString("GAME OVER", windowWidth/3,windowHeight/2);
             }
             
-            else{ 
-
-                logic.getShip().draw(g);
-                logic.getArray().drawAlienArray(g);
-                if (logic.getShot().getHit1() == 3){
-					g.setColor(Color.GREEN);
-				}
-				else if (logic.getShot().getHit1() == 2){
-					g.setColor(Color.YELLOW);
-				}
-				else if (logic.getShot().getHit1() == 1){
-					g.setColor(Color.ORANGE);
-				}
-				else if (logic.getShot().getHit1() == 0){
-					g.setColor(Color.RED);
-				}
-				else {
-					g.setColor(Color.BLACK);
-				}
-				
-				g.fillRect(windowWidth-345,windowHeight-100, 60, 20);
-				if (logic.getShot().getHit2() == 3){
-					g.setColor(Color.GREEN);
-				}
-				else if (logic.getShot().getHit2() == 2){
-					g.setColor(Color.YELLOW);
-				}
-				else if (logic.getShot().getHit2() == 1){
-					g.setColor(Color.ORANGE);
-				}
-				else if (logic.getShot().getHit2() == 0){
-					g.setColor(Color.RED);
-				}
-				else {
-					g.setColor(Color.BLACK);
-				}
-				
-				g.fillRect(windowWidth-230,windowHeight-100, 60, 20);
-	
-				if (logic.getShot().getHit3() == 3){
-					g.setColor(Color.GREEN);
-				}
-				else if (logic.getShot().getHit3() == 2){
-					g.setColor(Color.YELLOW);
-				}
-				else if (logic.getShot().getHit3() == 1){
-					g.setColor(Color.ORANGE);
-				}
-				else if (logic.getShot().getHit3() == 0){
-					g.setColor(Color.RED);
-				}
-				else {
-					g.setColor(Color.BLACK);
-				}
-				g.fillRect(windowWidth-115,windowHeight-100, 60, 20);
+            else { 
+            	
+            	for (Object obj : toDraw) { 
+            		if (obj instanceof Shape) {   // This will draw the ship and shot
+            			Shape aShape = (Shape)obj;
+            			aShape.draw(g);
+            		} else if (obj instanceof AlienArray) {  // This draws the aliens
+                		AlienArray anAlienArray = (AlienArray) obj;
+                		anAlienArray.drawAlienArray(g);
+                	}
+            	} 
             
-                if (logic.getShot().getShotFired()) {
-                    logic.getShot().draw(g);
-    
-                }
-                if (logic.getAlienShots().getShotFired()){
-                    logic.getAlienShots().draw(g); 
-                    
-                    
-                }
             }
             
         }

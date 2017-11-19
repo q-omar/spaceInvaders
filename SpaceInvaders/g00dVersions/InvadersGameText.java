@@ -1,5 +1,11 @@
 public class InvadersGameText{
-   
+	/*******************************************************
+	method: This class handles all the drawing for the text version of the game. It prints a board array, player ship and player shot. It gets the 
+	* ship and shot each time the board is redrawn. 
+	* @param boardHeight is the height of the text-based board game.
+	* @param boardWidth is the width of the text-based board game.
+	* @param board is a char array of the board.
+	*/
     int boardHeight = 30;
     int boardWidth = 60;
     char[][] board = new char[boardHeight][boardWidth]; 
@@ -11,6 +17,15 @@ public class InvadersGameText{
             }
         }  
     }
+    
+    public boolean validLocation(int x, int y) {
+    	boolean valid = false;
+    	if (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
+    		valid = true;
+    	}
+    	return valid;
+    }
+    
 	/******************************************************
 	method: printBoard
 			prints each index of the board array onto screen
@@ -24,34 +39,7 @@ public class InvadersGameText{
             System.out.println("|"); 
         }
     }
-    public void drawBarriers(){
-		board[boardHeight-5][boardWidth-55] = '|';
-		board[boardHeight-5][boardWidth-45] = '|';
-		for (int i = 6; i<boardWidth-45; i++){
-			board[boardHeight-6][i] = '_';
-		}
-		for (int i = 6; i<boardWidth-45; i++){
-			board[boardHeight-5][i] = '_';
-		}
-	
-		board[boardHeight-5][boardWidth-35] = '|';
-		board[boardHeight-5][boardWidth-25] = '|';
-		for (int i = 26; i<boardWidth-25; i++){
-			board[boardHeight-6][i] = '_';
-		}
-		for (int i = 26; i<boardWidth-25; i++){
-			board[boardHeight-5][i] = '_';
-		}
-		board[boardHeight-5][boardWidth-15] = '|';
-		board[boardHeight-5][boardWidth-5] = '|';
-		for (int i = 46; i<boardWidth-5; i++){
-			board[boardHeight-6][i] = '_';
-		}
-		for (int i = 46; i<boardWidth-5; i++){
-			board[boardHeight-5][i] = '_';
-		}
-		
-	}
+    
 	/******************************************************
 	method: drawShip
 			prints the location of the player ship on the board
@@ -59,7 +47,7 @@ public class InvadersGameText{
     public void drawShip(PlayerShip ship){
     	
         board[boardHeight-1][ship.getXCoord()] = 'X';
-        if (ship.getXCoord() != ship.getLastXCoord() && ship.getLastXCoord() <= (boardWidth-1) && ship.getLastXCoord() >= 0) {
+        if (ship.getXCoord() != ship.getLastXCoord() && validLocation(ship.getLastXCoord(), 0)) {
             board[boardHeight-1][ship.getLastXCoord()] = ' ';
         }
     }
@@ -72,29 +60,17 @@ public class InvadersGameText{
 			checks if shot is within the bounds of the board
 			replaces last shot position on board with a space character
 	******************************************************/
-    public void drawShot(PlayerShot shot, AlienArray array){
+    public void drawShot(PlayerShot shot){
     	
-    	if (shot.getShotFired()) {
-            for (int r = 0; r < array.getRowsAliens() ; r++) {
-    			for (int c=0; c < array.getNumAliens();c++){
-    				
-    				if (array.getAliens()[r][c].isAlive() && shot.checkTextHit(array.getAliens()[r][c].getYCoord(), array.getAliens()[r][c].getXCoord(), array.getAliens()[r][c].getLastXCoord())) {
-    					array.getAliens()[r][c].destroyAlien();
-    				}
-    				
-                } 
-            }
-    	}
+    	if (validLocation(0, shot.getLastYCoord())) {
+			board[shot.getLastYCoord()][shot.getXCoord()] = ' ';
+		}
 
-        shot.inBounds();
-
-        if (shot.getShotRow() != shot.getLastShotRow() && shot.getLastShotRow() >= 0) { 
-            board[shot.getLastShotRow()][shot.getShotColumn()] = ' ';
-        }
-        if (shot.getShotFired()) { 
-            board[shot.getShotRow()][shot.getShotColumn()] = '*';
-        }
-    }
+		if (shot.getShotFired()){
+			board[shot.getYCoord()][shot.getXCoord()] = '*';
+		}
+	}
+      
 
 	/******************************************************
 	method: drawAliens
@@ -104,10 +80,12 @@ public class InvadersGameText{
     public void drawAliens(AlienArray array){ 
 		for (int r = 0; r < array.getRowsAliens() ; r++) {
 			for (int c=0; c < array.getNumAliens();c++){
-			
-				board[array.getAliens()[r][c].getLastYCoord()][array.getAliens()[r][c].getLastXCoord()] = ' ';
-            
-				if (array.getAliens()[r][c].isAlive()) {
+				
+				if (validLocation(array.getAliens()[r][c].getLastXCoord(), array.getAliens()[r][c].getLastYCoord())) {
+					board[array.getAliens()[r][c].getLastYCoord()][array.getAliens()[r][c].getLastXCoord()] = ' ';
+				}
+
+				if (array.getAliens()[r][c].isAlive() && validLocation(array.getAliens()[r][c].getXCoord(), array.getAliens()[r][c].getYCoord())) {
 					board[array.getAliens()[r][c].getYCoord()][array.getAliens()[r][c].getXCoord()] = 'U';
                 }
             }
@@ -120,9 +98,8 @@ public class InvadersGameText{
 	******************************************************/
     public void drawCurrentState(PlayerShip ship, PlayerShot shot, AlienArray array){ 
         drawShip(ship);
-        drawShot(shot, array);
         drawAliens(array);
+        drawShot(shot);
         printBoard();
-		drawBarriers();
     }
 }
