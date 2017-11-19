@@ -70,27 +70,40 @@ public class InvadersGameController implements KeyListener{
 				
 	*******/
     
-    public void playText() { // Plays text version of the game, need to implement board printing
+    public void playText() {
     	boolean quit = false;
 
     	while (!quit) {
     		
-    		text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray());
-    		
-            System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
-            String selection = keyboard.nextLine().toUpperCase(); 
+    		if (logic.getGameStatus().equals("continue")) {
+        		text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray(), logic.getAlienShots());
+        		
+                System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
+                String selection = keyboard.nextLine().toUpperCase(); 
+                
+                if (selection.equals("Q")) {
+                    quit = true;
+                    System.out.println("You quit the game.");
+                } else if (selection.equals("A") || selection.equals("D")) {
+                    logic.shipMovement(selection);
+                } else if (selection.equals("F")) {
+                    logic.shotAttempt();
+                }
+                
+				logic.alienShots();
+                logic.handleShotText();
+				logic.moveAliens();
+    		}
+    	
+            logic.checkStatus();
             
-            if (selection.equals("Q")) {
-                quit = true;
-                System.out.println("You quit the game.");
-            } else if (selection.equals("A") || selection.equals("D")) {
-                logic.shipMovement(selection);
-            } else if (selection.equals("F")) {
-                logic.shotAttempt();
+            if (logic.getGameStatus().equals("win")) {
+            	quit = true;
+            	System.out.println("You won!");
+            } else if (logic.getGameStatus().equals("loss")) {
+            	quit = true;
+            	System.out.println("The aliens got you!");
             }
-            
-            logic.handleShotInteraction();
-            logic.moveAliens();;
     	}
      }
     

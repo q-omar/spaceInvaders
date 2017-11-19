@@ -27,7 +27,7 @@ public class InvadersGameLogic{
         	gameVersion = version;
             screenWidth = 60;
             screenHeight = 30;
-            ship = new PlayerShip(screenWidth, screenHeight-1, 0, 3); 
+            ship = new PlayerShip(screenWidth, screenHeight-1, 0, 5); 
             shot = new PlayerShot(screenHeight-3, 5);
             alienInvaders = new AlienArray("TEXT");
 			alienShots = new AlienShots(0,0,0,0,0);
@@ -48,6 +48,10 @@ public class InvadersGameLogic{
     public PlayerShot getShot(){
         return shot;
     }
+	
+	   public AlienShots getAlienShots(){
+        return alienShots;
+    }
     
     public int getScreenWidth() {
     	return screenWidth;
@@ -55,10 +59,6 @@ public class InvadersGameLogic{
     
     public int getScreenHeight() {
     	return screenHeight;
-    }
-
-    public AlienShots getAlienShots(){
-        return alienShots;
     }
 
    /** 
@@ -80,9 +80,23 @@ public class InvadersGameLogic{
             gameStatus = "loss";
         }
     }
-    
+	
+	public void checkShipHit(){
+        if (alienShots.alienShotShip(ship.getXCoord(), ship.getYCoord())){
+            gameStatus = "loss";
+        }
+    }
+	
     public void checkStatus() {
-        checkAlienHit();
+    	int boundary = 0;
+    	if (gameVersion.equals("GUI")) {
+    		boundary = screenHeight - alienInvaders.getAliens()[0][0].getHeight()*3; // Adjust as needed
+			checkAlienHit();
+    	} else {
+    		boundary = screenHeight-5;
+			checkShipHit();
+    	}
+    	
         if (!gameStatus.equals("loss")) {
             gameStatus = "win";
 
@@ -99,7 +113,7 @@ public class InvadersGameLogic{
         if (!gameStatus.equals("win")) {
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
-                    if (alienInvaders.getAliens()[r][c].isAlive() && alienInvaders.getAliens()[r][c].inBounds(410)) {
+                    if (alienInvaders.getAliens()[r][c].isAlive() && alienInvaders.getAliens()[r][c].inBounds(boundary)) {
                         gameStatus = "loss";
                     }
                 }
@@ -110,6 +124,17 @@ public class InvadersGameLogic{
     public void shipMovement(String direction) {
     	ship.move(direction);
     	ship.inBounds(screenWidth - ship.getWidth());
+    }
+    
+    public void handleShotText() {
+        if (shot.getShotFired()) {
+            shot.moveShot();
+            shot.inBounds();
+        }
+		if (alienShots.getShotFired()){
+			alienShots.moveShot();
+			alienShots.inBounds();
+		}
     }
 
      /** 
@@ -134,7 +159,7 @@ public class InvadersGameLogic{
             shot.checkBarrierHit(screenWidth-115,20,60,screenHeight-100);
         }
            
-
+            
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     
@@ -145,6 +170,7 @@ public class InvadersGameLogic{
             }
         }
     }
+    
     
     // Called when the user presses F
     public void shotAttempt() {
@@ -169,6 +195,7 @@ public class InvadersGameLogic{
         int rand1 = randInt(0, alienInvaders.getRowsAliens()-1); //generate a random number for column/row to fire 
         int rand2 = randInt(0, alienInvaders.getNumAliens()-1);
         boolean shotFired = alienShots.getShotFired();
+		System.out.println(shotFired);
 
         if (!shotFired){
             int randomNum = randInt(0,0); //generate a 10% chance for example for any one alien to fire 
@@ -176,7 +203,11 @@ public class InvadersGameLogic{
                 if (alienInvaders.getAliens()[rand1][rand2].isAlive()){ //check if that alien is alive 
                     int alienShotRow = alienInvaders.getAliens()[rand1][rand2].getYCoord() + alienInvaders.getAliens()[0][0].getWidth(); //if it is, alien shot is generated at its location 
                     int alienShotCol = alienInvaders.getAliens()[rand1][rand2].getXCoord();
-                    alienShots = new AlienShots(alienShotCol, alienShotRow, 6, 12, 10);
+					if (gameVersion.equals("GUI")){
+						alienShots = new AlienShots(alienShotCol, alienShotRow, 6, 12, 10);
+					}else{
+						alienShots = new AlienShots(alienShotCol, alienShotRow, 6, 12, 3);
+					}
                     alienShots.shotFired(true);
                 }
 
@@ -184,21 +215,8 @@ public class InvadersGameLogic{
         }
     }
 
-/*    //adjust this method to fit into one above possibly 
-    public void handleShot(String handlePart){
-        if (handlePart == "part1"){
-            if (!shot.getShotFired()) { 
-                shot.setShotColumn(ship.getLocation());
-                shot.shotFired(true);
-            } else {
-                System.out.println("Out of ammo!");
-            }
-        } else if (shot.getShotFired()) { 
-            shot.moveShot();
-        }   
-    }
 	
-    //adjust this method to fit with the checkStatus one possibly 
+    /*adjust this method to fit with the checkStatus one possibly 
     public void quitCondition(){
 		int count=0;
         if (alienInvaders.aliens[alienInvaders.getRowsAliens() -1][1].inBounds(boardHeight)) {

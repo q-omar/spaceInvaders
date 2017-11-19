@@ -3,14 +3,48 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 public class AlienShots extends Shape{
-    
-    private boolean shotFired;
+	
+    private boolean shotFired = false;
+	int lastShotRow = 0;
+	
+	//barrier stuff must be moved to likely Barrier class
+	int barrier1HP = 3;
+	int barrier2HP = 3;
+	int barrier3HP = 3;
 
     public AlienShots(int xLoc, int yLoc, int width, int height, int speed){
         super(xLoc, yLoc, width, height);
         setVSpeed(speed);
     }
-
+	
+	public int getBarrier1HP(){
+		return barrier1HP;
+	}
+	
+	public int getBarrier2HP(){
+		return barrier2HP;
+	}
+	
+	public int getBarrier3HP(){
+		return barrier3HP;
+	}
+	
+	public void updateBarrier1(){
+		barrier1HP--;
+	}
+	
+	public void updateBarrier2(){
+		barrier2HP--;
+	}
+	
+	public void updateBarrier3(){
+		barrier3HP--;
+	}
+	
+	public int getLastShotRow(){
+		return lastShotRow;
+	}
+	
     public void shotFired(boolean shotStatus){
         shotFired = shotStatus;
     }
@@ -28,6 +62,7 @@ public class AlienShots extends Shape{
      * many rows up it moves 
      */
     public void moveShot() {
+		lastShotRow = getYCoord();
         setYCoord(getYCoord()+getVSpeed());
     }
 
@@ -43,6 +78,19 @@ public class AlienShots extends Shape{
             setYCoord(0);
         }
     }
+	//***************************************************
+	public boolean alienShotShip(int shipXCoord, int shipYCoord){
+		boolean hit = false;
+		
+		if (getXCoord() == shipXCoord){
+			if (getYCoord() == shipYCoord){
+				hit = true;
+			}
+		}
+		
+		return hit;
+	}
+	
     //alien hitdetection might need a tiny bit of tweaking, got a bit funky after extending to shape
     //i tihnk it has to do with the alien shot being a rectangle? idk 
     
@@ -80,4 +128,3 @@ public class AlienShots extends Shape{
     }
 
 }
-            
