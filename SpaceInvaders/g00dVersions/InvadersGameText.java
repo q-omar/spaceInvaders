@@ -98,8 +98,8 @@ public class InvadersGameText{
 	******************************************************/
     public void drawCurrentState(PlayerShip ship, PlayerShot shot, AlienArray array){ 
         drawShip(ship);
-        drawAliens(array);
         drawShot(shot);
+        drawAliens(array);
         printBoard();
     }
 }
