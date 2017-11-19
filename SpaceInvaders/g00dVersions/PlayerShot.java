@@ -24,10 +24,10 @@ public class PlayerShot extends Shape {
  	* @param startingY the y coordinate where the shot starts at when it is fired
 	* @param newSpeed how many spaces the shot moves up each time the game is redrawn. 
 	* @param newWidth the width of the shot.
-	* @param newLength the length of the shot
+	* @param newHeight the length of the shot
 	*/
-    public PlayerShot(int startingY, int newSpeed, int newWidth, int newLength) {
-		super(0,startingY, newWidth, newLength);
+    public PlayerShot(int startingY, int newSpeed, int newWidth, int newHeight) {
+		super(0,startingY, newWidth, newHeight);
 		setVSpeed(newSpeed);
     }
 
@@ -45,7 +45,7 @@ public class PlayerShot extends Shape {
 	*  @param  shipLocation  the x-coordinate of the ship, which will set the location of the new shot
 	*/
     public void tryShot(int shipLocation) {
-    	if (!shotFired) {
+    	if (!shotFired && shipLocation >= 0) {
     		shotFired = true;
     		setXCoord(shipLocation);
     	}
