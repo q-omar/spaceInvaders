@@ -44,7 +44,9 @@ Test Files: AlienTest.java
             AlienArrayTest.java
             PlayerShipTest.java
             ShotTest.java
-            
+
+	    hamcrest-core-1.3.jar
+	    junit-4.12.jar
 
 Package: view
 ---------------
