@@ -60,7 +60,7 @@ public class InvadersGameText{
 			checks if shot is within the bounds of the board
 			replaces last shot position on board with a space character
 	******************************************************/
-    public void drawShot(PlayerShot shot){
+    public void drawShot(Shot shot){
     	
     	if (validLocation(0, shot.getLastYCoord())) {
 			board[shot.getLastYCoord()][shot.getXCoord()] = ' ';
@@ -96,7 +96,7 @@ public class InvadersGameText{
 	method: drawCurrentState
 			draws the current iteration of the game onto the board
 	******************************************************/
-    public void drawCurrentState(PlayerShip ship, PlayerShot shot, AlienArray array){ 
+    public void drawCurrentState(PlayerShip ship, Shot shot, AlienArray array){ 
         drawShip(ship);
         drawShot(shot);
         drawAliens(array);

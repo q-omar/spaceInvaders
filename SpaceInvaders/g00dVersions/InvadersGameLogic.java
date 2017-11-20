@@ -1,11 +1,15 @@
+import java.util.Random;
+
 public class InvadersGameLogic{
 
     private int screenHeight = 500;
     private int screenWidth = 400;
     
-    private PlayerShot shot;
+    private Shot shot;
+    private Shot alienShot;
     private PlayerShip ship;
     private AlienArray alienInvaders;
+
     private String gameStatus = "continue";
     private String gameVersion;
 	
@@ -20,7 +24,8 @@ public class InvadersGameLogic{
             screenHeight = 500;
             screenWidth = 400;
             ship = new PlayerShip(screenWidth, screenHeight - 60, 20, 5);  
-            shot = new PlayerShot(420, 20, 5, 20);
+            shot = new Shot(420, -20, 5, 20);
+            alienShot = new Shot(0, 10, 6, 12);
             alienInvaders = new AlienArray("GUI");
 
         } else if (version.equals("TEXT")) {
@@ -28,7 +33,8 @@ public class InvadersGameLogic{
             screenWidth = 60;
             screenHeight = 30;
             ship = new PlayerShip(screenWidth, screenHeight-1, 0, 5); 
-            shot = new PlayerShot(screenHeight-3, 5);
+            shot = new Shot(screenHeight-3, -5);
+            alienShot = new Shot(0, 3);
             alienInvaders = new AlienArray("Text");
         }
     }
@@ -45,8 +51,12 @@ public class InvadersGameLogic{
     public PlayerShip getShip(){
         return ship;
     }
-    public PlayerShot getShot(){
+    public Shot getShot(){
         return shot;
+    }
+    
+    public Shot getAlienShot() {
+    	return alienShot;
     }
     
     public int getScreenWidth() {
@@ -73,8 +83,10 @@ public class InvadersGameLogic{
     	int boundary = 0;
     	if (gameVersion.equals("GUI")) {
     		boundary = screenHeight - alienInvaders.getAliens()[0][0].getHeight()*3; // Adjust as needed
+    		checkAlienHit();
     	} else {
     		boundary = screenHeight-5;
+    		checkShipHit();
     	}
     	
         if (!gameStatus.equals("loss")) {
@@ -109,11 +121,31 @@ public class InvadersGameLogic{
     	ship.move(direction);
     	ship.inBounds(screenWidth - ship.getWidth());
     }
+    
+    public void moveAlienShot() {
+    	if (alienShot.getShotFired()) {
+    		alienShot.moveShot();
+    		alienShot.inBounds(screenHeight);
+    	}
+    }
+    
+    public void checkAlienHit(){
+        if (alienShot.checkHit(ship.getXCoord(), 440, ship.getHeight())){
+            gameStatus = "loss";
+        }
+    }
+    
+	public void checkShipHit(){
+        if (alienShot.alienShotShip(ship.getXCoord(), ship.getYCoord())){
+            gameStatus = "loss";
+        }
+    }
 	
      /** 
     *  This method handles the shot firing and interaction of the shot with the aliens.
     */
     public void handleShotInteraction(){
+    	
         if (shot.getShotFired()) {
             shot.moveShot();
 
@@ -146,6 +178,38 @@ public class InvadersGameLogic{
         }
         shot.tryShot(ship.getXCoord());
 
+    }
+    
+    //following two methods used for alien shot generation
+
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;//this includes the minimum into the random selection 
+        return randomNum;
+    }
+    
+    public void shotGeneration(){
+        int rand1 = randInt(0, alienInvaders.getRowsAliens()-1); //generate a random number for column/row to fire 
+        int rand2 = randInt(0, alienInvaders.getNumAliens()-1);
+        boolean shotFired = alienShot.getShotFired();
+		//System.out.println(shotFired);
+
+        if (!shotFired){
+            int randomNum = randInt(0,0); //generate a 10% chance for example for any one alien to fire 
+            if (randomNum==0){
+                if (alienInvaders.getAliens()[rand1][rand2].isAlive()){ //check if that alien is alive 
+                    int alienShotRow = alienInvaders.getAliens()[rand1][rand2].getYCoord() + alienInvaders.getAliens()[0][0].getWidth(); //if it is, alien shot is generated at its location 
+                    int alienShotCol = alienInvaders.getAliens()[rand1][rand2].getXCoord();
+					if (gameVersion.equals("GUI")){
+						alienShot.newAlienShot(alienShotCol, alienShotRow);
+						
+					}else{
+						alienShot.newAlienShot(alienShotCol, alienShotRow);
+					}
+                }
+
+            }
+        }
     }
 
 }

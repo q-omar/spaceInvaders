@@ -16,7 +16,7 @@ public class InvadersGameController implements KeyListener{
     private InvadersGameLogic logic;
     private InvadersGameGUI gui;
     private InvadersGameText text;
-    private Object[] drawableObjects = new Object[3]; 
+    private Object[] drawableObjects = new Object[4]; 
         
     public InvadersGameController() {
     	
@@ -45,6 +45,7 @@ public class InvadersGameController implements KeyListener{
 		drawableObjects[0] = logic.getShip();
 		drawableObjects[1] = logic.getShot();
 		drawableObjects[2] = logic.getArray();
+		drawableObjects[3] = logic.getAlienShot();
     }
     
     /**
@@ -69,8 +70,11 @@ public class InvadersGameController implements KeyListener{
     // Steps shared between logic and GUI
     public void updateStatus() {
     	logic.moveAliens();
+    	logic.moveAlienShot();
     	logic.handleShotInteraction();
     	logic.checkStatus();
+    	logic.shotGeneration();
+    
     }
     
     public void playText() { 
