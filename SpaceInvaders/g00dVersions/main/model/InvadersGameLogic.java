@@ -195,6 +195,7 @@ public class InvadersGameLogic{
                 System.out.println("Out of ammo!");
         }
         shot.tryShot(ship.getXCoord());
+        shot.checkGUIBarrierHit(barrier, screenWidth, screenHeight);
 
     }
     
