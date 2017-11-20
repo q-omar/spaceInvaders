@@ -124,24 +124,21 @@ public class Shot extends Shape {
 		if (shotFired){
 			if (getYCoord() >= boardHeight-100){
 				if (getXCoord() <= boardWidth-285 && getXCoord() >= boardWidth-345){
-					if (barrier.getBarrier1HP() > 0){
+					if (barrier.getBarrier1HP() >= 0){
 						barrier.updateBarrier1();				
-						System.out.println("BARRIER 1 HIT");
 						hit = true;
 						shotFired = false;
 					}
 				}else if (getXCoord() <= boardWidth-170 && getXCoord() >= boardWidth-230){//25 to 35 
-					if (barrier.getBarrier2HP() > 0){
+					if (barrier.getBarrier2HP() >= 0){
 						barrier.updateBarrier2();
 						hit = true;
-						System.out.println("BARRIER 2 HIT");
 						shotFired = false;
 					}
 				}else if (getXCoord() <= boardWidth-55 && getXCoord() >= boardWidth-115){
-					if (barrier.getBarrier3HP() > 0){
+					if (barrier.getBarrier3HP() >= 0){
 						barrier.updateBarrier3();
 						hit = true;
-						System.out.println("BARRIER 3 HIT");
 						shotFired = false;
 					}
 				}
@@ -149,6 +146,8 @@ public class Shot extends Shape {
 		}
 		return hit;
 	}
+
+
     /** 
      * This method checks collisions with the shot in the text-based version of the game,
      * based on the direction the target is moving.
@@ -234,38 +233,7 @@ public class Shot extends Shape {
 		return hit;
 	}
 	
-	public boolean checkGUIBarrierHit(Barrier barrier, int boardWidth, int boardHeight){
-		
-		boolean hit = false;
-		
-		if (shotFired){
-			if (getYCoord() >= boardHeight-100){
-				if (getXCoord() <= boardWidth-285 && getXCoord() >= boardWidth-345){
-					if (barrier.getBarrier1HP() >= 0){
-						barrier.updateBarrier1();				
-						System.out.println("BARRIER 1 HIT");
-						hit = true;
-						shotFired = false;
-					}
-				}else if (getXCoord() <= boardWidth-170 && getXCoord() >= boardWidth-230){//25 to 35 
-					if (barrier.getBarrier2HP() >= 0){
-						barrier.updateBarrier2();
-						hit = true;
-						System.out.println("BARRIER 2 HIT");
-						shotFired = false;
-					}
-				}else if (getXCoord() <= boardWidth-55 && getXCoord() >= boardWidth-115){
-					if (barrier.getBarrier3HP() >= 0){
-						barrier.updateBarrier3();
-						hit = true;
-						System.out.println("BARRIER 3 HIT");
-						shotFired = false;
-					}
-				}
-			}
-		}
-		return hit;
-	}
+
     
 	/** 
 	 * Draws the shot as a rectangle on the screen.

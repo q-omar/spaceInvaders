@@ -20,7 +20,7 @@ public class InvadersGameController implements KeyListener{
     private InvadersGameLogic logic;
     private InvadersGameGUI gui;
     private InvadersGameText text;
-    private Object[] drawableObjects = new Object[4]; 
+    private Object[] drawableObjects = new Object[5]; 
         
     public InvadersGameController() {
     	
@@ -50,6 +50,7 @@ public class InvadersGameController implements KeyListener{
 		drawableObjects[1] = logic.getShot();
 		drawableObjects[2] = logic.getArray();
 		drawableObjects[3] = logic.getAlienShot();
+        drawableObjects[4] = logic.getBarrier();
     }
     
     /**

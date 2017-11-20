@@ -92,11 +92,15 @@ public class InvadersGameGUI extends JFrame {
             		if (obj instanceof Shape) {   // This will draw the ship and shot
             			Shape aShape = (Shape)obj;
             			aShape.draw(g);
-				barrier.draw(g);
+
             		} else if (obj instanceof AlienArray) {  // This draws the aliens
                 		AlienArray anAlienArray = (AlienArray) obj;
                 		anAlienArray.drawAlienArray(g);
-                	}
+
+                	} else if (obj instanceof Barrier) { // This draws the barriers
+                        Barrier aBarrier = (Barrier) obj;
+                        aBarrier.draw(g);
+                    }
             	} 
             
             }
