@@ -131,6 +131,7 @@ public class InvadersGameLogic{
     	ship.inBounds(screenWidth - ship.getWidth());
     }
     
+    /** This method is used for moving alien shot and checking its interaction with a barrier */
     public void moveAlienShot() {
     	if (alienShot.getShotFired()) {
     		alienShot.moveShot();
@@ -145,7 +146,8 @@ public class InvadersGameLogic{
     		alienShot.inBounds(screenHeight);
     	}
     }
-    
+    /** This method checks if alien shot has shit player ship
+     */
     public void checkAlienHit(){
         if (alienShot.checkHit(ship.getXCoord(), 440, ship.getHeight())){
             gameStatus = "loss";
@@ -199,14 +201,22 @@ public class InvadersGameLogic{
 
     }
     
-    //following two methods used for alien shot generation
+    /**
+     * standard method used for generating random numbers in Java
+     * @param min,max set values to generate the values in between 
+     */
 
     public static int randInt(int min, int max) {
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min) + 1) + min;//this includes the minimum into the random selection 
         return randomNum;
     }
-    
+
+    /** 
+     * Method used for generating shots for aliens, creating two random values within the range of the number of column and row
+     * and then choosing that random col/row to generate a shot at, if that particular alien is alive
+     */
+
     public void shotGeneration(){
         int rand1 = randInt(0, alienInvaders.getRowsAliens()-1); //generate a random number for column/row to fire 
         int rand2 = randInt(0, alienInvaders.getNumAliens()-1);
@@ -214,7 +224,7 @@ public class InvadersGameLogic{
 		//System.out.println(shotFired);
 
         if (!shotFired){
-            int randomNum = randInt(0,0); //generate a 10% chance for example for any one alien to fire 
+            int randomNum = randInt(0,0); //generate an x% chance for example for any one alien to fire 
             if (randomNum==0){
                 if (alienInvaders.getAliens()[rand1][rand2].isAlive()){ //check if that alien is alive 
                     int alienShotRow = alienInvaders.getAliens()[rand1][rand2].getYCoord() + alienInvaders.getAliens()[0][0].getWidth(); //if it is, alien shot is generated at its location 
