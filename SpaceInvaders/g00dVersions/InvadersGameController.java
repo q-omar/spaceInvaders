@@ -57,6 +57,7 @@ public class InvadersGameController implements KeyListener{
             public void actionPerformed(ActionEvent e){
              
             	updateStatus();
+            	logic.shotGeneration();
                 gui.updateScreen(logic.getGameStatus());
             }
         });
@@ -73,7 +74,6 @@ public class InvadersGameController implements KeyListener{
     	logic.moveAlienShot();
     	logic.handleShotInteraction();
     	logic.checkStatus();
-    	logic.shotGeneration();
     
     }
     
@@ -84,7 +84,8 @@ public class InvadersGameController implements KeyListener{
     	while (!quit) {
     		
     		if (logic.getGameStatus().equals("continue")) {
-        		text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray());
+        		text.drawCurrentState(logic.getShip(), logic.getShot(), 
+        				logic.getAlienShot(), logic.getArray(), logic.getBarrier());
         		
                 System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
                 String selection = keyboard.nextLine().toUpperCase(); 
@@ -98,12 +99,14 @@ public class InvadersGameController implements KeyListener{
                     logic.shotAttempt();
                 }
                 
+            	logic.shotGeneration();
                 updateStatus();
     		}
             
             if (logic.getGameStatus().equals("win")) {
             	quit = true;
-            	text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray());
+            	text.drawCurrentState(logic.getShip(), logic.getShot(), 
+            			logic.getAlienShot(), logic.getArray(), logic.getBarrier());
             	System.out.println("You won!");
             } else if (logic.getGameStatus().equals("loss")) {
             	quit = true;

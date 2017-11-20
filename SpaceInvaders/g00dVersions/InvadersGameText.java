@@ -40,6 +40,51 @@ public class InvadersGameText{
         }
     }
     
+	//Creates barriers
+	public void createBarriers(int rightBarrier, int leftBarrier, int traversePoint){
+			board[boardHeight-5][boardWidth-rightBarrier] = '|';
+			board[boardHeight-5][boardWidth-leftBarrier] = '|';
+			for (int i = traversePoint; i<boardWidth-leftBarrier; i++){
+				board[boardHeight-6][i] = '_';
+			}
+			for (int i = traversePoint; i<boardWidth-leftBarrier; i++){
+				board[boardHeight-5][i] = '_';
+			}
+	}
+	//*********************************************************
+	//Removes barriers
+	public void emptyBarriers(int rightBarrier, int leftBarrier, int traversePoint){
+			board[boardHeight-5][boardWidth-rightBarrier] = ' ';
+			board[boardHeight-5][boardWidth-leftBarrier] = ' ';
+			for (int i = traversePoint; i<boardWidth-leftBarrier; i++){
+				board[boardHeight-6][i] = ' ';
+			}
+			for (int i = traversePoint; i<boardWidth-leftBarrier; i++){
+				board[boardHeight-5][i] = ' ';
+			}
+	}
+	
+	//Draws barriers
+    public void drawBarriers(Barrier barrier){
+		if (barrier.getBarrier1HP() > 0){
+			createBarriers(55, 45, 6);
+		}else{
+			emptyBarriers(55, 45, 6);
+		}
+	
+		if (barrier.getBarrier2HP() > 0){
+			createBarriers(35, 25, 26);
+		}else{
+			emptyBarriers(35, 25, 26);
+		}
+		
+		if (barrier.getBarrier3HP() > 0){
+			createBarriers(15, 5, 46);
+		}else{
+			emptyBarriers(15, 5, 46);
+		}
+	}
+    
 	/******************************************************
 	method: drawShip
 			prints the location of the player ship on the board
@@ -91,15 +136,38 @@ public class InvadersGameText{
             }
         }
     }
+    
+	public void drawAlienShot(Shot shot, Barrier barrier, PlayerShip ship){
+		
+		boolean shotFired = shot.getShotFired();
+		
+		board[shot.getLastYCoord()][shot.getLastXCoord()] = ' ';
+		
+		if (shotFired){
+			if (shot.checkBarrierHit(barrier, boardWidth, boardHeight)){
+				shot.shotFired(false);
+			}else if(shot.alienShotShip(ship.getXCoord(), ship.getYCoord())){
+				shot.shotFired(false);
+			}else 
+				board[shot.getYCoord()][shot.getXCoord()] = 'Y';
+			}
+			
+			//either this can be used or inBound in AlienShots class with tweaking of that method
+			if (shot.getYCoord() > boardHeight-1){
+				shot.shotFired(false);
+		}
+	}
 
 	/******************************************************
 	method: drawCurrentState
 			draws the current iteration of the game onto the board
 	******************************************************/
-    public void drawCurrentState(PlayerShip ship, Shot shot, AlienArray array){ 
+    public void drawCurrentState(PlayerShip ship, Shot shot, Shot alienShot, AlienArray array, Barrier barrier){ 
         drawShip(ship);
         drawShot(shot);
         drawAliens(array);
+        drawAlienShot(alienShot, barrier, ship);
+        drawBarriers(barrier);
         printBoard();
     }
 }

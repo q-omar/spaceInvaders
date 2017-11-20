@@ -7,6 +7,7 @@ public class InvadersGameLogic{
     
     private Shot shot;
     private Shot alienShot;
+    private Barrier barrier;
     private PlayerShip ship;
     private AlienArray alienInvaders;
 
@@ -34,6 +35,7 @@ public class InvadersGameLogic{
             screenHeight = 30;
             ship = new PlayerShip(screenWidth, screenHeight-1, 0, 5); 
             shot = new Shot(screenHeight-3, -5);
+            barrier = new Barrier(screenWidth, screenHeight);
             alienShot = new Shot(0, 3);
             alienInvaders = new AlienArray("Text");
         }
@@ -54,6 +56,10 @@ public class InvadersGameLogic{
     public Shot getShot(){
         return shot;
     }
+    
+	public Barrier getBarrier(){
+		return barrier;
+	}
     
     public Shot getAlienShot() {
     	return alienShot;
@@ -125,6 +131,13 @@ public class InvadersGameLogic{
     public void moveAlienShot() {
     	if (alienShot.getShotFired()) {
     		alienShot.moveShot();
+    		
+        	if (gameVersion.equals("GUI")) {
+        		checkAlienHit();
+        	} else {
+        		checkShipHit();
+        	}
+    		
     		alienShot.inBounds(screenHeight);
     	}
     }

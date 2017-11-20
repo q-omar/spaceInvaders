@@ -3,46 +3,29 @@ import java.awt.Graphics;
 import java.awt.Color;
 
 public class AlienShots extends Shape{
-    
-    private boolean shotFired;
-
+	
+    private boolean shotFired = false;
+	int lastShotRow = 0;
+	
     public AlienShots(int xLoc, int yLoc, int width, int height, int speed){
         super(xLoc, yLoc, width, height);
         setVSpeed(speed);
     }
-
-    public void shotFired(boolean shotStatus){
-        shotFired = shotStatus;
-    }
-
-	/** This method returns the width of the shot set by the constructor.
-	* @return width of shot
-    */
     
-    public boolean getShotFired(){
-        return shotFired;
-    }
 
-    /** method moveShot actually updates the shots location as a number so that the
-     * getter methods can be used to display them on the board and speed is how
-     * many rows up it moves 
-     */
-    public void moveShot() {
-        setYCoord(getYCoord()+getVSpeed());
-    }
-
-    
-    /** the inBounds method checks if the bullet goes past the top of the screen, 
-     *  fired being set to false will stop the board from attemping to draw it.
-     *  The next time a bullet is fired, shotRow will be reset.
-     */
-
-    public void inBounds() {
-        if (getYCoord() + getHeight() > 600) { //hardcoded screenlength for now 
-            shotFired = false;
-            setYCoord(0);
-        }
-    }
+	//***************************************************
+	public boolean alienShotShip(int shipXCoord, int shipYCoord){
+		boolean hit = false;
+		
+		if (getXCoord() >= shipXCoord-2 && getXCoord() <= shipXCoord+2){
+			if (getYCoord() >= shipYCoord - 2){
+				hit = true;
+			}
+		}
+		
+		return hit;
+	}
+	
     //alien hitdetection might need a tiny bit of tweaking, got a bit funky after extending to shape
     //i tihnk it has to do with the alien shot being a rectangle? idk 
     
@@ -65,14 +48,48 @@ public class AlienShots extends Shape{
 
         if (distance <= targetLength) {
             hit = true;
-            shotFired(false);
+            shotFired = false;
             setYCoord(0);
         }
 
         return hit;
     }
 
-
+	//************************************************************
+	
+	public boolean checkBarrierHit(Barrier barrier, int boardWidth, int boardHeight){
+		
+		boolean hit = false;
+		
+		if (shotFired){
+			if (getYCoord() >= boardHeight-6){
+				if (getXCoord() <= boardWidth-45 && getXCoord() >= boardWidth-55){
+					if (barrier.getBarrier1HP() > 0){
+						barrier.updateBarrier1();				
+						System.out.println("BARRIER 1 HIT");
+						hit = true;
+						shotFired = false;
+					}
+				}else if (getXCoord() <= boardWidth-25 && getXCoord() >= boardWidth-35){//25 to 35 
+					if (barrier.getBarrier2HP() > 0){
+						barrier.updateBarrier2();
+						hit = true;
+						System.out.println("BARRIER 2 HIT");
+						shotFired = false;
+					}
+				}else if (getXCoord() <= boardWidth-5 && getXCoord() >= boardWidth-15){
+					if (barrier.getBarrier3HP() > 0){
+						barrier.updateBarrier3();
+						hit = true;
+						System.out.println("BARRIER 3 HIT");
+						shotFired = false;
+					}
+				}
+			}
+		}
+		return hit;
+	}
+	
    
     public void draw(Graphics g) {
         g.setColor(Color.RED);
@@ -80,4 +97,4 @@ public class AlienShots extends Shape{
     }
 
 }
-            
+

@@ -39,6 +39,10 @@ public class Shot extends Shape {
 		return shotFired;
 	}
     
+    public void shotFired(boolean shotStatus) {
+    	shotFired = shotStatus;
+    }
+    
 	/** 
 	*  Called when the user attempts to fire a new bullet. A new bullet will only be fired if one is not
 	*  already active.
@@ -69,6 +73,11 @@ public class Shot extends Shape {
             shotFired = false;
             resetY();
         }
+		
+		/*System.out.println("Last X: " + getLastXCoord());
+		System.out.println("Last Y: " + getLastYCoord());
+		System.out.println("X: " + getXCoord());
+		System.out.println("Y: " + getYCoord()); */
     }
 
     /**
@@ -116,7 +125,13 @@ public class Shot extends Shape {
      */
     public boolean checkTextHit(int targetRow, int targetCol, int lastCol) {
         boolean hit = false;
-		if(getYCoord() <= targetRow && getYCoord()> targetRow - getVSpeed()){
+        int speed = getVSpeed();
+        
+        if (speed < 0) {  // Temp fix for the change to negative speeds
+        	speed *= -1;
+        }
+        
+		if(getYCoord() <= targetRow && getYCoord()> targetRow - speed){
 			if(targetCol == lastCol && getXCoord() ==targetCol){
 				hit = true;
 			} else if ( targetCol >= getXCoord() && getXCoord() > lastCol){
@@ -135,7 +150,6 @@ public class Shot extends Shape {
     
 	public boolean alienShotShip(int shipXCoord, int shipYCoord){
 		boolean hit = false;
-		
 		if (getXCoord() >= shipXCoord-2 && getXCoord() <= shipXCoord+2){
 			if (getYCoord() >= shipYCoord - 2){
 				hit = true;
@@ -146,11 +160,44 @@ public class Shot extends Shape {
 	}
 	
     public void inBounds(int height) {
-        if (getYCoord() + getVSpeed() > height) { 
+        if (getYCoord() + getVSpeed() >= height) { 
             shotFired = false;
-            setYCoord(0);
+            resetY();
         }
     }
+    
+	public boolean checkBarrierHit(Barrier barrier, int boardWidth, int boardHeight){
+		
+		boolean hit = false;
+		
+		if (shotFired){
+			if (getYCoord() >= boardHeight-6){
+				if (getXCoord() <= boardWidth-45 && getXCoord() >= boardWidth-55){
+					if (barrier.getBarrier1HP() > 0){
+						barrier.updateBarrier1();				
+						System.out.println("BARRIER 1 HIT");
+						hit = true;
+						shotFired = false;
+					}
+				}else if (getXCoord() <= boardWidth-25 && getXCoord() >= boardWidth-35){//25 to 35 
+					if (barrier.getBarrier2HP() > 0){
+						barrier.updateBarrier2();
+						hit = true;
+						System.out.println("BARRIER 2 HIT");
+						shotFired = false;
+					}
+				}else if (getXCoord() <= boardWidth-5 && getXCoord() >= boardWidth-15){
+					if (barrier.getBarrier3HP() > 0){
+						barrier.updateBarrier3();
+						hit = true;
+						System.out.println("BARRIER 3 HIT");
+						shotFired = false;
+					}
+				}
+			}
+		}
+		return hit;
+	}
     
 	/** 
 	 * Draws the shot as a rectangle on the screen.
