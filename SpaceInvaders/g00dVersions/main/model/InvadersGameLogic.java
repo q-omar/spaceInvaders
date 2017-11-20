@@ -30,6 +30,7 @@ public class InvadersGameLogic{
             shot = new Shot(420, -20, 5, 20);
             alienShot = new Shot(0, 10, 6, 12);
             alienInvaders = new AlienArray("GUI");
+			barrier = new Barrier(screenWidth, screenHeight);
 
         } else if (version.equals("TEXT")) {
         	gameVersion = version;
@@ -133,6 +134,7 @@ public class InvadersGameLogic{
     public void moveAlienShot() {
     	if (alienShot.getShotFired()) {
     		alienShot.moveShot();
+			alienShot.checkGUIBarrierHit(barrier, screenWidth, screenHeight);
     		
         	if (gameVersion.equals("GUI")) {
         		checkAlienHit();
@@ -160,9 +162,10 @@ public class InvadersGameLogic{
     *  This method handles the shot firing and interaction of the shot with the aliens.
     */
     public void handleShotInteraction(){
-    	
         if (shot.getShotFired()) {
+			
             shot.moveShot();
+			shot.checkGUIBarrierHit(barrier, screenWidth, screenHeight);
 
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
