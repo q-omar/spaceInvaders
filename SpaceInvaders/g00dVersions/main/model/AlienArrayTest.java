@@ -1,6 +1,9 @@
+package model;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 import java.util.Random;
+
 
 public class AlienArrayTest {
 	
@@ -19,7 +22,6 @@ public class AlienArrayTest {
 	}
 
 	
-	/**
 	@Test
 	public void test_moveDown_fromRight() {
 		AlienArray alienArray = new AlienArray("Text");
@@ -54,5 +56,5 @@ public class AlienArrayTest {
 		
 		assertEquals("AlienArray reaches end of board, should return true ", 3, alien.getXCoord());
 	} 
-*/
+
 }
