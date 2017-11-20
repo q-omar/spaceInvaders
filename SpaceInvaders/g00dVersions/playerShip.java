@@ -1,10 +1,11 @@
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class playerShip extends Shape{
-	/**
-	* This class holds the method mechanics of the player ship
-	*/  
+
+/**
+* This class holds the method mechanics of the player ship
+*/  
+public class PlayerShip extends Shape{
 
     /** Constructor that centers the starting location of the ship based on the length of the screen and lets
     * one set its speed.
@@ -13,7 +14,7 @@ public class playerShip extends Shape{
 	* @param size is the size of the ship
 	* @newSpeed the horizontal speed of the ship
     *****************************************************************/
-    public playerShip(int screenLength, int newY, int size, int newSpeed) {
+    public PlayerShip(int screenLength, int newY, int size, int newSpeed) {
     	super(screenLength/2, newY, size, size);
         setHSpeed(newSpeed);
     }
@@ -40,7 +41,6 @@ public class playerShip extends Shape{
     		setXCoord(getXCoord()+getHSpeed());
     	}
     }
-    
     
 	/** This method draws the ship
 	@param Graphics object,g

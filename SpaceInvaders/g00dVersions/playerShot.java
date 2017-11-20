@@ -1,73 +1,84 @@
 import java.awt.Graphics;
 import java.awt.Color;
 
-public class playerShot extends Shape {
-	
-	private int initialY =0;
-	/**This method is a constructor for playerShot class, used in the text version, where width and length are 0 by default.
-	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
-	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
-	*/
-	
-    public playerShot(int startingRow, int newSpeed) {
-        super(0,startingRow,0,0);
-		initialY= startingRow;
-		setHSpeed(newSpeed);
-		
-    }
-	
-	/**This is a constructor for playerShot class, used in the GUI version. where width and length need to be specified
- 	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
-	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
-	* @param newWidth and newLength are the width and length of the shot.
-	*/
-    public playerShot(int startingRow, int newSpeed, int newWidth, int newLength, int screenHeight) {
-		super(0,startingRow, newWidth, newLength);
-		setHSpeed(newSpeed);
-		initialY= startingRow;
-    }
-    
+/**
+ * This class describes a shot/bullet object which is a subclass of shape. It contains methods to move and reset
+ * the shot, and detect its collision with other shapes.
+ */
+public class PlayerShot extends Shape {
 
-	public int getInitialY(){
-		return initialY;
-	}
-	/** This method resets the shot's position if a shot was fired and it is off screen
+	private boolean shotFired = false;
+
+	/**
+	* This method is a constructor for PlayerShot class, used in the text version, where width and length are 0 by default.
+	* @param startingRow the row where the shot begins when it is fired 
+	* @param newSpeed how many spaces the shot moves up each time the game is redrawn. 
 	*/
-    public void resetShot(boolean shotStatus, int newX) {
-    	shotFired(shotStatus);
-    	setXCoord(newX);
+    public PlayerShot(int startingRow, int newSpeed) {
+        super(0,startingRow,0,0);
+		setVSpeed(newSpeed);
+    }
+	
+	/**
+	* This is a constructor for PlayerShot class, used in the GUI version. where width and length need to be specified
+ 	* @param startingY the y coordinate where the shot starts at when it is fired
+	* @param newSpeed how many spaces the shot moves up each time the game is redrawn. 
+	* @param newWidth the width of the shot.
+	* @param newHeight the length of the shot
+	*/
+    public PlayerShot(int startingY, int newSpeed, int newWidth, int newHeight) {
+		super(0,startingY, newWidth, newHeight);
+		setVSpeed(newSpeed);
+    }
+
+    /**
+     * Returns whether or not a shot has been fired and is currently active
+     * @return  the status of the shot
+     */
+    public boolean getShotFired(){
+		return shotFired;
+	}
+    
+	/** 
+	*  Called when the user attempts to fire a new bullet. A new bullet will only be fired if one is not
+	*  already active.
+	*  @param  shipLocation  the x-coordinate of the ship, which will set the location of the new shot
+	*/
+    public void tryShot(int shipLocation) {
+    	if (!shotFired && shipLocation >= 0) {
+    		shotFired = true;
+    		setXCoord(shipLocation);
+    	}
     }
     
-    /** method moveShot actually updates the shots location as a number so that the
-     * getter methods can be used to display them on the board and speed is how
-     * many rows up it moves 
+    /** 
+     * Updates the shot's location by changing its y coordinate by its vertical speed.
+     * If movement causes the shot to go out of the game boundaries, the shot will 
+     * be reset so a new shot can be fired.
      */
     public void moveShot() {
-		setYCoord(getYCoord()-getHSpeed());
-    }
-    
-    /** the inBounds method checks if the bullet goes past the top of the screen, 
-     *  fired being set to false will stop the board from attemping to draw it.
-     *  The next time a bullet is fired, shotRow will be reset.
-     */
+		setYCoord(getYCoord()-getVSpeed());
 
-    public void inBounds() {
-        if (getYCoord()+ getHeight() < 1) {
-            shotFired(false);
+		if (getYCoord()+ getHeight() < 0) {
+            shotFired = false;
+            resetY();
         }
     }
-    /**
-    * This method is for the GUI version. It checks collisions of the bullet with a circular alien
-    * and returns true if they overlap.
-    * @param the location of the alien in the AlienArray that is being check for a hit.
-    * @return true if the alien was hit, false otherwise. 
-    */
 
-    public boolean checkHit(int targetX, int targetY, int targetWidth) {
+    /**
+    * This method is for the GUI version. It checks collisions of the bullet with a circular target
+    * and returns true if they overlap.
+    * 
+    * @param targetX  the x coordinate of the top left point of the circle
+    * @param targetY  the y coordinate of the top left point of the circle
+    * @param targetDiameter  the diameter of the target circle
+    * @return whether or not the target was hit
+    */
+    public boolean checkHit(int targetX, int targetY, int targetDiameter) {
         boolean hit = false;
         int xToCheck;
-        targetX += targetWidth/2; // Set x and y to center of target circle
-        targetY += targetWidth/2;
+        targetX += targetDiameter/2; // Set x and y to center of target circle
+        targetY += targetDiameter/2;
 
         if (getXCoord() >= targetX - 0.5 * getWidth()) {
             xToCheck = getXCoord(); // Checks top left point of bullet
@@ -80,24 +91,26 @@ public class playerShot extends Shape {
         int ydiff = getYCoord() - targetY;
         double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff);
 
-        if (distance <= (targetWidth/2)) {
+        if (distance <= (targetDiameter/2)) {
             hit = true;
-            shotFired(false);
-            setYCoord(initialY);
+            shotFired = false;
+            resetY();
         }
         return hit;
     }
 
-     /** the checkHit method uses
-      * @param targetRow,targetCol which are passed from InvadersGame class, being
-      * the aliens current row and columns to check if there is a match with the shots
-      * location at which point it returns either false or true  
-	  * @return whether a shot hits an alien
+    /** 
+     * This method checks collisions with the shot in the text-based version of the game,
+     * based on the direction the target is moving.
+     * 
+     * @param  targetRow  the row the target is in
+     * @param  targetCol  the column the target is currently in
+     * @param  lastCol  the column the target was in previously
+	 * @return whether or not a hit was detected
      */
-    
     public boolean checkTextHit(int targetRow, int targetCol, int lastCol) {
         boolean hit = false;
-		if( getYCoord() <= targetRow && getYCoord()>=targetRow - getHSpeed()){
+		if(getYCoord() <= targetRow && getYCoord()> targetRow - getVSpeed()){
 			if(targetCol == lastCol && getXCoord() ==targetCol){
 				hit = true;
 			} else if ( targetCol >= getXCoord() && getXCoord() > lastCol){
@@ -108,17 +121,21 @@ public class playerShot extends Shape {
 		}
 		if (hit){
 			System.out.println("A hit!");
-			shotFired(false);
-			//setYCoord(initialY);
+			shotFired = false;
+			resetY();
 		}
         return hit;
     }
-	/** the draw method sets the color and dimensions of the shot
+    
+	/** 
+	 * Draws the shot as a rectangle on the screen.
 	 * @param the Graphics object g
 	*/
     public void draw(Graphics g) {
-        g.setColor(Color.RED);
-        g.fillRect(getXCoord(),getYCoord(), getWidth(), getHeight());
+    	if(shotFired) {
+            g.setColor(Color.RED);
+            g.fillRect(getXCoord(),getYCoord(), getWidth(), getHeight());
+    	}
     }
 
 }
