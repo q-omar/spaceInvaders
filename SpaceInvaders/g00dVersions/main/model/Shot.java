@@ -116,7 +116,14 @@ public class Shot extends Shape {
         return hit;
     }
 
-	
+    /************************************************************************************
+	* method: checkGUIBarrierHit
+	* 	Returns boolean true when a shot has hit a barrier or not, subsequently updating 
+	*	the health point of the barrier 
+	* @param barrier: barrier object, holds barrier information and methods to update health
+	* @param boardWidth: width of boardHeight
+	* @param boardHeight: height of board
+	************************************************************************************/
     public boolean checkGUIBarrierHit(Barrier barrier, int boardWidth, int boardHeight){
 		
 		boolean hit = false;
@@ -199,7 +206,14 @@ public class Shot extends Shape {
             resetY();
         }
     }
-    
+    /************************************************************************************
+	* method: checkBarrierHit
+	* 	Returns boolean true when a shot has hit a barrier or not, subsequently updating 
+	*	the health point of the barrier 
+	* @param barrier: barrier object, holds barrier information and methods to update health
+	* @param boardWidth: width of boardHeight
+	* @param boardHeight: height of board
+	************************************************************************************/
 	public boolean checkBarrierHit(Barrier barrier, int boardWidth, int boardHeight){
 		
 		boolean hit = false;

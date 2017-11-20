@@ -6,6 +6,12 @@ import java.awt.Color;
 
 public class Barrier{
 
+	/**********************************************************************************
+	This class holds the information of the three barriers in text and GUI version
+	@param barrier1HP holds the health, or Health Point, of barrier 1, same for following barriers
+	@param location starting point of barrier rectangles for GUI class
+	@param height height of barrier rectangles for GUI class
+	*******************************************************************************/
     int barrier1HP = 3;
     int barrier2HP = 3;
     int barrier3HP = 3;
@@ -19,8 +25,9 @@ public class Barrier{
         location = screenWidth;
         height = screenHeight-100;
     }
-//***************************
-
+	
+	//Basic getter and settor methods
+	//**********************************
     public int getBarrier1HP(){
         return barrier1HP;
     }
@@ -45,8 +52,6 @@ public class Barrier{
         barrier3HP--;
     }
 
-//*******************************
-
     public int getLocation() {
         return location;
     }
@@ -54,10 +59,13 @@ public class Barrier{
     public void setLocation(int newLocation) {
         location = newLocation;
     }
-    
+	/**************************************************
+	/method: draw
+	/	This method draws the graphics of the barriers for the GUI version
+	/	in rectangle form assigning various colors depending on the health 
+	/	of the barriers
+	/*********************************************/
     public void draw(Graphics g) {
-        
-
         if (barrier1HP >= 0) {
             if (barrier1HP == 3) {
                 g.setColor(Color.GREEN);
@@ -71,7 +79,6 @@ public class Barrier{
             } else if (barrier1HP == 0) {
                 g.setColor(Color.RED);
             }
-
             g.fillRect(location-345,height, 60, 20);
         }
 
@@ -88,11 +95,8 @@ public class Barrier{
             } else if (barrier2HP == 0) {
                 g.setColor(Color.RED);
             }
-
             g.fillRect(location-230,height, 60, 20);
         }
-
-
 
         if (barrier3HP >= 0) {
             if(barrier3HP == 3) {
@@ -106,12 +110,8 @@ public class Barrier{
 
             } else if (barrier3HP == 0) {
                 g.setColor(Color.RED);
-            }
-            
+            }          
             g.fillRect(location-115,height, 60, 20);
-
-        }
-        
+        }  
     }
-
 }
