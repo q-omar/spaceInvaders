@@ -14,7 +14,7 @@ public class Barrier{
 	private int height;
 	private Color barrier1;
 	private Color lastBarrier1;
-	
+	 
 	public Barrier(int screenWidth,int screenHeight) {
 		location = screenWidth;
 		height = screenHeight-100;
@@ -55,11 +55,12 @@ public class Barrier{
         location = newLocation;
     }
     
-   	public void draw(Graphics gr) {
-		int r = 0;
-		int g = 0;
-		int b = 0;
+   	public void draw(Graphics g) {
 		
-		
+		g.setColor(Color.GREEN);
+		g.fillRect(location-345,height, 60, 20);
+		g.fillRect(location-230,height, 60, 20);
+		g.fillRect(location-115,height, 60, 20);
 	}
+
 }
