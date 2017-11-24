@@ -146,10 +146,10 @@ public class InvadersGameLogic{
     		alienShot.inBounds(screenHeight);
     	}
     }
-    /** This method checks if alien shot has shit player ship
+    /** This method checks if alien shot has hit player ship
      */
     public void checkAlienHit(){
-        if (alienShot.checkHit(ship.getXCoord(), 440, ship.getHeight())){
+        if (alienShot.checkHitRectangle(ship.getXCoord(), ship.getYCoord(), ship.getWidth(), ship.getHeight())){
             gameStatus = "loss";
         }
     }

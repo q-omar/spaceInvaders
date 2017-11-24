@@ -81,10 +81,48 @@ public class Shot extends Shape {
 		System.out.println("X: " + getXCoord());
 		System.out.println("Y: " + getYCoord()); */
     }
+    
+    /**
+    * This method is for the GUI version. It checks collisions of the bullet with a rectangular target
+    * and returns true if the top left or top right point of the bullet overlaps.
+    * 
+    * @param targetX  the x coordinate of the top left point of the rectangle
+    * @param targetY  the y coordinate of the top left point of the rectangle
+    * @param width    the width of the rectangle in pixels
+    * @param height   the height of the rectangle in pixels
+    * @return whether or not the target was hit
+    */
+    public boolean checkHitRectangle(int targetX, int targetY, int width, int height) {
+    	boolean hit = false;
+    	int shotX = getXCoord();
+    	int shotY = getYCoord();
+    	int shotWidth = getWidth();
+    	int shotHeight = getHeight();
+    	
+    	int targetXBound = targetX + width;
+    	int targetYBound = targetY + height;
+    	
+    	// If the left side of the shot overlaps the target
+    	if (shotX >= targetX && shotX <= targetXBound) {
+    		// If the top left of the shot overlaps
+    		if (shotY >= targetY && shotY <= targetYBound) {
+    			hit = true;
+    		}
+    			    		
+    	// Else if the right side of the shot overlaps
+    	} else if (shotX + shotWidth >= targetX && shotX + shotWidth <= targetXBound) {
+    		// If the top right of the shot overlaps
+    		if (shotY >= targetY && shotY <= targetYBound) {
+    			hit = true;
+    		}
+    	} 
+    	
+    	return hit;
+    }  
 
     /**
     * This method is for the GUI version. It checks collisions of the bullet with a circular target
-    * and returns true if they overlap.
+    * and returns true if the top left or top right point of the bullet overlaps.
     * 
     * @param targetX  the x coordinate of the top left point of the circle
     * @param targetY  the y coordinate of the top left point of the circle
@@ -247,8 +285,6 @@ public class Shot extends Shape {
 		return hit;
 	}
 	
-
-    
 	/** 
 	 * Draws the shot as a rectangle on the screen.
 	 * @param the Graphics object g
