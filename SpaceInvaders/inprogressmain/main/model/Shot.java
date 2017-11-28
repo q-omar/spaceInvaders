@@ -3,42 +3,47 @@ package model;
 import java.awt.Graphics;
 import java.awt.Color;
 
+/**
+ * This class describes a shot/bullet object which is a subclass of shape. It contains methods to move and reset
+ * the shot, and detect its collision with other shapes.
+ */
 public class Shot extends Shape {
 
 	private boolean shotFired = false;
 
 	/**
-	* This method is a constructor for Shot class, used in the text version, where width and length are 0 by default.
+	* This method is a constructor for PlayerShot class, used in the text version, where width and length are 0 by default.
 	* @param startingRow the row where the shot begins when it is fired 
 	* @param newSpeed how many spaces the shot moves up each time the game is redrawn. 
 	*/
     public Shot(int startingRow, int newSpeed) {
         super(0,startingRow,0,0);
 		setVSpeed(newSpeed);
-		
-    }
-	
-	/**This is a constructor for Shot class, used in the GUI version. where width and length need to be specified
- 	* @param startingRow is the row in which the ship is present at the tie of the shot being fired. 
-	* @param newSpeed is the how many spaces the alien moves up each time the board is redrawn. 
-	* @param newWidth and newLength are the width and length of the shot.
-	*/
-    public Shot(int startingRow, int newSpeed, int newWidth, int newLength, int screenHeight) {
-		super(0,startingRow, newWidth, newLength);
-		setVSpeed(newSpeed);
     }
 	
 	/**
+	* This is a constructor for PlayerShot class, used in the GUI version. where width and length need to be specified
+ 	* @param startingY the y coordinate where the shot starts at when it is fired
+	* @param newSpeed how many spaces the shot moves up each time the game is redrawn. 
+	* @param newWidth the width of the shot.
+	* @param newHeight the length of the shot
+	*/
+    public Shot(int startingY, int newSpeed, int newWidth, int newHeight) {
+		super(0,startingY, newWidth, newHeight);
+		setVSpeed(newSpeed);
+    }
+    
+    /**
      * Returns whether or not a shot has been fired and is currently active
      * @return  the status of the shot
      */
     public boolean getShotFired(){
 		return shotFired;
 	}
-	
-	public void shotFired(boolean shotStatus){
-		shotFired= shotStatus;
-	}
+    
+    public void shotFired(boolean shotStatus) {
+    	shotFired = shotStatus;
+    }
     
 	/** 
 	*  Called when the user attempts to fire a new bullet. A new bullet will only be fired if one is not
@@ -51,47 +56,69 @@ public class Shot extends Shape {
     		setXCoord(shipLocation);
     	}
     }
-	
-	public void newAlienShot(int newX, int newY) {
+    
+    public void newAlienShot(int newX, int newY) {
     	setXCoord(newX);
     	setYCoord(newY);
     	shotFired = true;
     }
-	
-	public boolean alienShotShip(int shipXCoord, int shipYCoord){
-		boolean hit = false;
-		if (getXCoord() >= shipXCoord-2 && getXCoord() <= shipXCoord+2){
-			if (getYCoord() >= shipYCoord - 2){
-				hit = true;
-			}
-		}
-		return hit;
-	}
     
-     /** 
+    /** 
      * Updates the shot's location by changing its y coordinate by its vertical speed.
      * If movement causes the shot to go out of the game boundaries, the shot will 
      * be reset so a new shot can be fired.
      */
     public void moveShot() {
-		setYCoord(getYCoord()-getVSpeed());
+		setYCoord(getYCoord()+getVSpeed());
 
-		if (getYCoord()+ getHeight() < 1) {  
-            shotFired(false);
-            resetY();
-        }
-    }
-    
-    /** the inBounds method checks if the bullet goes past the top of the screen, 
-     *  fired being set to false will stop the board from attemping to draw it.
-     *  The next time a bullet is fired, shotRow will be reset.
-     */
-	public void inBounds(int height) {
-        if (getYCoord() + getVSpeed() >= height) { 
+		if (getYCoord()+ getHeight() < 0) {
             shotFired = false;
             resetY();
         }
     }
+    
+    /**
+    * This method is for the GUI version. It checks collisions of the bullet with a rectangular target
+    * and returns true if the top left or top right point of the bullet overlaps.
+    * 
+    * @param targetX  the x coordinate of the top left point of the rectangle
+    * @param targetY  the y coordinate of the top left point of the rectangle
+    * @param width    the width of the rectangle in pixels
+    * @param height   the height of the rectangle in pixels
+    * @return whether or not the target was hit
+    */
+    public boolean checkHitRectangle(int targetX, int targetY, int width, int height) {
+    	boolean hit = false;
+    	int shotX = getXCoord();
+    	int shotY = getYCoord();
+    	int shotWidth = getWidth();
+    	int shotHeight = getHeight();
+    	
+    	int targetXBound = targetX + width;
+    	int targetYBound = targetY + height;
+    	
+    	// If the left side of the shot overlaps the target
+    	if (shotX >= targetX && shotX <= targetXBound) {
+    		// If the top left of the shot overlaps
+    		if (shotY >= targetY && shotY <= targetYBound) {
+    			hit = true;
+    		}
+    			    		
+    	// Else if the right side of the shot overlaps
+    	} else if (shotX + shotWidth >= targetX && shotX + shotWidth <= targetXBound) {
+    		// If the top right of the shot overlaps
+    		if (shotY >= targetY && shotY <= targetYBound) {
+    			hit = true;
+    		}
+    	}
+    	
+    	if (hit) {
+    		shotFired = false;
+    		resetY();
+    	}
+    	
+    	return hit;
+    }  
 
     /**
     * This method is for the GUI version. It checks collisions of the bullet with a circular target
@@ -126,14 +153,39 @@ public class Shot extends Shape {
         }
         return hit;
     }
-
-     /** the checkHit method uses
-      * @param targetRow,targetCol which are passed from InvadersGame class, being
-      * the aliens current row and columns to check if there is a match with the shots
-      * location at which point it returns either false or true  
-	  * @return whether a shot hits an alien
-     */
     
+	// trying to merge both GUI and TEXT barrier hit detection
+	public boolean checkBarrierHit(Barrier barrier, int bheight, int bwidth){
+		boolean hit = false;
+		// I tried keeping all the practices from the other versions..
+		if (shotFired){
+			// where the shot is , vs barrierheight and its y coordinate (looking at heights)
+			if ( getYCoord() >= bheight -barrier.getYCoord() ){
+				// where shot is in the x and the width of the barrier
+				if (getXCoord() <= bwidth - barrier.getXCoord() && getXCoord() >= bwidth - barrier.getXCoord()){
+					
+					hit = true;
+					shotFired = false;
+				}
+			}
+
+		}
+		if (hit){
+			System.out.println("Barrier hit!");
+		}
+		return hit;
+	}
+
+
+    /** 
+     * This method checks collisions with the shot in the text-based version of the game,
+     * based on the direction the target is moving.
+     * 
+     * @param  targetRow  the row the target is in
+     * @param  targetCol  the column the target is currently in
+     * @param  lastCol  the column the target was in previously
+	 * @return whether or not a hit was detected
+     */
     public boolean checkTextHit(int targetRow, int targetCol, int lastCol) {
         boolean hit = false;
         int speed = getVSpeed();
@@ -158,70 +210,67 @@ public class Shot extends Shape {
 		}
         return hit;
     }
-	
-	/**
-    * This method is for the GUI version. It checks collisions of the bullet with a rectangular target
-    * and returns true if the top left or top right point of the bullet overlaps.
-    * 
-    * @param targetX  the x coordinate of the top left point of the rectangle
-    * @param targetY  the y coordinate of the top left point of the rectangle
-    * @param width    the width of the rectangle in pixels
-    * @param height   the height of the rectangle in pixels
-    * @return whether or not the target was hit
-    */
-	public boolean checkHitRectangle(int targetX, int targetY, int width, int height) {
-    	boolean hit = false;
-    	int shotX = getXCoord();
-    	int shotY = getYCoord();
-    	int shotWidth = getWidth();
-    	int shotHeight = getHeight();
-    	
-    	int targetXBound = targetX + width;
-    	int targetYBound = targetY + height;
-    	if (shotFired){
-    	// If the left side of the shot overlaps the target
-			if (shotX >= targetX && shotX <= targetXBound) {
-    		// If the top left of the shot overlaps
-				if (shotY >= targetY && shotY <= targetYBound) {
-					hit = true;
-				}
-    			    		
-    	// Else if the right side of the shot overlaps
-			} else if (shotX + shotWidth >= targetX && shotX + shotWidth <= targetXBound) {
-    		// If the top right of the shot overlaps
-				if (shotY >= targetY && shotY <= targetYBound) {
-					hit = true;
-				}
-			}
-    	} 
-    	
-    	return hit;
-    } 
-	
-	// trying to merge both GUI and TEXT barrier hit detection
-	public boolean checkBarrierHit(Barrier barrier, int bheight, int bwidth){
+    
+	public boolean alienShotShip(int shipXCoord, int shipYCoord){
 		boolean hit = false;
-		// I tried keeping all the practices from the other versions..
-		if (shotFired){
-			// where the shot is , vs barrierheight and its y coordinate (looking at heights)
-			if ( getYCoord() >= bheight -barrier.getYCoord() ){
-				// where shot is in the x and the width of the barrier
-				if (getXCoord() <= bwidth - barrier.getXCoord() && getXCoord() >= bwidth - barrier.getXCoord()){
-					
-					hit = true;
-					shotFired = false;
-				}
+		if (getXCoord() >= shipXCoord-2 && getXCoord() <= shipXCoord+2){
+			if (getYCoord() >= shipYCoord - 2){
+				hit = true;
 			}
-
 		}
-		if (hit){
-			System.out.println("Barrier hit!");
-		}
+		
 		return hit;
 	}
 	
+    public void inBounds(int height) {
+        if (getYCoord() + getVSpeed() >= height) { 
+            shotFired = false;
+            resetY();
+        }
+    }
+    /************************************************************************************
+	* method: checkBarrierHit
+	* 	Returns boolean true when a shot has hit a barrier or not, subsequently updating 
+	*	the health point of the barrier 
+	* @param barrier: barrier object, holds barrier information and methods to update health
+	* @param boardWidth: width of boardHeight
+	* @param boardHeight: height of board
+	************************************************************************************/
+/*	public boolean checkBarrierHit(Barrier barrier, int boardWidth, int boardHeight){
+		
+		boolean hit = false;
+		
+		if (shotFired){
+			if (getYCoord() >= boardHeight-6){
+				if (getXCoord() <= boardWidth-45 && getXCoord() >= boardWidth-55){
+					if (barrier.getBarrier1HP() > 0){
+						barrier.updateBarrier1();				
+						System.out.println("BARRIER 1 HIT");
+						hit = true;
+						shotFired = false;
+					}
+				}else if (getXCoord() <= boardWidth-25 && getXCoord() >= boardWidth-35){//25 to 35 
+					if (barrier.getBarrier2HP() > 0){
+						barrier.updateBarrier2();
+						hit = true;
+						System.out.println("BARRIER 2 HIT");
+						shotFired = false;
+					}
+				}else if (getXCoord() <= boardWidth-5 && getXCoord() >= boardWidth-15){
+					if (barrier.getBarrier3HP() > 0){
+						barrier.updateBarrier3();
+						hit = true;
+						System.out.println("BARRIER 3 HIT");
+						shotFired = false;
+					}
+				}
+			}
+		}
+		return hit;
+	} */
 	
-	/** the draw method sets the color and dimensions of the shot
+	/** 
+	 * Draws the shot as a rectangle on the screen.
 	 * @param the Graphics object g
 	*/
     public void draw(Graphics g) {
@@ -232,4 +281,15 @@ public class Shot extends Shape {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
 

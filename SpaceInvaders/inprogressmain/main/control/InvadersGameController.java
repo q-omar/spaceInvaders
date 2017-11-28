@@ -1,5 +1,7 @@
 package control;
 
+import model.*;
+import view.*;
 import java.util.Scanner;
 
 import javax.swing.Timer;
@@ -8,9 +10,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-//this class contains all ACTION events. The controller gives actions to the logic, 
-//the logic updates locations and passes it back to controller, the controller
-//then passes it to GUI which draws the locations. the process then repeats
+/**
+ * This class is part of the Model-View-Controller set up, situated in the middle.
+ * @param logic is the logic object which itself contains all Shape objects
+ * @param gui is the gui object that takes takes the drawable array object to handle display via Jframe window
+ * @param text is text object which is used to display the text based version 
+ * @param drawableObjects takes drawable shapes from logic and puts it in an array used by interface class
+ */
 
 public class InvadersGameController implements KeyListener{
     
@@ -18,8 +24,13 @@ public class InvadersGameController implements KeyListener{
     private InvadersGameLogic logic;
     private InvadersGameGUI gui;
     private InvadersGameText text;
-    private Object[] drawableObjects = new Object[4]; 
+    private Object[] drawableObjects = new Object[5]; 
         
+     /**
+     * Constructor for InvadersGameController which uses if branch to select what version of the game to start
+     * calling on the appropriate play methods
+     */
+
     public InvadersGameController() {
     	
     	System.out.println("Let's play the InvadersGame!\nEnter T to launch the text version or G to launch the GUI version.");
@@ -47,7 +58,8 @@ public class InvadersGameController implements KeyListener{
 		drawableObjects[0] = logic.getShip();
 		drawableObjects[1] = logic.getShot();
 		drawableObjects[2] = logic.getArray();
-		drawableObjects[3] = logic.getBarriers();
+		drawableObjects[3] = logic.getAlienShot();
+        drawableObjects[4] = logic.getBarriers();
     }
     
     /**
@@ -59,7 +71,7 @@ public class InvadersGameController implements KeyListener{
             public void actionPerformed(ActionEvent e){
              
             	updateStatus();
-				//logic.shotGeneration();
+            	logic.shotGeneration();
                 gui.updateScreen(logic.getGameStatus());
             }
         });
@@ -70,22 +82,31 @@ public class InvadersGameController implements KeyListener{
     }
 
 
-    // Steps shared between logic and GUI
+    /**
+     * The method updates the logic object by moving shapes
+    */
+
     public void updateStatus() {
     	logic.moveAliens();
-		//logic.moveAlienShot();
+    	logic.moveAlienShot();
     	logic.handleShotInteraction();
     	logic.checkStatus();
-    }
     
+    }
+
+    /**
+    *  This method starts and plays the text version of the game.
+    */
+
     public void playText() { 
     	boolean quit = false;
 		text.createBoard();
 
     	while (!quit) {
     		
-    		if (logic.getGameStatus().equals("continue")) {
-        		text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray(), logic.getBarriers());
+    		if (logic.getGameStatus().equals("continue")) { //if gamestatus is not equal to quit, the loop continues (plays the game)
+        		//text.drawCurrentState(logic.getShip(), logic.getShot(), 
+        		//		logic.getAlienShot(), logic.getArray(), logic.getBarriers());//draws current state
         		
                 System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
                 String selection = keyboard.nextLine().toUpperCase(); 
@@ -93,18 +114,20 @@ public class InvadersGameController implements KeyListener{
                 if (selection.equals("Q")) {
                     quit = true;
                     System.out.println("You quit the game.");
-                } else if (selection.equals("A") || selection.equals("D")) {
+                } else if (selection.equals("A") || selection.equals("D")) { //movement
                     logic.shipMovement(selection);
-                } else if (selection.equals("F")) {
+                } else if (selection.equals("F")) { //firing
                     logic.shotAttempt();
                 }
-                //logic.shotGeneration();
+                
+            	logic.shotGeneration();
                 updateStatus();
     		}
             
-            if (logic.getGameStatus().equals("win")) {
+            if (logic.getGameStatus().equals("win")) { //check status at the end to see if game has been won or lost, update quit
             	quit = true;
-            	text.drawCurrentState(logic.getShip(), logic.getShot(), logic.getArray(),logic.getBarriers());
+         //   	text.drawCurrentState(logic.getShip(), logic.getShot(), 
+            		//	logic.getAlienShot(), logic.getArray(), logic.getBarriers());
             	System.out.println("You won!");
             } else if (logic.getGameStatus().equals("loss")) {
             	quit = true;

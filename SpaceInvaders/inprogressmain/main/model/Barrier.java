@@ -16,7 +16,7 @@ public class Barrier extends Shape{
 		super(xcoord,ycoord, wide,high);
 	}
 	
-	public void barrierIsHit(int count){
+	public void barrierIsHit(){
 		if (isHit <3){
 			isHit +=1;
 		}
@@ -25,7 +25,6 @@ public class Barrier extends Shape{
 	public int getBarrierHit(){
 		return isHit;
 	}
-	
 	
 	public char barrierCharText(){
 		
@@ -54,4 +53,3 @@ public class Barrier extends Shape{
 		g.fillRect(getXCoord(),getYCoord(),getWidth(),getHeight());
 	}
 }
-

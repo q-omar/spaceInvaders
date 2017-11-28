@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Random;
 
 public class InvadersGameLogic{
 
@@ -7,10 +8,11 @@ public class InvadersGameLogic{
     private int screenWidth = 400;
     
     private Shot shot;
-    private PlayerShip ship;
+    private Shot alienShot;
 	private BarrierArray barriers;
+    private PlayerShip ship;
     private AlienArray alienInvaders;
-	
+
     private String gameStatus = "continue";
     private String gameVersion;
 	
@@ -25,17 +27,20 @@ public class InvadersGameLogic{
             screenHeight = 500;
             screenWidth = 400;
             ship = new PlayerShip(screenWidth, screenHeight - 60, 20, 5);  
-            shot = new Shot(420, 20, 5, 20,screenHeight-60);
-			barriers = new BarrierArray("GUI");
+            shot = new Shot(420, -20, 5, 20);
+            alienShot = new Shot(0, 10, 6, 12);
             alienInvaders = new AlienArray("GUI");
+			barriers = new BarrierArray("GUI");
+			//barrier = new Barrier(screenWidth, screenHeight);
 
         } else if (version.equals("TEXT")) {
         	gameVersion = version;
             screenWidth = 60;
             screenHeight = 30;
             ship = new PlayerShip(screenWidth, screenHeight-1, 0, 5); 
-            shot = new Shot(screenHeight-2, 2);
-			barriers = new BarrierArray("Text");
+            shot = new Shot(screenHeight-3, -5);
+            //barrier = new Barrier(screenWidth, screenHeight);
+            alienShot = new Shot(0, 3);
             alienInvaders = new AlienArray("Text");
         }
     }
@@ -55,9 +60,15 @@ public class InvadersGameLogic{
     public Shot getShot(){
         return shot;
     }
-    public BarrierArray getBarriers(){
+    
+	public BarrierArray getBarriers(){
 		return barriers;
 	}
+    
+    public Shot getAlienShot() {
+    	return alienShot;
+    }
+    
     public int getScreenWidth() {
     	return screenWidth;
     }
@@ -81,9 +92,11 @@ public class InvadersGameLogic{
     public void checkStatus() {
     	int boundary = 0;
     	if (gameVersion.equals("GUI")) {
-    		boundary = screenHeight - alienInvaders.getAliens()[0][0].getHeight()*3; 
+    		boundary = screenHeight - alienInvaders.getAliens()[0][0].getHeight()*3; // Adjust as needed
+    		checkAlienHit();
     	} else {
     		boundary = screenHeight-5;
+    		checkShipHit();
     	}
     	
         if (!gameStatus.equals("loss")) {
@@ -107,6 +120,7 @@ public class InvadersGameLogic{
             }
         }
         
+        
     }
 
     /**This method takes a string arguement and moves the ship appropriately. It prevents the ship from going out of bounds.
@@ -117,39 +131,58 @@ public class InvadersGameLogic{
     	ship.move(direction);
     	ship.inBounds(screenWidth - ship.getWidth());
     }
+    
+    /** This method is used for moving alien shot and checking its interaction with a barrier */
+    public void moveAlienShot() {
+    	if (alienShot.getShotFired()) {
+    		alienShot.moveShot();
+    		
+    		for (Barrier b : barriers.getBarriersGUI()) {
+    			if (b.getBarrierHit() < 3 && 
+    					alienShot.checkHitRectangle(b.getXCoord(), b.getYCoord(), b.getWidth(), b.getHeight())) {
+    				b.barrierIsHit();
+    			}
+    		}
+    		
+        	if (gameVersion.equals("GUI")) {
+        		checkAlienHit();
+        	} else {
+        		checkShipHit();
+        	}
+    		
+    		alienShot.inBounds(screenHeight);
+    	}
+    }
+    
+    /** This method checks if alien shot has hit player ship
+     */
+    public void checkAlienHit(){
+        if (alienShot.checkHitRectangle(ship.getXCoord(), ship.getYCoord(), ship.getWidth(), ship.getHeight())){
+            gameStatus = "loss";
+        }
+    }
+    
+	public void checkShipHit(){
+        if (alienShot.alienShotShip(ship.getXCoord(), ship.getYCoord())){
+            gameStatus = "loss";
+        }
+    }
 	
      /** 
     *  This method handles the shot firing and interaction of the shot with the aliens.
     */
     public void handleShotInteraction(){
         if (shot.getShotFired()) {
+			
             shot.moveShot();
-			
-			for(int a=0; a<barriers.getAmount(); a++){
-			
-				for (int r = 0; r < barriers.getRows() ; r++) {
-					for (int c=0; c < barriers.getSize();c++){
-						
-						if (barriers.getVersion() == "GUI"){
-							
-							if (shot.checkBarrierHit(barriers.getBarriersGUI()[a], screenHeight, screenWidth)){
-								barriers.getBarriersGUI()[a].barrierIsHit(1);
-								
-							}
-							
-						}else if (barriers.getVersion() == "Text"){
-							
-							if (shot.checkBarrierHit(barriers.getBarriersText()[a][r][c], screenHeight, screenWidth)){
-								barriers.getBarriersText()[a][r][c].barrierIsHit(1);
-								System.out.println("ishit");
-							}
-							
-						}	
-					}
-				}
-            }
-			
-				
+            
+    		for (Barrier b : barriers.getBarriersGUI()) {
+    			if (b.getBarrierHit() < 3 && 
+    					shot.checkHitRectangle(b.getXCoord(), b.getYCoord(), b.getWidth(), b.getHeight())) {
+    				b.barrierIsHit();
+    			}
+    		}
+
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                 	
@@ -178,55 +211,33 @@ public class InvadersGameLogic{
                 System.out.println("Out of ammo!");
         }
         shot.tryShot(ship.getXCoord());
+        
+		for (Barrier b : barriers.getBarriersGUI()) {
+			if (b.getBarrierHit() < 3 && 
+					shot.checkHitRectangle(b.getXCoord(), b.getYCoord(), b.getWidth(), b.getHeight())) {
+				b.barrierIsHit();
+			}
+		}
 
     }
-	
-	 /** This method is used for moving alien shot and checking its interaction with a barrier */
-   /*  public void moveAlienShot() {
-    	if (alienShot.getShotFired()) {
-    		alienShot.moveShot();
-			alienShot.checkGUIBarrierHit(barrier, screenWidth, screenHeight);
-    		
-        	if (gameVersion.equals("GUI")) {
-        		checkAlienHit();
-        	} else {
-        		checkShipHit();
-        	}
-    		
-    		alienShot.inBounds(screenHeight);
-    	}
-    } */
-    /** This method checks if alien shot has hit player ship
-     */
-    /* public void checkAlienHit(){
-        if (alienShot.checkHitRectangle(ship.getXCoord(), ship.getYCoord(), ship.getWidth(), ship.getHeight())){
-            gameStatus = "loss";
-        }
-    } */
-   /*  
-	public void checkShipHit(){
-        if (alienShot.alienShotShip(ship.getXCoord(), ship.getYCoord())){
-            gameStatus = "loss";
-        }
-    }
-	
-	/**
+    
+    /**
      * standard method used for generating random numbers in Java
      * @param min,max set values to generate the values in between 
      */
 
-   /*  public static int randInt(int min, int max) {
+    public static int randInt(int min, int max) {
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min) + 1) + min;//this includes the minimum into the random selection 
         return randomNum;
-    }  */
+    }
 
     /** 
      * Method used for generating shots for aliens, creating two random values within the range of the number of column and row
      * and then choosing that random col/row to generate a shot at, if that particular alien is alive
      */
 
-   /*  public void shotGeneration(){
+    public void shotGeneration(){
         int rand1 = randInt(0, alienInvaders.getRowsAliens()-1); //generate a random number for column/row to fire 
         int rand2 = randInt(0, alienInvaders.getNumAliens()-1);
         boolean shotFired = alienShot.getShotFired();
@@ -248,6 +259,6 @@ public class InvadersGameLogic{
 
             }
         }
-    } */
+    }
 
 }

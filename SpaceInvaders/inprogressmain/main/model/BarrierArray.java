@@ -82,17 +82,16 @@ public class BarrierArray{
         }
     }
 	
+
     public void setBarriersGUI(){
-        int whereX=15;
-        int whereY=350;
-		size =20;
+        int whereX=55;
+        int whereY= 400;
+
 		for (int a =0; a<amount; a++){
-			barriersGUI[a] = new Barrier(whereX, whereY, size,size);
-			whereX += 30;
-			
+			barriersGUI[a] = new Barrier(whereX, whereY, 60,20);
+			whereX += 115;	
 		}
     }
-
 
     public void drawBarrierArray(Graphics g){
         for (int a=0; a<amount;a++){

@@ -67,14 +67,14 @@ public class ShotTest {
 	}
 	
 	@Test
-	public void test_CheckHit_Failure() {
+	public void test_CheckHitCircle_Failure() {
 		Shot shot = new Shot(5, 3, 2, 2);
 		shot.tryShot(2);
 		assertFalse("Shot and target do not overlap", shot.checkHit(8, 10, 2));
 	}
 	
 	@Test
-	public void test_CheckHit_Success() {
+	public void test_CheckHitCircle_Success() {
 		Shot shot = new Shot(5, 3, 2, 2);
 		shot.tryShot(2);
 		assertTrue("Shot and target overlap", shot.checkHit(1, 3, 5));
