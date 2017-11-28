@@ -1,6 +1,5 @@
 package model;
 
-
 import java.awt.Graphics;
 
 
@@ -9,9 +8,7 @@ public class AlienArray{
     /** This class creates an array of aliens for the GUI and the text version of InvadersGame. 
 	* @param numAliens is the number of aliens in each row.
 	* @param rowsAliens is the number of rows of aliens. 
-    * @param moveRight is true if the aliens need to be moving right and is set to false if the ship needs to move left
-    * @param aliens is an array of object aliens that will further be specified in the constructor
-    * @param leftBoundary,rightBoundary are used in the movement method where the aliens traverse to a certain point and then back
+	* @param moveRight is true if the aliens need to be moving right and is set to false if the ship needs to move left
     */
     
     private int numAliens; 
@@ -45,8 +42,8 @@ public class AlienArray{
         
     }
     
-    /** the getter methods for Alien, numAliens and rowsAliens return the respective values
-	* @return aliens, numAliens and rowAliens to be used in logic  
+    /** the getter methods for numAliens and rowsAliens return the respective values
+	* @return numAliens and rowAliens. 
     */
     
 	public Alien[][] getAliens(){
@@ -123,7 +120,7 @@ public class AlienArray{
     
     public void aliensMovement(int width){
         checkBoundary();
-        if (moveRight){ //move right until the boundary is reached, at which point shift down
+        if (moveRight){
             if ((aliens[0][rightBoundary].getXCoord()+aliens[0][rightBoundary].getHSpeed())>= width - 2 - aliens[0][0].getWidth()){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
@@ -134,16 +131,16 @@ public class AlienArray{
                 return; 
             }
 
-            for (int r = 0; r < rowsAliens ; r++) { //if boundary isn't reached, move right
+            for (int r = 0; r < rowsAliens ; r++) {
                 for (int c = 0; c < numAliens; c++){
                     aliens[r][c].moveRight();
                 }
             }
         }
         
-        else{ //if boundary is reached and moveright is flagged false, else block executes 
+        else{
             
-            if (aliens[0][leftBoundary].getXCoord()<=3){ //similarly, move left until boundary is reached
+            if (aliens[0][leftBoundary].getXCoord()<=3){ 
                 for (int r = 0; r < rowsAliens ; r++) {
                     for (int c = 0; c < numAliens; c++){
                         aliens[r][c].moveDown();

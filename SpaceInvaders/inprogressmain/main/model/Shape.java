@@ -1,14 +1,14 @@
 package model;
 
-/** This abstract class contains the size of the shape and the topLeft coordinate   
+
+public abstract class Shape implements Drawable {
+	/** This abstract class contains the size of the shape and the topLeft coordinate   
 	* and methods to change and get values of the Shape. 
 	* @param xCoord, yCoord are the  integer coordinates of player ship, shot and aliens. 
 	* @param lastXCoord, lastYCoord are the previous  integer coordinates of the shapes, used in the text version. 
 	* @param vSpeed,hSpeed are vertical and horizontal speeds of ship, shot and alien
 	* @param width and length are used to draw ship, shot and alien for the GUI version.
 	*/
-public abstract class Shape implements Drawable {
-
     private int xCoord = 0;
     private int yCoord = 0;
     private int initialY = 0;
@@ -39,27 +39,23 @@ public abstract class Shape implements Drawable {
 		if (newHeight >= 0) {
 			height = newHeight;
 		}
-		
 	}
 	
-    /** 
-    * This is a getter method that returns the shape's horizontal position.
+    /* This is a getter method that returns the shape's horizontal position.
     * @return returns shape's horizontal position
     */
 	public int getXCoord() {
 		return xCoord;
 	}
 	
-	/**
-	* This is a getter method that returns the shape's vertical position.
+	/* This is a getter method that returns the shape's vertical position.
     * @return returns shape's vertical position
     */
 	public int getYCoord() {
 		return yCoord;
 	}
 	
-	/**
-	* This is a getter method that returns the shape's  last horizontal position.
+	/* This is a getter method that returns the shape's  last horizontal position.
     * @return returns shape's last horizontal position
     */
 	public int getLastXCoord() {
