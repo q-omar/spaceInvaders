@@ -132,13 +132,16 @@ public class Shot extends Shape {
     public boolean checkHit(int targetX, int targetY, int targetDiameter) {
         boolean hit = false;
         int xToCheck;
-        targetX += targetDiameter/2; // Set x and y to center of target circle
+
+        // Set target x and y to center of target circle
+        targetX += targetDiameter/2; 
         targetY += targetDiameter/2;
 
+        // Determine whether the top left or right of the bullet is closer to the center of the circle
         if (getXCoord() >= targetX - 0.5 * getWidth()) {
-            xToCheck = getXCoord(); // Checks top left point of bullet
+            xToCheck = getXCoord();
         } else {
-            xToCheck = getXCoord() + getWidth(); // Checks top right point of bullet
+            xToCheck = getXCoord() + getWidth();
         }
 
         // From Prof. Verwaal's code for the distance method in the Point class used in Team Assignment 4
@@ -146,6 +149,8 @@ public class Shot extends Shape {
         int ydiff = getYCoord() - targetY;
         double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff);
 
+        // If the distance between the closest corner of the shot and the center of the circle
+        // is less than the circle's radius
         if (distance <= (targetDiameter/2)) {
             hit = true;
             shotFired = false;

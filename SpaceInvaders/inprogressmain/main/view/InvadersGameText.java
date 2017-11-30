@@ -91,24 +91,19 @@ public class InvadersGameText{
 	 * @param barrier takes in a barrier object and depending on its hp, draws it otherwise it destroys it
 	 */
 
-    public void drawBarriers(Barrier barrier){
-	/*	if (barrier.getBarrier1HP() > 0){
-			createBarriers(55, 45, 6);
-		}else{
-			emptyBarriers(55, 45, 6);
-		}
-	
-		if (barrier.getBarrier2HP() > 0){
-			createBarriers(35, 25, 26);
-		}else{
-			emptyBarriers(35, 25, 26);
-		}
-		
-		if (barrier.getBarrier3HP() > 0){
-			createBarriers(15, 5, 46);
-		}else{
-			emptyBarriers(15, 5, 46);
-		} */
+	public void drawBarriers(BarrierArray barriers){
+		char character = barriers.getBarriersText()[0][0][0].barrierCharText();
+		for(int a=0; a<barriers.getAmount(); a++){
+			
+			for (int r = 0; r < barriers.getRows() ; r++) {
+				for (int c=0; c < barriers.getSize();c++){
+					
+					if (validLocation(barriers.getBarriersText()[a][r][c].getXCoord(),barriers.getBarriersText()[a][r][c].getYCoord())){
+						board[barriers.getBarriersText()[a][r][c].getYCoord()][barriers.getBarriersText()[a][r][c].getXCoord()]=character;
+					}
+				}
+            }
+        }	
 	}
     
 	/**
@@ -201,12 +196,12 @@ public class InvadersGameText{
 	* their respective methods
 	*/
 	
-    public void drawCurrentState(PlayerShip ship, Shot shot, Shot alienShot, AlienArray array, Barrier barrier){ 
+    public void drawCurrentState(PlayerShip ship, Shot shot, Shot alienShot, AlienArray array, BarrierArray barriers){ 
         drawShip(ship);
-        drawShot(shot);
+		drawBarriers(barriers);
         drawAliens(array);
-        drawAlienShot(alienShot, barrier, ship);
-        drawBarriers(barrier);
+        drawShot(shot);
+		//drawAlienShot(alienShot, barrier, ship);
         printBoard();
     }
 }

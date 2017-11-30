@@ -31,7 +31,6 @@ public class InvadersGameLogic{
             alienShot = new Shot(0, 10, 6, 12);
             alienInvaders = new AlienArray("GUI");
 			barriers = new BarrierArray("GUI");
-			//barrier = new Barrier(screenWidth, screenHeight);
 
         } else if (version.equals("TEXT")) {
         	gameVersion = version;
@@ -39,9 +38,9 @@ public class InvadersGameLogic{
             screenHeight = 30;
             ship = new PlayerShip(screenWidth, screenHeight-1, 0, 5); 
             shot = new Shot(screenHeight-3, -5);
-            //barrier = new Barrier(screenWidth, screenHeight);
             alienShot = new Shot(0, 3);
             alienInvaders = new AlienArray("Text");
+            barriers = new BarrierArray("Text");
         }
     }
 
@@ -241,7 +240,6 @@ public class InvadersGameLogic{
         int rand1 = randInt(0, alienInvaders.getRowsAliens()-1); //generate a random number for column/row to fire 
         int rand2 = randInt(0, alienInvaders.getNumAliens()-1);
         boolean shotFired = alienShot.getShotFired();
-		//System.out.println(shotFired);
 
         if (!shotFired){
             int randomNum = randInt(0,0); //generate an x% chance for example for any one alien to fire 
