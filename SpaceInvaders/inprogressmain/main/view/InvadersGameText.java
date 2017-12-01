@@ -92,17 +92,21 @@ public class InvadersGameText{
 	 */
 
 	public void drawBarriers(BarrierArray barriers){
-		char character = barriers.getBarriersText()[0][0][0].barrierCharText();
-		for(int a=0; a<barriers.getAmount(); a++){
+		for(int i=0; i<barriers.getAmount(); i++){
 			
-			for (int r = 0; r < barriers.getRows() ; r++) {
-				for (int c=0; c < barriers.getSize();c++){
-					
-					if (validLocation(barriers.getBarriersText()[a][r][c].getXCoord(),barriers.getBarriersText()[a][r][c].getYCoord())){
-						board[barriers.getBarriersText()[a][r][c].getYCoord()][barriers.getBarriersText()[a][r][c].getXCoord()]=character;
-					}
+			char character = barriers.getBarriers()[i].barrierCharText();
+			int y = barriers.getBarriers()[i].getYCoord();
+			int lowerBound = y + barriers.getBarriers()[i].getHeight();
+		
+			for (; y < lowerBound; y++) {
+				int x = barriers.getBarriers()[i].getXCoord();
+				int rightBound = x + barriers.getBarriers()[i].getWidth();
+				
+				for (; x < rightBound; x++) {
+					board[y][x] = character;
 				}
-            }
+			}
+			
         }	
 	}
     
@@ -169,13 +173,20 @@ public class InvadersGameText{
 	 * @param shot,barrier,ship ship object is used to get the position where the shot will be draw
 	 */
 
-	public void drawAlienShot(Shot shot, Barrier barrier, PlayerShip ship){
+	public void drawAlienShot(Shot shot, BarrierArray barriers, PlayerShip ship){
 		
 		boolean shotFired = shot.getShotFired();
 		
 		board[shot.getLastYCoord()][shot.getLastXCoord()] = ' ';
 		
-		if (shotFired){
+		if (shotFired) {
+			board[shot.getYCoord()][shot.getXCoord()] = 'Y';
+		}
+		
+	/*	I think the hit detection is all covered in logic but kept this here for reference in case
+	 * there's bugs
+	 * 
+	 * if (shotFired){
 			if (shot.checkBarrierHit(barrier, boardWidth, boardHeight)){
 				shot.shotFired(false);
 			}else if(shot.alienShotShip(ship.getXCoord(), ship.getYCoord())){
@@ -187,7 +198,7 @@ public class InvadersGameText{
 			//either this can be used or inBound in AlienShots class with tweaking of that method
 			if (shot.getYCoord() > boardHeight-1){
 				shot.shotFired(false);
-		}
+		} */
 	}
 
 	/**
@@ -201,7 +212,7 @@ public class InvadersGameText{
 		drawBarriers(barriers);
         drawAliens(array);
         drawShot(shot);
-		//drawAlienShot(alienShot, barrier, ship);
+		drawAlienShot(alienShot, barriers, ship);
         printBoard();
     }
 }

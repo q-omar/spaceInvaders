@@ -136,7 +136,7 @@ public class InvadersGameLogic{
     	if (alienShot.getShotFired()) {
     		alienShot.moveShot();
     		
-    		for (Barrier b : barriers.getBarriersGUI()) {
+    		for (Barrier b : barriers.getBarriers()) {
     			if (b.getBarrierHit() < 3 && 
     					alienShot.checkHitRectangle(b.getXCoord(), b.getYCoord(), b.getWidth(), b.getHeight())) {
     				b.barrierIsHit();
@@ -175,7 +175,7 @@ public class InvadersGameLogic{
 			
             shot.moveShot();
             
-    		for (Barrier b : barriers.getBarriersGUI()) {
+    		for (Barrier b : barriers.getBarriers()) {
     			if (b.getBarrierHit() < 3 && 
     					shot.checkHitRectangle(b.getXCoord(), b.getYCoord(), b.getWidth(), b.getHeight())) {
     				b.barrierIsHit();
@@ -211,7 +211,7 @@ public class InvadersGameLogic{
         }
         shot.tryShot(ship.getXCoord());
         
-		for (Barrier b : barriers.getBarriersGUI()) {
+		for (Barrier b : barriers.getBarriers()) {
 			if (b.getBarrierHit() < 3 && 
 					shot.checkHitRectangle(b.getXCoord(), b.getYCoord(), b.getWidth(), b.getHeight())) {
 				b.barrierIsHit();

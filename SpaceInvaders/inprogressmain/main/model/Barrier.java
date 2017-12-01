@@ -19,6 +19,7 @@ public class Barrier extends Shape{
 	public void barrierIsHit(){
 		if (isHit <3){
 			isHit +=1;
+			System.out.println("Barrier hit!");
 		}
 	}
 	

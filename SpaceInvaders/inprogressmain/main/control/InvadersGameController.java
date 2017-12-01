@@ -88,7 +88,7 @@ public class InvadersGameController implements KeyListener{
 
     public void updateStatus() {
     	logic.moveAliens();
-    	//logic.moveAlienShot();
+    	logic.moveAlienShot();
     	logic.handleShotInteraction();
     	logic.checkStatus();
     }
