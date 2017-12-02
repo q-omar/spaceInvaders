@@ -14,7 +14,7 @@ public class Alien extends Shape{
 	* @param hSpeed, vSpeed are the horizontal and vertical of an alien
 	* @param newSize is the length and width of the shape
 	*/
-    public Alien(int hSpeed, int vSpeed, int newSize) {
+    Alien(int hSpeed, int vSpeed, int newSize) {
     	super(0, 5, newSize, newSize);
         setHSpeed(hSpeed);
         setVSpeed(vSpeed);
@@ -29,7 +29,7 @@ public class Alien extends Shape{
 
     /** This class sets isAlive to false
     */
-    public void destroyAlien() {
+    void destroyAlien() {
         isAlive = false;
     }
 
@@ -38,7 +38,7 @@ public class Alien extends Shape{
 	* @param boundary is set as the window size and boundary of the aliens
     * @return the status of alien
     */
-    public boolean reachedEnd(int boundary) {
+    boolean reachedEnd(int boundary) {
         boolean alienEnd = false;
         if (getYCoord() >= boundary - 1){
             alienEnd = true;
@@ -48,18 +48,18 @@ public class Alien extends Shape{
     
     /**This class moves the alien's horizontal index to the right by hSpeed number of spaces
     */
-    public void moveRight(){ 
+    void moveRight(){
         setXCoord(getXCoord()+getHSpeed());
     }
     
 	/**This class moves the alien's vertical index down by vSpeed number of spaces when the alien reaches either border of the board
     */
-    public void moveDown(){
+    void moveDown(){
     	setYCoord(getYCoord()+getVSpeed());
     }
     /**This class moves the alien's horizontal index to the left by hSpeed number of spaces
     */
-    public void moveLeft() {
+    void moveLeft() {
     	setXCoord(getXCoord()-getHSpeed());
     }
 

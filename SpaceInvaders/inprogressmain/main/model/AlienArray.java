@@ -26,7 +26,7 @@ public class AlienArray{
 	* This is needed because the text and GUI versions need different methods to set the aliens.
     */
     
-    public AlienArray(String version){
+    AlienArray(String version){
 
         if (version.equals("GUI")) {
         	numAliens = 6;
@@ -63,7 +63,7 @@ public class AlienArray{
     /** creates an array on which the aliens will be drawn on. This method is the same for GUI and Text Version
     */
     
-    public void createAlienArrays(){
+    private void createAlienArrays(){
         for (int r=0; r<rowsAliens ; r++) {
             for (int c=0; c<numAliens; c++){
                 aliens[r][c] = new Alien(10, 5, 40);
@@ -74,7 +74,7 @@ public class AlienArray{
     /** Sets the aliens in place for the text version of the game. Specifies the location of each alien, which are drawn in InvadersGame
     */
     
-    public void setAliens(){
+    private void setAliens(){
         for (int r = 0; r < rowsAliens ; r++) {
             for (int c=0; c< numAliens;c++){
             	aliens[r][c] = new Alien(3, 3, 0);
@@ -93,7 +93,7 @@ public class AlienArray{
      * is not an alien alive, it moves to the next column over and that column then becomes the boundary.
     */ 
 
-    public void checkBoundary(){
+    private void checkBoundary(){
         leftBoundary = 0;
         rightBoundary = 0;
        
@@ -121,7 +121,7 @@ public class AlienArray{
 	*@param width of board. 
     */ 
     
-    public void aliensMovement(int width){
+    void aliensMovement(int width){
         checkBoundary();
         if (moveRight){ //move right until the boundary is reached, at which point shift down
             if ((aliens[0][rightBoundary].getXCoord()+aliens[0][rightBoundary].getHSpeed())>= width - 2 - aliens[0][0].getWidth()){ 
@@ -179,7 +179,7 @@ public class AlienArray{
     /** This method sets the location for aliens to be drawn
 	*/
 
-    public void setGUIaliens(){
+    private void setGUIaliens(){
         int whereX=5;
         int whereY=0;
 		// the aliens are spaced out evenly

@@ -2,13 +2,14 @@ package control;
 
 import model.*;
 import view.*;
+
+import java.util.Objects;
 import java.util.Scanner;
 
 import javax.swing.Timer;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
 
 /**
  * This class is part of the Model-View-Controller set up, situated in the middle.
@@ -31,7 +32,7 @@ public class InvadersGameController implements KeyListener{
      * calling on the appropriate play methods
      */
 
-    public InvadersGameController() {
+    InvadersGameController() {
     	
     	System.out.println("Let's play the InvadersGame!\nEnter T to launch the text version or G to launch the GUI version.");
     	String input = keyboard.nextLine().toUpperCase();
@@ -54,7 +55,7 @@ public class InvadersGameController implements KeyListener{
     /**
      * Adds all drawable objects to the drawable array.
      */
-    public void initializeDrawableArray() {
+    private void initializeDrawableArray() {
 		drawableObjects[0] = logic.getShip();
 		drawableObjects[1] = logic.getShot();
 		drawableObjects[2] = logic.getArray();
@@ -65,20 +66,24 @@ public class InvadersGameController implements KeyListener{
     /**
     *  This method starts and plays the GUI version of the game.
     */
-    public void playGui(){
+    private void playGui(){
     	
-        Timer timer = new Timer(40, new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-             
-            	updateStatus();
-            	logic.shotGeneration();
-                gui.updateScreen(logic.getGameStatus());
+        Timer timer = new Timer(40, e -> {
+            if (Objects.equals(logic.getGameStatus(), "win") | Objects.equals(logic.getGameStatus(), "loss")){
+                return;
             }
+            updateStatus();
+            logic.shotGeneration();
+            gui.updateScreen(logic.getGameStatus());
+            System.out.println(logic.getGameStatus());
+
         });
         
         timer.setInitialDelay(10);
         timer.start();
-    	gui.addKeyListener(this);
+        gui.addKeyListener(this);
+        System.out.println(logic.getGameStatus());
+        if (Objects.equals(logic.getGameStatus(), "win") | Objects.equals(logic.getGameStatus(), "win")) timer.stop();
     }
 
 
@@ -86,7 +91,7 @@ public class InvadersGameController implements KeyListener{
      * The method updates the logic object by moving shapes
     */
 
-    public void updateStatus() {
+    private void updateStatus() {
     	logic.moveAliens();
     	logic.moveAlienShot();
     	logic.handleShotInteraction();
@@ -97,7 +102,7 @@ public class InvadersGameController implements KeyListener{
     *  This method starts and plays the text version of the game.
     */
 
-    public void playText() { 
+    private void playText() {
     	boolean quit = false;
 		text.createBoard();
 
@@ -108,15 +113,20 @@ public class InvadersGameController implements KeyListener{
         				logic.getAlienShot(), logic.getArray(), logic.getBarriers());//draws current state
         		
                 System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
-                String selection = keyboard.nextLine().toUpperCase(); 
-                
-                if (selection.equals("Q")) {
-                    quit = true;
-                    System.out.println("You quit the game.");
-                } else if (selection.equals("A") || selection.equals("D")) { //movement
-                    logic.shipMovement(selection);
-                } else if (selection.equals("F")) { //firing
-                    logic.shotAttempt();
+                String selection = keyboard.nextLine().toUpperCase();
+
+                switch (selection) {
+                    case "Q":
+                        quit = true;
+                        System.out.println("You quit the game.");
+                        break;
+                    case "A":
+                    case "D":  //movement
+                        logic.shipMovement(selection);
+                        break;
+                    case "F":  //firing
+                        logic.shotAttempt();
+                        break;
                 }
                 
             	logic.shotGeneration();

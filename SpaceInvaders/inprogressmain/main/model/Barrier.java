@@ -1,29 +1,24 @@
 package model;
 
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Color;
 
 public class Barrier extends Shape{
 	private int isHit = 0;
 	private char barrierChar =' ';
-	
-	public Barrier(int xcoord, int ycoord){
-		super(xcoord,ycoord,0,0);
-	}
-	
-	public Barrier(int xcoord, int ycoord, int wide, int high){
+
+	Barrier(int xcoord, int ycoord, int wide, int high){
 		super(xcoord,ycoord, wide,high);
 	}
 	
-	public void barrierIsHit(){
+	void barrierIsHit(){
 		if (isHit <3){
 			isHit +=1;
 			System.out.println("Barrier hit!");
 		}
 	}
 	
-	public int getBarrierHit(){
+	int getBarrierHit(){
 		return isHit;
 	}
 	

@@ -7,15 +7,13 @@ public class BarrierArray{
     private int amount; 
     private int rows;
 	private int size;
-	
-	private String version;
+
     
     private Barrier[] barriers;
     
-    public BarrierArray(String version){
+    BarrierArray(String version){
 
         if (version.equals("GUI")) {
-			version="GUI";
         	amount = 3;
         	rows = 2;
 			size= 10;
@@ -24,7 +22,6 @@ public class BarrierArray{
         	setBarriersGUI();
 
         } else {
-			version="Text";
         	amount = 3;
         	rows = 2;
 			size =4;
@@ -35,10 +32,7 @@ public class BarrierArray{
  
     }
    
-    public String getVersion(){
-		return version;
-	}
-	
+
 	public Barrier[] getBarriers(){
         return barriers;
     }
@@ -47,14 +41,7 @@ public class BarrierArray{
     	return amount;
     }
 
-    public int getRows() {
-    	return rows;
-    }
-    public int getSize(){
-		return size;
-	}
-    
-      public void setBarriersText(){
+	private void setBarriersText(){
   		int x=5;
   		int y=24;
   		int height = 2;
@@ -66,7 +53,7 @@ public class BarrierArray{
   		}
       } 
 
-   public void createBarrierArray(){
+   private void createBarrierArray(){
 	   for(int a=0;a<amount;a++){
 		   
 			for (int r=0; r<rows ; r++) {
@@ -78,7 +65,7 @@ public class BarrierArray{
     }
 	
 
-    public void setBarriersGUI(){
+    private void setBarriersGUI(){
         int whereX=55;
         int whereY= 400;
 

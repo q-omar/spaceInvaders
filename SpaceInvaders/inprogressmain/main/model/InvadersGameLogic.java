@@ -1,5 +1,5 @@
 package model;
-
+import java.awt.*;
 import java.util.Random;
 
 public class InvadersGameLogic{
@@ -67,16 +67,8 @@ public class InvadersGameLogic{
     public Shot getAlienShot() {
     	return alienShot;
     }
-    
-    public int getScreenWidth() {
-    	return screenWidth;
-    }
-    
-    public int getScreenHeight() {
-    	return screenHeight;
-    }
 
-   /** 
+    /**
     * This method calls alienInvaders movement 
     */
     public void moveAliens(){
@@ -89,7 +81,7 @@ public class InvadersGameLogic{
 	* If all the aliens are killed, the game is won.
     */
     public void checkStatus() {
-    	int boundary = 0;
+    	int boundary;
     	if (gameVersion.equals("GUI")) {
     		boundary = screenHeight - alienInvaders.getAliens()[0][0].getHeight()*3; // Adjust as needed
     		checkAlienHit();
@@ -155,13 +147,13 @@ public class InvadersGameLogic{
     
     /** This method checks if alien shot has hit player ship
      */
-    public void checkAlienHit(){
+    private void checkAlienHit(){
         if (alienShot.checkHitRectangle(ship.getXCoord(), ship.getYCoord(), ship.getWidth(), ship.getHeight())){
             gameStatus = "loss";
         }
     }
     
-	public void checkShipHit(){
+	private void checkShipHit(){
         if (alienShot.alienShotShip(ship.getXCoord(), ship.getYCoord())){
             gameStatus = "loss";
         }
@@ -188,7 +180,9 @@ public class InvadersGameLogic{
                 	if(alienInvaders.getAliens()[r][c].isAlive()) {
                 		
                 		if (gameVersion.equals("GUI") && shot.checkHit(alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getYCoord(), alienInvaders.getAliens()[r][c].getWidth())) {
-                			alienInvaders.getAliens()[r][c].destroyAlien();
+                            alienInvaders.getAliens()[r][c].destroyAlien();
+                            System.out.print("\007");
+                            Toolkit.getDefaultToolkit().beep();  
                 			
                 		} else if (gameVersion.equals("TEXT") 
                 				&& shot.checkTextHit(alienInvaders.getAliens()[r][c].getYCoord(), alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getLastXCoord())) {
@@ -222,13 +216,12 @@ public class InvadersGameLogic{
     
     /**
      * standard method used for generating random numbers in Java
-     * @param min,max set values to generate the values in between 
+     * @param min,max set values to generate the values in between
      */
 
-    public static int randInt(int min, int max) {
+    private static int randInt(int max) {
         Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;//this includes the minimum into the random selection 
-        return randomNum;
+        return rand.nextInt((max) + 1);
     }
 
     /** 
@@ -237,12 +230,12 @@ public class InvadersGameLogic{
      */
 
     public void shotGeneration(){
-        int rand1 = randInt(0, alienInvaders.getRowsAliens()-1); //generate a random number for column/row to fire 
-        int rand2 = randInt(0, alienInvaders.getNumAliens()-1);
+        int rand1 = randInt(alienInvaders.getRowsAliens()-1); //generate a random number for column/row to fire
+        int rand2 = randInt(alienInvaders.getNumAliens()-1);
         boolean shotFired = alienShot.getShotFired();
 
         if (!shotFired){
-            int randomNum = randInt(0,0); //generate an x% chance for example for any one alien to fire 
+            int randomNum = randInt(0); //generate an x% chance for example for any one alien to fire
             if (randomNum==0){
                 if (alienInvaders.getAliens()[rand1][rand2].isAlive()){ //check if that alien is alive 
                     int alienShotRow = alienInvaders.getAliens()[rand1][rand2].getYCoord() + alienInvaders.getAliens()[0][0].getWidth(); //if it is, alien shot is generated at its location 

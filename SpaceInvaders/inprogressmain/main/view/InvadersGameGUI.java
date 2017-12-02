@@ -1,13 +1,14 @@
 package view;
 
+import java.io.*;
 import model.*;
-
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import java.sql.Timestamp;
 
 
 /**
@@ -18,10 +19,12 @@ import javax.swing.JFrame;
 
 public class InvadersGameGUI extends JFrame {
     
+    private final long startTime = System.currentTimeMillis();
     private int windowWidth = 400;
     private int windowHeight = 500;
     private String gameStatus = "continue";
     private Object[] toDraw;
+    
 
     /*
     *  The InvadersGameGUI constructor initializes the frame and the "canvas" component which is painted on.
@@ -36,7 +39,7 @@ public class InvadersGameGUI extends JFrame {
 
         Canvas canvas = new Canvas();
 
-        /**Code from Stack Overflow answer (https://stackoverflow.com/questions/
+        /*Code from Stack Overflow answer (https://stackoverflow.com/questions/
         * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) 
 		*/
         canvas.setPreferredSize(new Dimension(windowWidth, windowHeight));
@@ -68,10 +71,30 @@ public class InvadersGameGUI extends JFrame {
         *  based on gameStatus.
         *  @param  g  the graphics object
         */
+        String duration(){
+            final long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+            duration = duration/1000;
+            String durationAsString = Long.toString(duration);
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+            File file = new File("scoreLog.txt");
+            try{            
+                FileWriter fw = new FileWriter("scoreLog.txt",true); //the true will append the new data
+                fw.write(timestamp+"\n");
+                fw.write("End game report: "+gameStatus+"\n");
+                fw.write("Your time was: "+durationAsString+"s"+"\n");
+                fw.write("\n");
+                fw.close();
+            }
+            catch(IOException ioe){}
+            
+            return durationAsString;
+        }
+        
         public void paintComponent(Graphics g){
 
             super.paintComponent(g);
-
             // Draw background
             g.setColor(Color.BLACK);
             g.fillRect(0,0,windowWidth,windowHeight);
@@ -79,30 +102,34 @@ public class InvadersGameGUI extends JFrame {
 
 			// Draws end game screen win or loss
             g.setColor(Color.WHITE);
-            if (gameStatus.equals("win")) {
-                g.drawString("YOU WON!", windowWidth/3,windowHeight/2);
+            switch (gameStatus) {
+                case "win":
+                    g.drawString("Your time was: " + duration() + "s", windowWidth / 6, windowHeight / 2);
+                    g.drawString("YOU WON!", windowWidth / 3, windowHeight / 3);
 
-            } else if (gameStatus.equals("loss")) {
-                g.drawString("GAME OVER", windowWidth/3,windowHeight/2);
-            }
-            
-            else { 
-            	
-            	for (Object obj : toDraw) { 
-            		if (obj instanceof Shape) {   // This will draw the ship and shot
-            			Shape aShape = (Shape)obj;
-            			aShape.draw(g);
+                    break;
+                case "loss":
+                    g.drawString("Your time was: " + duration() + "s", windowWidth / 6, windowHeight / 2);
+                    g.drawString("GAME OVER", windowWidth / 3, windowHeight / 3);
+                    break;
+                default:
 
-            		} else if (obj instanceof AlienArray) {  // This draws the aliens
-                		AlienArray anAlienArray = (AlienArray) obj;
-                		anAlienArray.drawAlienArray(g);
+                    for (Object obj : toDraw) {
+                        if (obj instanceof Shape) {   // This will draw the ship and shot
+                            Shape aShape = (Shape) obj;
+                            aShape.draw(g);
 
-                	} else if (obj instanceof BarrierArray) { // This draws the barriers
-                        BarrierArray aBarrierArray = (BarrierArray) obj;
-                        aBarrierArray.drawBarrierArray(g);
+                        } else if (obj instanceof AlienArray) {  // This draws the aliens
+                            AlienArray anAlienArray = (AlienArray) obj;
+                            anAlienArray.drawAlienArray(g);
+
+                        } else if (obj instanceof BarrierArray) { // This draws the barriers
+                            BarrierArray aBarrierArray = (BarrierArray) obj;
+                            aBarrierArray.drawBarrierArray(g);
+                        }
                     }
-            	} 
-            
+
+                    break;
             }
             
         }

@@ -72,11 +72,7 @@ public abstract class Shape implements Drawable {
 		return lastYCoord;
 	}
 
-	public int getInitialY(){
-		return initialY;
-	}
-	
-	/* This is a getter method that returns the shape's width. 
+	/* This is a getter method that returns the shape's width.
     * @return returns shape's width
     */
 	public int getWidth() {
@@ -93,14 +89,14 @@ public abstract class Shape implements Drawable {
     /* This is a getter method that returns the shape's horizontal speed. 
     * @return returns shape's horizontal speed.
     */
-	public int getHSpeed() {
+	int getHSpeed() {
 		return hSpeed;
 	}
 	
 	/* This is a getter method that returns the shape's vertical speed. 
     * @return returns shape's vertical speed.
     */
-	public int getVSpeed() {
+	int getVSpeed() {
 		return vSpeed;
 	}
 
@@ -108,7 +104,7 @@ public abstract class Shape implements Drawable {
     /** This class sets horizontal position of the shape.
 	* @param newX is the shape's horizontal position.
     */
-    public void setXCoord(int newX){
+    void setXCoord(int newX){
     	if (newX != xCoord) {
         	lastXCoord = xCoord;
         	lastYCoord = yCoord;
@@ -119,7 +115,7 @@ public abstract class Shape implements Drawable {
     /** This class sets vertical position of the shape.
 	* @param newX is the shape's vertical position.
     */
-    public void setYCoord(int newY){
+    void setYCoord(int newY){
     	lastXCoord = xCoord;
     	lastYCoord = yCoord;
         yCoord = newY;
@@ -127,17 +123,17 @@ public abstract class Shape implements Drawable {
 	
 	/** This is a setter method for the shape's horizontal speed.
     */
-	public void setHSpeed(int newSpeed) {
+	void setHSpeed(int newSpeed) {
 		hSpeed = newSpeed;
 	}
 	
 	/** This is a setter method for the shape's vertical speed.
     */
-	public void setVSpeed(int newSpeed) {
+	void setVSpeed(int newSpeed) {
 		vSpeed = newSpeed;
 	}
 
-	public void resetY() {  // For now this is only used by the shot class
+	void resetY() {  // For now this is only used by the shot class
 		yCoord = initialY;
 	}
 	
