@@ -113,11 +113,11 @@ Fin
 
 Previous output progress can be viewed in output folder. Most recent output is below:
 
-![ScreenShot](outputs/outputV10Text.gif)
+![ScreenShot](outputs/outputV12Text.gif)
 
-In 'V10', text version is brought up to functionality with aliens shooting down, barriers, improved hit detection and game ending conditions. 
+In 'V12', barriers change representation based on the amount of hits taken.
 
 
-![ScreenShot](outputs/outputV11Gui.gif)
+![ScreenShot](outputs/outputV13Gui.gif)
 
-In 'V11', alien shots can interact with/destroy barriers and functionality is nearly complete, with scoring and file i/o to be added.
+In 'V13', a score is displayed at the end and is appended to an ouput.txt scorelog. 
