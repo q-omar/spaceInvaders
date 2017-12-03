@@ -65,7 +65,7 @@ InvadersGameText.class
 II.Design & Issues
 _______________________
      
-	 The game is designed to run both a text version in the Command Prompt, as well as a GUI version in a new window. Both versions are controlled by the InvadersGameController and the logic of the game is handled by InvadersGameLogic. Reducing code duplication and simplifying the code, inheritance is used in the Shape class which is extended over by Alien.java and PlayerShip.java as well as Shot.java (which is used for the player bullets and alien shots ).
+	 The game is designed to run both a text version in the Command Prompt, as well as a GUI version in a new window. Both versions are controlled by the InvadersGameController and the logic of the game is handled by InvadersGameLogic. Reducing code duplication and simplifying the code, inheritance is used in the Shape class which is extended by the Alien, Shot, PlayerShip and Barrier classes, which are the main entities in the game.
 	 When chosing the TEXT version of the game, the code is redirected to run InvadersGameText as well as print the game board and all its components.
 	 When chosing the GUI version of the game, the code is redirected to run InvadersGameGUI, which implements the canvas and creates a new window to play the game in. Shape implements the class Drawable. 
 	 
@@ -75,10 +75,11 @@ _______________________
 
 Privacy Leaks
 --------------
-	This game relies on every class being able to access variables of the objects, privacy leaks in this case are inevitable, however constants such as boardHeight/Width and screenHeight/Width are immutable.
-
-
-		
+	This game relies on the InvadersGameLogic class to hold instances of the other key logic classes (AlienArray, Shot, PlayerShip,
+	BarrierArray). These instances are passed to the controller class and used to update the text board or GUI window, depending on 
+	the version run. Since InvadersGameText/GUI require the coordinates of the game objects to draw them properly, privacy leaks are
+	inevitable. However, constants such as boardHeight/Width and screenHeight/Width are immutable.
+	
 III. Imports
 ___________________
 	
@@ -100,13 +101,36 @@ ___________________
 IV. Playing The Game
 ________________________
 
+	How to compile the game:
+	
+	1. From the Command Prompt, enter the "main" folder.
+	2. Compile each package using the following commands:
+	
+		javac control/*.java
+		javac view/*.java
+		
+	3. Compile the model package (which contains tests) by moving into the model folder and using the following command
+	   (replace the ":" with ";" if on Windows):
+	   
+		javac -cp .:junit-4.12.jar:hamcrest-core-1.3.jar *.java
+		
 	Follow the instructions to play the game:
 	
-	1. In Command Prompt, run " RunMe ".
+	1. From the Command Prompt, enter the main folder and use the following command (replace the first "." with ";" if on
+	   Windows):
+	   
+		java -cp . control.RunMe
+		
 	2. Select the version, T for the Text version, G for the GUI version.
 	3. Play the game, good luck!
 	
+	Controls:
 	
+	Left = A
+	Right = D
+	Fire = F (Text) or Space (GUI)
+	
+	Destroy the aliens to win! If they reach the bottom or hit you with their bullets, it's game over!
 	
 --------------------------------------------
 Fin	
