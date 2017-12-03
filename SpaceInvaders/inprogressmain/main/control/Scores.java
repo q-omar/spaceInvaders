@@ -7,11 +7,64 @@ import java.util.Collections;
 public class Scores{
 	
 	ArrayList<Integer> integers = new ArrayList<Integer>();
+	private int numScores = 10; // Defining max # of high scores to save
 	private String scores;
 	
-	void addLastScore(String aScore){
-		int anInt = Integer.parseInt(aScore); //parse last score from controller as int
-		integers.add(anInt); //add it to array 
+	/*
+	 * This method handles all the file updating actions instead of calling each method from controller/
+	 * Should first read previous scores from the file via readScores() to populate the list, then
+	 * try to add the new score, then call writeScores to just write the new scores to the file.
+	 * 
+	 * Since we're just using integers, it might be easier to use a binary file to directly readInt and writeInt
+	 * instead of converting to Strings
+	 * 
+	 * Read and write methods need adjustment so that we don't save every score, just the top 10 or whatever
+	 * max we choose, so the file doesn't keep getting longer.
+	 */
+	void addLastScore(int aScore){
+		
+		//readScores();
+		
+		// Only add new score if it's not already in the list
+		if (!integers.contains(aScore)) {
+			
+			if (integers.size() < numScores) {
+				integers.add(aScore);
+			} else {
+				// If the new score is better than the lowest score, remove
+				// the lowest and add the new score
+				if (aScore < integers.get(numScores-1)) {
+					integers.remove(numScores-1);
+					integers.add(aScore);
+					
+				}
+			}
+		}
+		
+		sortScores();
+		
+		//buildScores(); // I think we can remove this if we just save the scores as numbers
+		//writeScores();
+	
+	}
+	
+	// For testing, will print the whole scores array
+	public String toString() {
+		String toString = "";
+		for (int index = 0; index < integers.size(); index++) {
+			toString += integers.get(index) + " ";
+		}
+		return toString;
+	}
+	
+	private boolean contains(int anInt) {
+		boolean containsInt = false;
+		for (int index = 0; index < integers.size(); index++) {
+			if (integers.get(index) == anInt) {
+				containsInt = true;
+			}
+		}
+		return containsInt;
 	}
 
 	void sortScores(){
@@ -43,16 +96,14 @@ public class Scores{
 
 		} catch (IOException ignored) {}
 	
-		
 	}
-
 	
 	void writeScores(){
 		try {
-			BufferedWriter fw = new BufferedWriter(new FileWriter("scores.txt"));
-			fw.write(scores);
-			fw.close();
 			
+			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("scores.txt")));
+			pw.println(scores);
+			pw.close();
 			
 		} catch (IOException ignored) {}
 	
