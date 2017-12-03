@@ -80,12 +80,12 @@ public class InvadersGameGUI extends JFrame {
 
             File file = new File("scoreLog.txt");
             try{            
-                FileWriter fw = new FileWriter("scoreLog.txt",true); //the true will append the new data
-                fw.write(timestamp+"\n");
-                fw.write("End game report: "+gameStatus+"\n");
-                fw.write("Your time was: "+durationAsString+"s"+"\n");
-                fw.write("\n");
-                fw.close();
+                PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file,true))); //the true will append the new data
+                pw.println(timestamp);
+                pw.println("End game report: "+gameStatus);
+                pw.println("Your time was: "+durationAsString+"s");
+                pw.println();
+                pw.close();
             }
             catch(IOException ioe){}
             
