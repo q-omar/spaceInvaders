@@ -3,7 +3,7 @@
 Space Invaders Java version by Team Unlucky 13 :)
 
 Authors:
-Fytopoulou, Panagioa
+Fytopoulou, Panagiota
 Ma, Celina
 Qureshi, Safian Omar
 Virk, Simratdeep
