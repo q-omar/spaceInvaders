@@ -13,6 +13,11 @@ public class InvadersGameText{
     private int boardHeight = 30;
     private int boardWidth = 60;
     private char[][] board = new char[boardHeight][boardWidth];
+    
+    public InvadersGameText() {
+    	// Leaving this call here to initialize the board properly
+    	createBoard();
+    }
 
 	/**
 	 * this method initializes the character array with empty spaces

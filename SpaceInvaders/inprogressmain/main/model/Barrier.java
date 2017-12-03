@@ -14,7 +14,6 @@ public class Barrier extends Shape{
 	void barrierIsHit(){
 		if (isHit <3){
 			isHit +=1;
-			System.out.println("Barrier hit!");
 		}
 	}
 	
@@ -25,11 +24,11 @@ public class Barrier extends Shape{
 	public char barrierCharText(){
 		
 		if (isHit ==0){
-			barrierChar ='A';
+			barrierChar ='3';
 		} else if (isHit==1){
-			barrierChar ='B';
+			barrierChar ='2';
 		}else if (isHit ==2){
-			barrierChar ='C';
+			barrierChar ='1';
 		}else if (isHit ==3){
 			barrierChar =' ';
 		}

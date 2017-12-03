@@ -6,7 +6,7 @@ import java.util.Collections;
 
 public class Scores{
 	
-	ArrayList<Integer> integers = new ArrayList<Integer>();
+	private ArrayList<Integer> integers = new ArrayList<Integer>();
 	private int numScores = 10; // Defining max # of high scores to save
 	private String scores;
 	
@@ -69,6 +69,10 @@ public class Scores{
 
 	void sortScores(){
 		Collections.sort(integers); //sort array 
+	}
+	
+	ArrayList<Integer> getScores() {
+		return integers;
 	}
 
 	void buildScores(){

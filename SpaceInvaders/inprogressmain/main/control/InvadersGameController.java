@@ -11,11 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 
 /**
@@ -103,6 +98,8 @@ public class InvadersGameController implements KeyListener{
             	
             	scores.addLastScore(duration); // Send the time elapsed to the score class
             	
+            	gui.updateScores(scores.getScores(), duration);
+            	
             	timer.stop();
             	
             	// Temporarily win and loss do the same thing for testing
@@ -113,6 +110,8 @@ public class InvadersGameController implements KeyListener{
             	System.out.println("Duration: " + duration); // For testing
             	
             	scores.addLastScore(duration);
+            	
+            	gui.updateScores(scores.getScores(), duration);
             	
             	timer.stop();
             }
@@ -175,7 +174,6 @@ public class InvadersGameController implements KeyListener{
             	quit = true;
             	System.out.println("Game over, the aliens got you!");
             }
- 
     	}
      }
     

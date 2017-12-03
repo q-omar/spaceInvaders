@@ -8,7 +8,7 @@ import java.awt.Font;
 import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 
 
 /**
@@ -19,13 +19,13 @@ import java.sql.Timestamp;
 
 public class InvadersGameGUI extends JFrame {
     
-    private final long startTime = System.currentTimeMillis();
     private int windowWidth = 400;
     private int windowHeight = 500;
     private String gameStatus = "continue";
     private Object[] toDraw;
+    private ArrayList<Integer> scores;
+    private int playerScore;
     
-
     /*
     *  The InvadersGameGUI constructor initializes the frame and the "canvas" component which is painted on.
     */
@@ -57,7 +57,13 @@ public class InvadersGameGUI extends JFrame {
     */
     public void updateScreen(String newGameStatus) {
     	gameStatus = newGameStatus;
+    
         repaint();
+    }
+    
+    public void updateScores(ArrayList<Integer> allScores, int newPlayerScore) {
+    	scores = allScores;
+    	playerScore = newPlayerScore;
     }
 
     /**
@@ -71,27 +77,6 @@ public class InvadersGameGUI extends JFrame {
         *  based on gameStatus.
         *  @param  g  the graphics object
         */
-        String duration(){
-            final long endTime = System.currentTimeMillis();
-            long duration = endTime - startTime;
-            duration = duration/1000;
-            String durationAsString = Long.toString(duration);
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-            File file = new File("scoreLog.txt");
-            try{            
-                PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file,true))); //the true will append the new data
-                pw.println(timestamp);
-                pw.println("End game report: "+gameStatus);
-                pw.println("Your time was: "+durationAsString+"s");
-                pw.println();
-                pw.close();
-            }
-            catch(IOException ioe){}
-            
-            return durationAsString;
-        }
-        
         public void paintComponent(Graphics g){
 
             super.paintComponent(g);
@@ -104,12 +89,12 @@ public class InvadersGameGUI extends JFrame {
             g.setColor(Color.WHITE);
             switch (gameStatus) {
                 case "win":
-                    g.drawString("Your time was: " + duration() + "s", windowWidth / 6, windowHeight / 2);
+                    g.drawString("Your time was: " + playerScore + "s", windowWidth / 6, windowHeight / 2);
                     g.drawString("YOU WON!", windowWidth / 3, windowHeight / 3);
 
                     break;
                 case "loss":
-                    g.drawString("Your time was: " + duration() + "s", windowWidth / 6, windowHeight / 2);
+                    g.drawString("Your time was: " + playerScore + "s", windowWidth / 6, windowHeight / 2);
                     g.drawString("GAME OVER", windowWidth / 3, windowHeight / 3);
                     break;
                 default:
