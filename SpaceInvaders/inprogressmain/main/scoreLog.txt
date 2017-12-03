@@ -1,0 +1,356 @@
+2017-12-02 14:44:58.577
+End game report: loss
+Your time was: 12s
+
+2017-12-03 01:01:19.271
+End game report: loss
+Your time was: 22s
+
+2017-12-03 01:07:13.978
+End game report: loss
+Your time was: 30s
+
+2017-12-03 01:07:14.836
+End game report: loss
+Your time was: 31s
+
+2017-12-03 01:07:39.298
+End game report: loss
+Your time was: 2s
+
+2017-12-03 01:07:40.189
+End game report: loss
+Your time was: 3s
+
+2017-12-03 01:08:32.715
+End game report: loss
+Your time was: 4s
+
+2017-12-03 01:18:59.554
+End game report: loss
+Your time was: 14s
+
+2017-12-03 01:19:36.881
+End game report: loss
+Your time was: 15s
+
+2017-12-03 01:20:19.45
+End game report: loss
+Your time was: 4s
+
+2017-12-03 01:31:33.16
+End game report: loss
+Your time was: 3s
+
+2017-12-03 01:31:52.75
+End game report: loss
+Your time was: 4s
+
+2017-12-03 01:31:53.611
+End game report: loss
+Your time was: 5s
+
+2017-12-03 01:32:05.692
+End game report: loss
+Your time was: 2s
+
+2017-12-03 01:32:06.562
+End game report: loss
+Your time was: 3s
+
+2017-12-03 01:32:15.848
+End game report: loss
+Your time was: 1s
+
+2017-12-03 01:32:41.58
+End game report: loss
+Your time was: 14s
+
+2017-12-03 01:32:42.465
+End game report: loss
+Your time was: 15s
+
+2017-12-03 01:42:04.916
+End game report: loss
+Your time was: 2s
+
+2017-12-03 01:42:05.807
+End game report: loss
+Your time was: 3s
+
+2017-12-03 01:42:38.515
+End game report: loss
+Your time was: 13s
+
+2017-12-03 01:42:46.137
+End game report: loss
+Your time was: 3s
+
+2017-12-03 01:42:59.859
+End game report: loss
+Your time was: 8s
+
+2017-12-03 01:43:25.084
+End game report: loss
+Your time was: 14s
+
+2017-12-03 01:44:43.652
+End game report: loss
+Your time was: 9s
+
+2017-12-03 01:45:44.414
+End game report: loss
+Your time was: 7s
+
+2017-12-03 01:45:45.318
+End game report: loss
+Your time was: 8s
+
+2017-12-03 01:46:58.936
+End game report: loss
+Your time was: 1s
+
+2017-12-03 01:47:30.01
+End game report: loss
+Your time was: 16s
+
+2017-12-03 01:47:30.907
+End game report: loss
+Your time was: 17s
+
+2017-12-03 01:48:52.647
+End game report: loss
+Your time was: 10s
+
+2017-12-03 01:50:09.915
+End game report: loss
+Your time was: 7s
+
+2017-12-03 01:50:29.015
+End game report: loss
+Your time was: 4s
+
+2017-12-03 01:51:10.864
+End game report: loss
+Your time was: 5s
+
+2017-12-03 01:51:11.754
+End game report: loss
+Your time was: 6s
+
+2017-12-03 01:57:20.118
+End game report: loss
+Your time was: 10s
+
+2017-12-03 01:57:21.022
+End game report: loss
+Your time was: 11s
+
+2017-12-03 01:57:42.751
+End game report: loss
+Your time was: 3s
+
+2017-12-03 01:57:54.963
+End game report: loss
+Your time was: 4s
+
+2017-12-03 01:58:47.231
+End game report: loss
+Your time was: 5s
+
+2017-12-03 01:59:01.374
+End game report: loss
+Your time was: 3s
+
+2017-12-03 02:01:48.962
+End game report: loss
+Your time was: 6s
+
+2017-12-03 02:04:49.856
+End game report: loss
+Your time was: 1s
+
+2017-12-03 02:05:08.5
+End game report: loss
+Your time was: 5s
+
+2017-12-03 02:06:12.523
+End game report: loss
+Your time was: 3s
+
+2017-12-03 02:07:57.469
+End game report: loss
+Your time was: 4s
+
+2017-12-03 02:09:25.115
+End game report: loss
+Your time was: 10s
+
+2017-12-03 02:09:26.066
+End game report: loss
+Your time was: 11s
+
+2017-12-03 02:09:52.163
+End game report: loss
+Your time was: 3s
+
+2017-12-03 02:10:16.628
+End game report: loss
+Your time was: 1s
+
+2017-12-03 02:12:02.451
+End game report: loss
+Your time was: 1s
+
+2017-12-03 02:12:21.707
+End game report: loss
+Your time was: 1s
+
+2017-12-03 02:13:27.727
+End game report: loss
+Your time was: 7s
+
+2017-12-03 02:14:25.698
+End game report: loss
+Your time was: 2s
+
+2017-12-03 02:14:43.803
+End game report: loss
+Your time was: 3s
+
+2017-12-03 02:15:10.61
+End game report: loss
+Your time was: 4s
+
+2017-12-03 02:15:11.581
+End game report: loss
+Your time was: 5s
+
+2017-12-03 02:15:35.424
+End game report: loss
+Your time was: 1s
+
+2017-12-03 02:17:04.664
+End game report: loss
+Your time was: 1s
+
+2017-12-03 02:17:21.272
+End game report: loss
+Your time was: 10s
+
+2017-12-03 02:17:22.212
+End game report: loss
+Your time was: 11s
+
+2017-12-03 02:18:12.063
+End game report: loss
+Your time was: 10s
+
+2017-12-03 02:18:12.996
+End game report: loss
+Your time was: 11s
+
+2017-12-03 02:18:35.952
+End game report: loss
+Your time was: 12s
+
+2017-12-03 02:21:01.119
+End game report: loss
+Your time was: 6s
+
+2017-12-03 02:21:02.031
+End game report: loss
+Your time was: 7s
+
+2017-12-03 02:21:41.189
+End game report: loss
+Your time was: 4s
+
+2017-12-03 02:21:42.104
+End game report: loss
+Your time was: 5s
+
+2017-12-03 02:21:54.709
+End game report: loss
+Your time was: 3s
+
+2017-12-03 02:22:25.443
+End game report: loss
+Your time was: 10s
+
+2017-12-03 02:22:26.34
+End game report: loss
+Your time was: 10s
+
+2017-12-03 02:25:12.949
+End game report: loss
+Your time was: 3s
+
+2017-12-03 02:26:00.686
+End game report: loss
+Your time was: 5s
+
+2017-12-03 02:26:27.255
+End game report: loss
+Your time was: 6s
+
+2017-12-03 02:28:42.142
+End game report: loss
+Your time was: 8s
+
+2017-12-03 02:29:42.358
+End game report: loss
+Your time was: 5s
+
+2017-12-03 02:30:03.615
+End game report: loss
+Your time was: 1s
+
+2017-12-03 02:30:04.504
+End game report: loss
+Your time was: 2s
+
+2017-12-03 02:30:13.262
+End game report: loss
+Your time was: 2s
+
+2017-12-03 02:30:25.19
+End game report: loss
+Your time was: 3s
+
+2017-12-03 10:11:27.705
+End game report: loss
+Your time was: 12s
+
+2017-12-03 10:14:27.243
+End game report: loss
+Your time was: 5s
+
+2017-12-03 10:15:51.666
+End game report: loss
+Your time was: 25s
+
+2017-12-03 10:16:54.049
+End game report: loss
+Your time was: 2s
+
+2017-12-03 10:16:55.221
+End game report: loss
+Your time was: 3s
+
+2017-12-03 10:41:59.93
+End game report: loss
+Your time was: 5s
+
+2017-12-03 10:45:52.025
+End game report: loss
+Your time was: 9s
+
+2017-12-03 10:52:42.836
+End game report: loss
+Your time was: 6s
+
+2017-12-03 10:53:34.651
+End game report: loss
+Your time was: 3s
+
