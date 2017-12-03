@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 
-
-
 /**
  * This class is part of the Model-View-Controller set up, situated in the middle.
  * @param logic is the logic object which itself contains all Shape objects
@@ -57,8 +55,6 @@ public class InvadersGameController implements KeyListener{
     		gui = new InvadersGameGUI(drawableObjects);
     		playGui();
     		
-    		// checkScores();
-    		
     	} else if (input.equals("T")) {
     		logic = new InvadersGameLogic("TEXT");
     		text = new InvadersGameText();
@@ -67,18 +63,6 @@ public class InvadersGameController implements KeyListener{
     		playText();
     	}
     }
-    
-    // Writes new scores to the file
-    private void writeScores() {
-        File file = new File("scoreLog.txt");
-        try{            
-            PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-            
-            writer.close();
-        }
-        catch(IOException ioe){}
-    }
-    
     /**
      * Adds all drawable objects to the drawable array.
      */
