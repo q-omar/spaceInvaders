@@ -93,13 +93,8 @@ public class InvadersGameController implements KeyListener{
             if (logic.getGameStatus().equals("win")){
             	final long endTime = System.currentTimeMillis();
             	int duration = (int) ((endTime - startTime)/1000);
-            	
-            	System.out.println("Duration: " + duration); // For testing
-            	
             	scores.addLastScore(duration); // Send the time elapsed to the score class
-            	
             	gui.updateScores(scores.getScores(), duration);
-            	
             	timer.stop();
             	
             } else if (logic.getGameStatus().equals("loss")) { 
@@ -129,7 +124,7 @@ public class InvadersGameController implements KeyListener{
     private void playText() {
     	boolean quit = false;
 		text.createBoard();
-
+        int count = 0;
     	while (!quit) {
     		
     		if (logic.getGameStatus().equals("continue")) { //if gamestatus is not equal to quit, the loop continues (plays the game)
@@ -155,14 +150,15 @@ public class InvadersGameController implements KeyListener{
             	logic.shotGeneration();
                 updateStatus();
     		}
-            
+            count++;
             if (logic.getGameStatus().equals("win")) { //check status at the end to see if game has been won or lost, update quit
-            	quit = true;
+                scores.addLastScore(count);
+                quit = true;
             	text.drawCurrentState(logic.getShip(), logic.getShot(), 
             			logic.getAlienShot(), logic.getArray(), logic.getBarriers());
             	System.out.println("You won!");
             } else if (logic.getGameStatus().equals("loss")) {
-            	quit = true;
+                quit = true;
             	System.out.println("Game over, the aliens got you!");
             }
     	}

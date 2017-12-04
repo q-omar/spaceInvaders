@@ -17,40 +17,18 @@ public class Scores{
 	 * 
 	 */
 	void addLastScore(int aScore){
-		
 		readScores();
 		integers.add(aScore);
 		sortScores();
 		buildScores();
 		writeScores();
-	
 	}
-	
-	// For testing, will print the whole scores array
-	public String toString() {
-		String toString = "";
-		for (int index = 0; index < integers.size(); index++) {
-			toString += integers.get(index) + " ";
-		}
-		return toString;
-	}
-	
-	private boolean contains(int anInt) {
-		boolean containsInt = false;
-		for (int index = 0; index < integers.size(); index++) {
-			if (integers.get(index) == anInt) {
-				containsInt = true;
-			}
-		}
-		return containsInt;
-	} 
 
 	void sortScores(){
 		Collections.sort(integers);
 		if (integers.size() > numScores){
 			integers.remove(integers.indexOf(Collections.min(integers)));
 		}
-		
 	}
 	
 	ArrayList<Integer> getScores() {
@@ -61,14 +39,13 @@ public class Scores{
 		StringBuilder sb = new StringBuilder(); //go from list to string
 		for (int i = 0; i < integers.size(); i++) {
 		  int num = integers.get(i);
-		  sb.append("Your time was: "+num+ System.lineSeparator());
+		  sb.append("Your clear time/turn count was: "+num+ System.lineSeparator());
 		}
 		scores = sb.toString();
 	}
 
 	void readScores(){
 		try {
-			File file = new File("scores.txt");
 			BufferedReader reader = new BufferedReader(new FileReader("scores.txt"));
 			reader.readLine();
 			String line = reader.readLine();
@@ -88,12 +65,11 @@ public class Scores{
 		try {
 			
 			BufferedWriter fw = new BufferedWriter(new FileWriter("scores.txt"));
-			fw.write("Top 10 Survivability Times"+System.lineSeparator());
+			fw.write("Top 10 clear times/turn counts"+System.lineSeparator());
 			fw.write(scores);
 			fw.close();
 			
 		} catch (IOException ignored) {}
 	
 	}
-	
 }
