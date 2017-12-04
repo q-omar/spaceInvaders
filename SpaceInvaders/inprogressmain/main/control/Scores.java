@@ -59,12 +59,11 @@ public class Scores{
 
 	void buildScores(){
 		StringBuilder sb = new StringBuilder(); //go from list to string
-		for (int i = 0; i < integers.size() - 1; i++) {
+		for (int i = 0; i < integers.size(); i++) {
 		  int num = integers.get(i);
 		  sb.append("Your time was: "+num+ System.lineSeparator());
 		}
 		scores = sb.toString();
-		System.out.println(scores);
 	}
 
 	void readScores(){

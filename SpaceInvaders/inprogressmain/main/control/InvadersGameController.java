@@ -102,18 +102,9 @@ public class InvadersGameController implements KeyListener{
             	
             	timer.stop();
             	
-            	// Temporarily win and loss do the same thing for testing
             } else if (logic.getGameStatus().equals("loss")) { 
-            	final long endTime = System.currentTimeMillis();
-            	int duration = (int) ((endTime - startTime)/1000);
-            	
-            	System.out.println("Duration: " + duration); // For testing
-            	
-            	scores.addLastScore(duration);
-            	
-            	gui.updateScores(scores.getScores(), duration);
-            	
             	timer.stop();
+            	
             }
             
             updateStatus();

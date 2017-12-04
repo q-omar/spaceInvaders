@@ -1,6 +1,5 @@
 package view;
 
-import java.io.*;
 import model.*;
 import java.awt.Graphics;
 import java.awt.Color;
@@ -23,7 +22,7 @@ public class InvadersGameGUI extends JFrame {
     private int windowHeight = 500;
     private String gameStatus = "continue";
     private Object[] toDraw;
-    private ArrayList<Integer> scores;
+    private ArrayList<Integer> scores = new ArrayList<Integer>();
     private int playerScore;
     
     /*
@@ -89,21 +88,33 @@ public class InvadersGameGUI extends JFrame {
             g.setColor(Color.WHITE);
             switch (gameStatus) {
                 case "win":
-                    g.drawString("Your time was: " + playerScore + "s", windowWidth / 6, windowHeight / 2);
-                    g.drawString("YOU WON!", windowWidth / 3, windowHeight / 3);
-
+                	g.drawString("YOU WON!", 120, 60);
+                    g.drawString("Your time was: " + playerScore + "s", 60, 110);
+                    g.drawString("High Scores:", 100, 160);
+                    
+                    g.setFont(new Font("Arial", Font.BOLD, 28));
+                    
+                    int y = 205;
+                    for (int index = 0; index < scores.size(); index++) {
+                    	String indexAsString = Integer.toString(index + 1);
+                    	String scoreAsString = Integer.toString(scores.get(index));
+                    	g.drawString(indexAsString + ": " + scoreAsString + "s", 170, y);
+                    	
+                    	y += 30;
+                    }
+                    
                     break;
                 case "loss":
-                    g.drawString("Your time was: " + playerScore + "s", windowWidth / 6, windowHeight / 2);
                     g.drawString("GAME OVER", windowWidth / 3, windowHeight / 3);
                     break;
+                    
                 default:
 
                     for (Object obj : toDraw) {
                         if (obj instanceof Shape) {   // This will draw the ship and shot
                             Shape aShape = (Shape) obj;
                             aShape.draw(g);
-
+  
                         } else if (obj instanceof AlienArray) {  // This draws the aliens
                             AlienArray anAlienArray = (AlienArray) obj;
                             anAlienArray.drawAlienArray(g);
