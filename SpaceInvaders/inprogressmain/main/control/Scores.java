@@ -23,28 +23,12 @@ public class Scores{
 	 */
 	void addLastScore(int aScore){
 		
-		//readScores();
-		
-		// Only add new score if it's not already in the list
-		if (!integers.contains(aScore)) {
-			
-			if (integers.size() < numScores) {
-				integers.add(aScore);
-			} else {
-				// If the new score is better than the lowest score, remove
-				// the lowest and add the new score
-				if (aScore < integers.get(numScores-1)) {
-					integers.remove(numScores-1);
-					integers.add(aScore);
-					
-				}
-			}
-		}
-		
+		readScores();
+		integers.add(aScore);
 		sortScores();
 		
-		//buildScores(); // I think we can remove this if we just save the scores as numbers
-		//writeScores();
+		buildScores();
+		writeScores();
 	
 	}
 	
@@ -68,7 +52,11 @@ public class Scores{
 	}
 
 	void sortScores(){
-		Collections.sort(integers); //sort array 
+		Collections.sort(integers);
+		if (integers.size() > numScores){
+			integers.remove(integers.indexOf(Collections.min(integers)));
+		}
+		
 	}
 	
 	ArrayList<Integer> getScores() {
@@ -89,6 +77,7 @@ public class Scores{
 		try {
 			File file = new File("scores.txt");
 			BufferedReader reader = new BufferedReader(new FileReader("scores.txt"));
+			reader.readLine();
 			String line = reader.readLine();
 			
 			while (line != null) {
@@ -105,9 +94,10 @@ public class Scores{
 	void writeScores(){
 		try {
 			
-			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("scores.txt")));
-			pw.println(scores);
-			pw.close();
+			BufferedWriter fw = new BufferedWriter(new FileWriter("scores.txt"));
+			fw.write("Top 10 Survivability Times"+"\n");
+			fw.write(scores);
+			fw.close();
 			
 		} catch (IOException ignored) {}
 	
