@@ -15,18 +15,12 @@ public class Scores{
 	 * Should first read previous scores from the file via readScores() to populate the list, then
 	 * try to add the new score, then call writeScores to just write the new scores to the file.
 	 * 
-	 * Since we're just using integers, it might be easier to use a binary file to directly readInt and writeInt
-	 * instead of converting to Strings
-	 * 
-	 * Read and write methods need adjustment so that we don't save every score, just the top 10 or whatever
-	 * max we choose, so the file doesn't keep getting longer.
 	 */
 	void addLastScore(int aScore){
 		
 		readScores();
 		integers.add(aScore);
 		sortScores();
-		
 		buildScores();
 		writeScores();
 	
@@ -49,7 +43,7 @@ public class Scores{
 			}
 		}
 		return containsInt;
-	}
+	} 
 
 	void sortScores(){
 		Collections.sort(integers);
@@ -65,7 +59,7 @@ public class Scores{
 
 	void buildScores(){
 		StringBuilder sb = new StringBuilder(); //go from list to string
-		for (int i = integers.size() - 1; i >= 0; i--) {
+		for (int i = 0; i < integers.size() - 1; i++) {
 		  int num = integers.get(i);
 		  sb.append("Your time was: "+num+ System.lineSeparator());
 		}
@@ -103,5 +97,4 @@ public class Scores{
 	
 	}
 	
-
 }
