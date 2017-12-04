@@ -67,7 +67,7 @@ public class Scores{
 		StringBuilder sb = new StringBuilder(); //go from list to string
 		for (int i = integers.size() - 1; i >= 0; i--) {
 		  int num = integers.get(i);
-		  sb.append("Your time was: "+num+"\n");
+		  sb.append("Your time was: "+num+ System.lineSeparator());
 		}
 		scores = sb.toString();
 		System.out.println(scores);
@@ -95,7 +95,7 @@ public class Scores{
 		try {
 			
 			BufferedWriter fw = new BufferedWriter(new FileWriter("scores.txt"));
-			fw.write("Top 10 Survivability Times"+"\n");
+			fw.write("Top 10 Survivability Times"+System.lineSeparator());
 			fw.write(scores);
 			fw.close();
 			
