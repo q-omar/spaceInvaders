@@ -13,11 +13,11 @@ public class AlienArray{
     * @param aliens is an array of object aliens that will further be specified in the constructor
     * @param leftBoundary,rightBoundary are used in the movement method where the aliens traverse to a certain point and then back
     */
-    
-    private int numAliens; 
-    private int rowsAliens;
+
+    private final int NUM_ALIENS;
+    private final int ROW_ALIENS;
     private boolean moveRight = true;
-    private Alien[][] aliens;
+    private final Alien[][] aliens;
     private int leftBoundary;
     private int rightBoundary;
 
@@ -29,16 +29,16 @@ public class AlienArray{
     AlienArray(String version){
 
         if (version.equals("GUI")) {
-        	numAliens = 6;
-        	rowsAliens = 3;
-        	aliens = new Alien[rowsAliens][numAliens];
+        	NUM_ALIENS = 8;
+        	ROW_ALIENS = 4;
+        	aliens = new Alien[ROW_ALIENS][NUM_ALIENS];
         	createAlienArrays();
         	setGUIaliens();
 
         } else {
-        	numAliens = 5;
-        	rowsAliens = 2;
-        	aliens = new Alien[rowsAliens][numAliens];
+        	NUM_ALIENS = 5;
+        	ROW_ALIENS = 2;
+        	aliens = new Alien[ROW_ALIENS][NUM_ALIENS];
         	//createAlienArrays();
         	setAliens();  
         }
@@ -53,20 +53,20 @@ public class AlienArray{
         return aliens;
     }
     public int getNumAliens() {
-    	return numAliens;
+    	return NUM_ALIENS;
     }
 
     public int getRowsAliens() {
-    	return rowsAliens;
+    	return ROW_ALIENS;
     }
 
     /** creates an array on which the aliens will be drawn on. This method is the same for GUI and Text Version
     */
     
     private void createAlienArrays(){
-        for (int r=0; r<rowsAliens ; r++) {
-            for (int c=0; c<numAliens; c++){
-                aliens[r][c] = new Alien(10, 5, 40);
+        for (int r=0; r<ROW_ALIENS ; r++) {
+            for (int c=0; c<NUM_ALIENS; c++){
+                aliens[r][c] = new Alien(10, 20, 40);
             }
         }
     }
@@ -75,8 +75,8 @@ public class AlienArray{
     */
     
     private void setAliens(){
-        for (int r = 0; r < rowsAliens ; r++) {
-            for (int c=0; c< numAliens;c++){
+        for (int r = 0; r < ROW_ALIENS ; r++) {
+            for (int c=0; c< NUM_ALIENS;c++){
             	aliens[r][c] = new Alien(3, 3, 0);
                 aliens[r][c].setXCoord(4+2*c);
                 if (r%2!=0){
@@ -97,15 +97,15 @@ public class AlienArray{
         leftBoundary = 0;
         rightBoundary = 0;
        
-        for (int c = 0; c <numAliens;c++){
-            for (int r = 0; r < rowsAliens ; r++) {
+        for (int c = 0; c <NUM_ALIENS;c++){
+            for (int r = 0; r < ROW_ALIENS ; r++) {
                 if (aliens[r][c].isAlive()){
                     rightBoundary = c;
                 }
             }
         }
-        for (int c = numAliens-1; c>-1;c--){
-            for (int r = 0; r < rowsAliens ; r++) {
+        for (int c = NUM_ALIENS-1; c>-1;c--){
+            for (int r = 0; r < ROW_ALIENS ; r++) {
                 if (aliens[r][c].isAlive()){
                     leftBoundary = c;
                 }
@@ -125,8 +125,8 @@ public class AlienArray{
         checkBoundary();
         if (moveRight){ //move right until the boundary is reached, at which point shift down
             if ((aliens[0][rightBoundary].getXCoord()+aliens[0][rightBoundary].getHSpeed())>= width - 2 - aliens[0][0].getWidth()){ 
-                for (int r = 0; r < rowsAliens ; r++) {
-                    for (int c = 0; c < numAliens; c++){
+                for (int r = 0; r < ROW_ALIENS ; r++) {
+                    for (int c = 0; c < NUM_ALIENS; c++){
                         aliens[r][c].moveDown();
                     } 
                 }
@@ -134,8 +134,8 @@ public class AlienArray{
                 return; 
             }
 
-            for (int r = 0; r < rowsAliens ; r++) { //if boundary isn't reached, move right
-                for (int c = 0; c < numAliens; c++){
+            for (int r = 0; r < ROW_ALIENS ; r++) { //if boundary isn't reached, move right
+                for (int c = 0; c < NUM_ALIENS; c++){
                     aliens[r][c].moveRight();
                 }
             }
@@ -144,8 +144,8 @@ public class AlienArray{
         else{ //if boundary is reached and moveright is flagged false, else block executes 
             
             if (aliens[0][leftBoundary].getXCoord()<=3){ //similarly, move left until boundary is reached
-                for (int r = 0; r < rowsAliens ; r++) {
-                    for (int c = 0; c < numAliens; c++){
+                for (int r = 0; r < ROW_ALIENS ; r++) {
+                    for (int c = 0; c < NUM_ALIENS; c++){
                         aliens[r][c].moveDown();
                     }
                     
@@ -154,8 +154,8 @@ public class AlienArray{
                 return; 
             }
 
-            for (int r = 0; r < rowsAliens ; r++) {
-                for (int c = 0; c < numAliens; c++){
+            for (int r = 0; r < ROW_ALIENS ; r++) {
+                for (int c = 0; c < NUM_ALIENS; c++){
                     aliens[r][c].moveLeft();
                 }
             }
@@ -167,8 +167,8 @@ public class AlienArray{
     */
     
     public void drawAlienArray(Graphics g){
-        for (int r=0; r<rowsAliens;r++){
-            for (int c=0; c<numAliens;c++){
+        for (int r=0; r<ROW_ALIENS;r++){
+            for (int c=0; c<NUM_ALIENS;c++){
                 if (aliens[r][c].isAlive()){
                     aliens[r][c].draw(g);
                 }
@@ -183,8 +183,8 @@ public class AlienArray{
         int whereX=5;
         int whereY=0;
 		// the aliens are spaced out evenly
-        for (int r=0; r<rowsAliens;r++){
-            for (int c=0; c<numAliens;c++){
+        for (int r=0; r<ROW_ALIENS;r++){
+            for (int c=0; c<NUM_ALIENS;c++){
                 whereX+=50;
                 aliens[r][c].setXCoord(whereX);
                 aliens[r][c].setYCoord(whereY);

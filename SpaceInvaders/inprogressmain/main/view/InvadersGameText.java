@@ -6,13 +6,13 @@ public class InvadersGameText{
 	/*******************************************************
 	method: This class handles all the drawing for the text version of the game. It prints a board array, player ship and player shot. It gets the 
 	* ship and shot each time the board is redrawn. 
-	* @param boardHeight is the height of the text-based board game.
-	* @param boardWidth is the width of the text-based board game.
+	* @param BOARD_HEIGHT is the height of the text-based board game.
+	* @param BOARD_WIDTH is the width of the text-based board game.
 	* @param board is a char array of the board.
 	*/
-    private int boardHeight = 30;
-    private int boardWidth = 60;
-    private char[][] board = new char[boardHeight][boardWidth];
+    private final int BOARD_HEIGHT = 30;
+    private final int BOARD_WIDTH = 60;
+    private final char[][] board = new char[BOARD_HEIGHT][BOARD_WIDTH];
     
     public InvadersGameText() {
     	// Leaving this call here to initialize the board properly
@@ -24,8 +24,8 @@ public class InvadersGameText{
 	 */
 
     public void createBoard(){
-        for (int r = 0; r < boardHeight; r++) {
-            for (int c = 0; c < boardWidth; c++) {
+        for (int r = 0; r < BOARD_HEIGHT; r++) {
+            for (int c = 0; c < BOARD_WIDTH; c++) {
                 board[r][c] = ' '; 
             }
         }  
@@ -38,7 +38,7 @@ public class InvadersGameText{
 
     private boolean validLocation(int x, int y) {
     	boolean valid = false;
-    	if (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
+    	if (x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT) {
     		valid = true;
     	}
     	return valid;
@@ -50,9 +50,9 @@ public class InvadersGameText{
 	*/
 
     private void printBoard(){
-        for (int r = 0; r < boardHeight; r++) {
+        for (int r = 0; r < BOARD_HEIGHT; r++) {
             System.out.print("|"); 
-            for (int c = 0; c < boardWidth; c++) {
+            for (int c = 0; c < BOARD_WIDTH; c++) {
                 System.out.print(board[r][c]);
             }
             System.out.println("|"); 
@@ -90,9 +90,9 @@ public class InvadersGameText{
 
     private void drawShip(PlayerShip ship){
     	
-        board[boardHeight-1][ship.getXCoord()] = 'X';
+        board[BOARD_HEIGHT -1][ship.getXCoord()] = 'X';
         if (ship.getXCoord() != ship.getLastXCoord() && validLocation(ship.getLastXCoord(), 0)) {
-            board[boardHeight-1][ship.getLastXCoord()] = ' ';
+            board[BOARD_HEIGHT -1][ship.getLastXCoord()] = ' ';
         }
     }
     

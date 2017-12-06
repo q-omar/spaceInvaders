@@ -1,6 +1,6 @@
 package control;
 
-public class RunMe {
+class RunMe {
     
     public static void main (String[] args){
         javax.swing.SwingUtilities.invokeLater(InvadersGameController::new);

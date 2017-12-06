@@ -1,6 +1,9 @@
 package model;
 
 import java.awt.Graphics;
+import javax.sound.sampled.*;
+import java.io.*;
+
 import java.awt.Color;
 
 /**
@@ -32,6 +35,17 @@ public class Shot extends Shape {
 		super(0,startingY, newWidth, newHeight);
 		setVSpeed(newSpeed);
     }
+    private void playSound(){
+        try{
+            String soundName = "shoot.wav";
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException ignored){}
+        catch (LineUnavailableException ignored){}
+        catch (IOException ignored){}
+    }
     
     /**
      * Returns whether or not a shot has been fired and is currently active
@@ -48,7 +62,8 @@ public class Shot extends Shape {
 	*/
     void tryShot(int shipLocation) {
     	if (!shotFired && shipLocation >= 0) {
-    		shotFired = true;
+            shotFired = true;
+            playSound();
     		setXCoord(shipLocation);
     	}
     }

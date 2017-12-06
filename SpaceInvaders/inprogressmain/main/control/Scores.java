@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class Scores{
+class Scores{
 	
-	private ArrayList<Integer> integers = new ArrayList<Integer>();
-	private int numScores = 10; // Defining max # of high scores to save
+	private final ArrayList<Integer> integers = new ArrayList<>();
 	private String scores;
 	private String filename;
 	
@@ -30,8 +29,9 @@ public class Scores{
 		writeScores();
 	}
 
-	void sortScores(){
+	private void sortScores(){
 		Collections.sort(integers);
+		int numScores = 10;
 		if (integers.size() > numScores){
 			integers.remove(integers.indexOf(Collections.min(integers)));
 		}
@@ -41,16 +41,16 @@ public class Scores{
 		return integers;
 	}
 
-	void buildScores(){
+	private void buildScores(){
 		StringBuilder sb = new StringBuilder(); //go from list to string
-		for (int i = 0; i < integers.size(); i++) {
-		  int num = integers.get(i);
-		  sb.append("Your clear time/turn count was: "+num+ System.lineSeparator());
-		}
+        for (Integer integer : integers) {
+            int num = integer;
+            sb.append("Your clear time/turn count was: ").append(num).append(System.lineSeparator());
+        }
 		scores = sb.toString();
 	}
 
-	void readScores(){
+	private void readScores(){
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			reader.readLine();
@@ -67,7 +67,7 @@ public class Scores{
 	
 	}
 	
-	void writeScores(){
+	private void writeScores(){
 		try {
 			BufferedWriter fw = new BufferedWriter(new FileWriter(filename));
 			fw.write("Top 10 clear times/turn counts"+System.lineSeparator());

@@ -25,7 +25,7 @@ public abstract class Shape implements Drawable {
 	* @param  newWidth  is an integer value for the width of the shape.
 	* @param  newHeight  is an integer value for the height of the shape.
     */
-	public Shape(int newX, int newY, int newWidth, int newHeight) {
+	 Shape(int newX, int newY, int newWidth, int newHeight) {
 		if (newX >= 0) {
 			xCoord = newX;
 		}

@@ -4,7 +4,6 @@ import model.*;
 import view.*;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 import javax.swing.Timer;
@@ -12,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Timestamp;
 
 /**
  * This class is part of the Model-View-Controller set up, situated in the middle.
@@ -22,7 +20,7 @@ import java.sql.Timestamp;
  * @param drawableObjects takes drawable shapes from logic and puts it in an array used by interface class
  */
 
-public class InvadersGameController implements KeyListener{
+class InvadersGameController implements KeyListener{
     
 	private final Scanner keyboard = new Scanner(System.in);
 	private long startTime;
@@ -31,8 +29,8 @@ public class InvadersGameController implements KeyListener{
     private InvadersGameLogic logic;
     private InvadersGameGUI gui;
     private InvadersGameText text;
-    private Object[] drawableObjects = new Object[5];
-    private Scores scores = new Scores();
+    private final Object[] drawableObjects = new Object[5];
+    private final Scores scores = new Scores();
         
      /**
      * Constructor for InvadersGameController which uses if branch to select what version of the game to start
@@ -82,19 +80,19 @@ public class InvadersGameController implements KeyListener{
     // Defining action listener for the timer separate from where the timer is defined
     // The timer is now an instance variable so this method can call timer.stop()
     // 
-    ActionListener timerListener = new ActionListener() {
+    private final ActionListener timerListener = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
-    		
+
             if (logic.getGameStatus().equals("win")){
             	final long endTime = System.currentTimeMillis();
             	int duration = (int) ((endTime - startTime)/1000);
             	scores.addLastScore(duration, "GUI"); // Send the time elapsed to the score class
             	gui.updateScores(scores.getScores(), duration);
             	timer.stop();
-            	
-            } else if (logic.getGameStatus().equals("loss")) { 
+
+            } else if (logic.getGameStatus().equals("loss")) {
             	timer.stop();
-            	
+
             }
             
             updateStatus();
@@ -123,10 +121,10 @@ public class InvadersGameController implements KeyListener{
     	while (!quit) {
 
     		if (logic.getGameStatus().equals("continue")) { //if gamestatus is not equal to quit, the loop continues (plays the game)
-        		text.drawCurrentState(logic.getShip(), logic.getShot(), 
+        		text.drawCurrentState(logic.getShip(), logic.getShot(),
         				logic.getAlienShot(), logic.getArray(), logic.getBarriers());//draws current state
-        		
-                System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)"); 
+
+                System.out.print("Enter A for left, D for right, or F to shoot (Q to quit)");
                 String selection = keyboard.nextLine().toUpperCase();
 
                 switch (selection) {

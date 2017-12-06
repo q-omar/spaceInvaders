@@ -1,13 +1,13 @@
 package view;
 
 import model.*;
-
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import java.util.ArrayList;
 
 
 /**
@@ -18,11 +18,13 @@ import javax.swing.JFrame;
 
 public class InvadersGameGUI extends JFrame {
     
-    private int windowWidth = 400;
-    private int windowHeight = 500;
+    private final int WINDOW_WIDTH = 800;
+    private final int WINDOW_HEIGHT = 500;
     private String gameStatus = "continue";
-    private Object[] toDraw;
-
+    private final Object[] toDraw;
+    private ArrayList<Integer> scores = new ArrayList<>();
+    private int playerScore;
+    
     /*
     *  The InvadersGameGUI constructor initializes the frame and the "canvas" component which is painted on.
     */
@@ -36,10 +38,10 @@ public class InvadersGameGUI extends JFrame {
 
         Canvas canvas = new Canvas();
 
-        /**Code from Stack Overflow answer (https://stackoverflow.com/questions/
+        /*Code from Stack Overflow answer (https://stackoverflow.com/questions/
         * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) 
 		*/
-        canvas.setPreferredSize(new Dimension(windowWidth, windowHeight));
+        canvas.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.getContentPane().add(canvas);
         this.pack();
         
@@ -54,7 +56,13 @@ public class InvadersGameGUI extends JFrame {
     */
     public void updateScreen(String newGameStatus) {
     	gameStatus = newGameStatus;
+    
         repaint();
+    }
+    
+    public void updateScores(ArrayList<Integer> allScores, int newPlayerScore) {
+    	scores = allScores;
+    	playerScore = newPlayerScore;
     }
 
     /**
@@ -71,38 +79,53 @@ public class InvadersGameGUI extends JFrame {
         public void paintComponent(Graphics g){
 
             super.paintComponent(g);
-
             // Draw background
             g.setColor(Color.BLACK);
-            g.fillRect(0,0,windowWidth,windowHeight);
+            g.fillRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT);
             g.setFont(new Font("Arial", Font.BOLD, 36));
 
 			// Draws end game screen win or loss
             g.setColor(Color.WHITE);
-            if (gameStatus.equals("win")) {
-                g.drawString("YOU WON!", windowWidth/3,windowHeight/2);
-
-            } else if (gameStatus.equals("loss")) {
-                g.drawString("GAME OVER", windowWidth/3,windowHeight/2);
-            }
-            
-            else { 
-            	
-            	for (Object obj : toDraw) { 
-            		if (obj instanceof Shape) {   // This will draw the ship and shot
-            			Shape aShape = (Shape)obj;
-            			aShape.draw(g);
-
-            		} else if (obj instanceof AlienArray) {  // This draws the aliens
-                		AlienArray anAlienArray = (AlienArray) obj;
-                		anAlienArray.drawAlienArray(g);
-
-                	} else if (obj instanceof Barrier) { // This draws the barriers
-                        Barrier aBarrier = (Barrier) obj;
-                        aBarrier.draw(g);
+            switch (gameStatus) {
+                case "win":
+                	g.drawString("YOU WON!", 120, 60);
+                    g.drawString("Your time was: " + playerScore + "s", 60, 110);
+                    g.drawString("High Scores:", 100, 160);
+                    
+                    g.setFont(new Font("Arial", Font.BOLD, 28));
+                    
+                    int y = 205;
+                    for (int index = 0; index < scores.size(); index++) {
+                    	String indexAsString = Integer.toString(index + 1);
+                    	String scoreAsString = Integer.toString(scores.get(index));
+                    	g.drawString(indexAsString + ": " + scoreAsString + "s", 170, y);
+                    	
+                    	y += 30;
                     }
-            	} 
-            
+                    
+                    break;
+                case "loss":
+                    g.drawString("GAME OVER", WINDOW_WIDTH / 3, WINDOW_HEIGHT / 3);
+                    break;
+                    
+                default:
+
+                    for (Object obj : toDraw) {
+                        if (obj instanceof Shape) {   // This will draw the ship and shot
+                            Shape aShape = (Shape) obj;
+                            aShape.draw(g);
+  
+                        } else if (obj instanceof AlienArray) {  // This draws the aliens
+                            AlienArray anAlienArray = (AlienArray) obj;
+                            anAlienArray.drawAlienArray(g);
+
+                        } else if (obj instanceof BarrierArray) { // This draws the barriers
+                            BarrierArray aBarrierArray = (BarrierArray) obj;
+                            aBarrierArray.drawBarrierArray(g);
+                        }
+                    }
+
+                    break;
             }
             
         }

@@ -18,11 +18,11 @@ import java.util.ArrayList;
 
 public class InvadersGameGUI extends JFrame {
     
-    private int windowWidth = 400;
-    private int windowHeight = 500;
+    private final int WINDOW_WIDTH = 800;
+    private final int WINDOW_HEIGHT = 500;
     private String gameStatus = "continue";
-    private Object[] toDraw;
-    private ArrayList<Integer> scores = new ArrayList<Integer>();
+    private final Object[] toDraw;
+    private ArrayList<Integer> scores = new ArrayList<>();
     private int playerScore;
     
     /*
@@ -41,7 +41,7 @@ public class InvadersGameGUI extends JFrame {
         /*Code from Stack Overflow answer (https://stackoverflow.com/questions/
         * 6593322/why-does-the-jframe-setsize-method-not-set-the-size-correctly) 
 		*/
-        canvas.setPreferredSize(new Dimension(windowWidth, windowHeight));
+        canvas.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.getContentPane().add(canvas);
         this.pack();
         
@@ -81,7 +81,7 @@ public class InvadersGameGUI extends JFrame {
             super.paintComponent(g);
             // Draw background
             g.setColor(Color.BLACK);
-            g.fillRect(0,0,windowWidth,windowHeight);
+            g.fillRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT);
             g.setFont(new Font("Arial", Font.BOLD, 36));
 
 			// Draws end game screen win or loss
@@ -105,7 +105,7 @@ public class InvadersGameGUI extends JFrame {
                     
                     break;
                 case "loss":
-                    g.drawString("GAME OVER", windowWidth / 3, windowHeight / 3);
+                    g.drawString("GAME OVER", WINDOW_WIDTH / 3, WINDOW_HEIGHT / 3);
                     break;
                     
                 default:

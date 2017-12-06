@@ -10,5 +10,5 @@ public interface Drawable {
 	* An abstract method to draw some object.
 	* @param  the Graphics object
 	*/
-	public abstract void draw(Graphics g);
+	void draw(Graphics g);
 }

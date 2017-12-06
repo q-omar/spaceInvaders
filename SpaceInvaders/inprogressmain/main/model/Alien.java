@@ -1,13 +1,9 @@
 package model;
 
-import java.awt.Graphics;
-import java.awt.Color;
+import java.awt.*;
+
 
 public class Alien extends Shape{
-	/**This class holds the method mechanics of the alien ship
-	* @param isAlive is a boolean for the status of an alien
-	*/
-
     private boolean isAlive = true;
 	
 	/**This is a constructor for the Alien class that calls the Shape constructor that sets the coordinates, size and speed
@@ -69,6 +65,11 @@ public class Alien extends Shape{
     public void draw(Graphics g) {
          g.setColor(Color.GREEN);
          g.fillOval(getXCoord(),getYCoord(),getWidth(),getHeight());
+         /*This class holds the method mechanics of the alien ship
+	 */
+        Image imageAlien = new javax.swing.ImageIcon("a.png").getImage();
+         g.drawImage(imageAlien, getXCoord(),getYCoord(),null);
+         
 
     }
 

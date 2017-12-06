@@ -1,11 +1,12 @@
 package model;
-import java.awt.*;
 import java.util.Random;
+import javax.sound.sampled.*;
+import java.io.*;
 
 public class InvadersGameLogic{
 
-    private int screenHeight = 500;
-    private int screenWidth = 400;
+    private int screenHeight;
+    private int screenWidth;
     
     private Shot shot;
     private Shot alienShot;
@@ -25,8 +26,8 @@ public class InvadersGameLogic{
         if (version.equals("GUI")){
         	gameVersion = version;
             screenHeight = 500;
-            screenWidth = 400;
-            ship = new PlayerShip(screenWidth, screenHeight - 60, 20, 5);  
+            screenWidth = 800;
+            ship = new PlayerShip(screenWidth, screenHeight - 60, 20, 5);
             shot = new Shot(420, -20, 5, 20);
             alienShot = new Shot(0, 8, 6, 12);
             alienInvaders = new AlienArray("GUI");
@@ -36,7 +37,7 @@ public class InvadersGameLogic{
         	gameVersion = version;
             screenWidth = 60;
             screenHeight = 30;
-            ship = new PlayerShip(screenWidth, screenHeight-1, 0, 5); 
+            ship = new PlayerShip(screenWidth, screenHeight-1, 0, 5);
             shot = new Shot(screenHeight-3, -5);
             alienShot = new Shot(0, 3);
             alienInvaders = new AlienArray("Text");
@@ -136,6 +137,7 @@ public class InvadersGameLogic{
         	if (gameVersion.equals("GUI")) {
                 if (alienShot.checkHitRectangle(ship.getXCoord(), ship.getYCoord(), ship.getWidth(), ship.getHeight())){
                     gameStatus = "loss";
+                    playSound();
                 }
         	} else {
         	    if (alienShot.checkTextHit(ship.getYCoord(), ship.getXCoord(), ship.getLastXCoord())){
@@ -170,7 +172,7 @@ public class InvadersGameLogic{
                 		if (gameVersion.equals("GUI") && shot.checkHit(alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getYCoord(), alienInvaders.getAliens()[r][c].getWidth())) {
                             alienInvaders.getAliens()[r][c].destroyAlien();
                             
-                            Toolkit.getDefaultToolkit().beep();  
+                            
                 			
                 		} else if (gameVersion.equals("TEXT") 
                 				&& shot.checkTextHit(alienInvaders.getAliens()[r][c].getYCoord(), alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getLastXCoord())) {
@@ -181,6 +183,18 @@ public class InvadersGameLogic{
                 }
             }
         }
+    }
+    private void playSound(){
+        try{
+            String soundName = "destroy.wav";
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } 
+        catch (UnsupportedAudioFileException ignored){}
+        catch (LineUnavailableException ignored){}
+        catch (IOException ignored){}
     }
     
     /** This method attempts to fire a shot if thre isn't already a shot on the screen. 
