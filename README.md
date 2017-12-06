@@ -142,6 +142,6 @@ Previous output progress can be viewed in output folder. Most recent output is b
 In 'V12', barriers change representation based on the amount of hits taken.
 
 
-![ScreenShot](outputs/outputV13Gui.gif)
+![ScreenShot](outputs/outputV14.gif)
 
-In 'V13', a score is displayed at the end and is appended to an ouput.txt scorelog. 
+In 'V14', images of aliens are added along with sound effects. The screen is also extended with more aliens added so that it feels like an actual game. Highscores are displayed at the end, provided the player wins. 
