@@ -124,7 +124,6 @@ public class InvadersGameText{
 		and then setting the new alien positions if they are still "alive"
 		@param array contains locations of the positions of all aliens and this method uses it to display it 
 	*/
-
 	private void drawAliens(AlienArray array){
 		for (int r = 0; r < array.getRowsAliens() ; r++) {
 			for (int c=0; c < array.getNumAliens();c++){

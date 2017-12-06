@@ -3,6 +3,7 @@ package control;
 import model.*;
 import view.*;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -38,7 +39,6 @@ public class InvadersGameController implements KeyListener{
      * Constructor for InvadersGameController which uses if branch to select what version of the game to start
      * calling on the appropriate play methods
      */
-
     InvadersGameController() {
     	
     	System.out.println("Let's play the InvadersGame!\nEnter T to launch the text version or G to launch the GUI version.");
@@ -93,7 +93,7 @@ public class InvadersGameController implements KeyListener{
             if (logic.getGameStatus().equals("win")){
             	final long endTime = System.currentTimeMillis();
             	int duration = (int) ((endTime - startTime)/1000);
-            	scores.addLastScore(duration); // Send the time elapsed to the score class
+            	scores.addLastScore(duration, "GUI"); // Send the time elapsed to the score class
             	gui.updateScores(scores.getScores(), duration);
             	timer.stop();
             	
@@ -126,7 +126,7 @@ public class InvadersGameController implements KeyListener{
 		text.createBoard();
         int count = 0;
     	while (!quit) {
-    		
+
     		if (logic.getGameStatus().equals("continue")) { //if gamestatus is not equal to quit, the loop continues (plays the game)
         		text.drawCurrentState(logic.getShip(), logic.getShot(), 
         				logic.getAlienShot(), logic.getArray(), logic.getBarriers());//draws current state
@@ -151,12 +151,23 @@ public class InvadersGameController implements KeyListener{
                 updateStatus();
     		}
             count++;
+            
             if (logic.getGameStatus().equals("win")) { //check status at the end to see if game has been won or lost, update quit
-                scores.addLastScore(count);
+                scores.addLastScore(count, "text");
                 quit = true;
             	text.drawCurrentState(logic.getShip(), logic.getShot(), 
             			logic.getAlienShot(), logic.getArray(), logic.getBarriers());
+            	
             	System.out.println("You won!");
+            	System.out.println("Your time was: " + count + " turns!");
+            	System.out.println("Previous high scores:");
+            	
+            	ArrayList<Integer> highScores = scores.getScores();
+            	
+            	for (int i = 0; i < highScores.size(); i ++) {
+            		System.out.println((i+1) + ": " + highScores.get(i));
+            	}
+            	
             } else if (logic.getGameStatus().equals("loss")) {
                 quit = true;
             	System.out.println("Game over, the aliens got you!");

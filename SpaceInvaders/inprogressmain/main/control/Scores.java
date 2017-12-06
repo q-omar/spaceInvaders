@@ -9,6 +9,7 @@ public class Scores{
 	private ArrayList<Integer> integers = new ArrayList<Integer>();
 	private int numScores = 10; // Defining max # of high scores to save
 	private String scores;
+	private String filename;
 	
 	/*
 	 * This method handles all the file updating actions instead of calling each method from controller/
@@ -16,7 +17,13 @@ public class Scores{
 	 * try to add the new score, then call writeScores to just write the new scores to the file.
 	 * 
 	 */
-	void addLastScore(int aScore){
+	void addLastScore(int aScore, String version){
+		
+		if (version.equals("GUI")) {
+			filename = "ScoresGUI.txt";
+		} else {
+			filename = "ScoresText.txt";
+		}
 		readScores();
 		integers.add(aScore);
 		sortScores();
@@ -46,7 +53,7 @@ public class Scores{
 
 	void readScores(){
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("scores.txt"));
+			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			reader.readLine();
 			String line = reader.readLine();
 			
@@ -64,7 +71,7 @@ public class Scores{
 	void writeScores(){
 		try {
 			
-			BufferedWriter fw = new BufferedWriter(new FileWriter("scores.txt"));
+			BufferedWriter fw = new BufferedWriter(new FileWriter(filename));
 			fw.write("Top 10 clear times/turn counts"+System.lineSeparator());
 			fw.write(scores);
 			fw.close();

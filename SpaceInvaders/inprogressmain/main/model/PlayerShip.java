@@ -49,7 +49,7 @@ public class PlayerShip extends Shape{
 	*/
 	public void draw(Graphics g) {
         g.setColor(Color.WHITE);
-        g.fillRect(getXCoord()-10,getYCoord(), getWidth(), getHeight());
+        g.fillRect(getXCoord(),getYCoord(), getWidth(), getHeight());
     }
 	
 	@Override

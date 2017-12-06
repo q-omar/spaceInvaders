@@ -181,7 +181,7 @@ public class InvadersGameLogic{
                 		
                 		if (gameVersion.equals("GUI") && shot.checkHit(alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getYCoord(), alienInvaders.getAliens()[r][c].getWidth())) {
                             alienInvaders.getAliens()[r][c].destroyAlien();
-                            //System.out.print("\007");
+                            
                             Toolkit.getDefaultToolkit().beep();  
                 			
                 		} else if (gameVersion.equals("TEXT") 
