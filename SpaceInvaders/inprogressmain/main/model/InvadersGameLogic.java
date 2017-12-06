@@ -84,10 +84,8 @@ public class InvadersGameLogic{
     	int boundary;
     	if (gameVersion.equals("GUI")) {
     		boundary = screenHeight - alienInvaders.getAliens()[0][0].getHeight()*3; // Adjust as needed
-    		checkAlienHit();
     	} else {
     		boundary = screenHeight-5;
-    		checkShipHit();
     	}
     	
         if (!gameStatus.equals("loss")) {
@@ -134,29 +132,19 @@ public class InvadersGameLogic{
     				b.barrierIsHit();
     			}
     		}
-    		
+    		// Checks if alien shot has hit the ship
         	if (gameVersion.equals("GUI")) {
-        		checkAlienHit();
+                if (alienShot.checkHitRectangle(ship.getXCoord(), ship.getYCoord(), ship.getWidth(), ship.getHeight())){
+                    gameStatus = "loss";
+                }
         	} else {
-        		checkShipHit();
+        	    if (alienShot.checkTextHit(ship.getYCoord(), ship.getXCoord(), ship.getLastXCoord())){
+        	    	gameStatus = "loss";
+        	    }
         	}
     		
     		alienShot.inBounds(screenHeight);
     	}
-    }
-    
-    /** This method checks if alien shot has hit player ship
-     */
-    private void checkAlienHit(){
-        if (alienShot.checkHitRectangle(ship.getXCoord(), ship.getYCoord(), ship.getWidth(), ship.getHeight())){
-            gameStatus = "loss";
-        }
-    }
-    
-	private void checkShipHit(){
-        if (alienShot.alienShotShip(ship.getXCoord(), ship.getYCoord())){
-            gameStatus = "loss";
-        }
     }
 	
      /** 
@@ -199,7 +187,7 @@ public class InvadersGameLogic{
 	* It prevents the user from firing the shot if there is a shot on the screen.
 	*/
     public void shotAttempt() {
-
+    	
         if (gameVersion.equals("TEXT") && shot.getShotFired()) {
                 System.out.println("Out of ammo!");
         }

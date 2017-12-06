@@ -189,6 +189,9 @@ public class Shot extends Shape {
         return hit;
     }
     
+    /* 
+     * Trying checkTextHit instead for checking alien shots vs. ship to reduce # of methods
+     * 
 	boolean alienShotShip(int shipXCoord, int shipYCoord){
 		boolean hit = false;
 		if (getXCoord() >= shipXCoord-2 && getXCoord() <= shipXCoord+2){
@@ -198,7 +201,7 @@ public class Shot extends Shape {
 		}
 		
 		return hit;
-	}
+	} */
 	
     void inBounds(int height) {
         if (getYCoord() + getVSpeed() >= height) { 

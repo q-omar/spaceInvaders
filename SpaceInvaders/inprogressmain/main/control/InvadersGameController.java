@@ -33,7 +33,6 @@ public class InvadersGameController implements KeyListener{
     private InvadersGameText text;
     private Object[] drawableObjects = new Object[5];
     private Scores scores = new Scores();
-   
         
      /**
      * Constructor for InvadersGameController which uses if branch to select what version of the game to start
@@ -54,7 +53,6 @@ public class InvadersGameController implements KeyListener{
     		logic = new InvadersGameLogic("TEXT");
     		text = new InvadersGameText();
     		initializeDrawableArray();
-
     		playText();
     	}
     }
@@ -73,13 +71,10 @@ public class InvadersGameController implements KeyListener{
     *  This method starts and plays the GUI version of the game.
     */
     private void playGui(){
-    	// Start the timer when the GUI opens
-    	startTime = System.currentTimeMillis();
-    	
     	timer = new Timer(40, timerListener);
         timer.setInitialDelay(10);
-        
         timer.start();
+        startTime = System.currentTimeMillis();
         gui.addKeyListener(this);
 
     }
@@ -155,6 +150,7 @@ public class InvadersGameController implements KeyListener{
             if (logic.getGameStatus().equals("win")) { //check status at the end to see if game has been won or lost, update quit
                 scores.addLastScore(count, "text");
                 quit = true;
+                
             	text.drawCurrentState(logic.getShip(), logic.getShot(), 
             			logic.getAlienShot(), logic.getArray(), logic.getBarriers());
             	
@@ -194,8 +190,7 @@ public class InvadersGameController implements KeyListener{
 			logic.shotAttempt();
 			break;
 		}
-		gui.updateScreen(logic.getGameStatus());
-        
+		gui.updateScreen(logic.getGameStatus());   
     }
 
     @Override

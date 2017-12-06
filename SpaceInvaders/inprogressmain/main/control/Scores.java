@@ -18,7 +18,6 @@ public class Scores{
 	 * 
 	 */
 	void addLastScore(int aScore, String version){
-		
 		if (version.equals("GUI")) {
 			filename = "ScoresGUI.txt";
 		} else {
@@ -70,7 +69,6 @@ public class Scores{
 	
 	void writeScores(){
 		try {
-			
 			BufferedWriter fw = new BufferedWriter(new FileWriter(filename));
 			fw.write("Top 10 clear times/turn counts"+System.lineSeparator());
 			fw.write(scores);
