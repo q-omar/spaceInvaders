@@ -88,17 +88,17 @@ public class InvadersGameGUI extends JFrame {
             g.setColor(Color.WHITE);
             switch (gameStatus) {
                 case "win":
-                	g.drawString("YOU WON!", 120, 60);
-                    g.drawString("Your time was: " + playerScore + "s", 60, 110);
-                    g.drawString("High Scores:", 100, 160);
+                	g.drawString("YOU WON!", WINDOW_WIDTH/3, WINDOW_HEIGHT*3/25);
+                    g.drawString("Your time was: " + playerScore + "s", WINDOW_WIDTH/4, WINDOW_HEIGHT/5);
+                    g.drawString("High Scores:", WINDOW_WIDTH/3, WINDOW_HEIGHT/3);
                     
                     g.setFont(new Font("Arial", Font.BOLD, 28));
                     
-                    int y = 205;
+                    int y = WINDOW_HEIGHT*2/5;
                     for (int index = 0; index < scores.size(); index++) {
                     	String indexAsString = Integer.toString(index + 1);
                     	String scoreAsString = Integer.toString(scores.get(index));
-                    	g.drawString(indexAsString + ": " + scoreAsString + "s", 170, y);
+                    	g.drawString(indexAsString + ": " + scoreAsString + "s", WINDOW_WIDTH*2/5, y);
                     	
                     	y += 30;
                     }

@@ -30,7 +30,7 @@ public class AlienArray{
 
         if (version.equals("GUI")) {
         	NUM_ALIENS = 8;
-        	ROW_ALIENS = 4;
+        	ROW_ALIENS = 3;
         	aliens = new Alien[ROW_ALIENS][NUM_ALIENS];
         	createAlienArrays();
         	setGUIaliens();

@@ -27,7 +27,7 @@ public class InvadersGameLogic{
         	gameVersion = version;
             screenHeight = 500;
             screenWidth = 800;
-            ship = new PlayerShip(screenWidth, screenHeight - 60, 20, 5);
+            ship = new PlayerShip(screenWidth, screenHeight - 60, 20, 8);
             shot = new Shot(420, -20, 5, 20);
             alienShot = new Shot(0, 8, 6, 12);
             alienInvaders = new AlienArray("GUI");
@@ -169,7 +169,8 @@ public class InvadersGameLogic{
                 	
                 	if(alienInvaders.getAliens()[r][c].isAlive()) {
                 		
-                		if (gameVersion.equals("GUI") && shot.checkHit(alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getYCoord(), alienInvaders.getAliens()[r][c].getWidth())) {
+                		if (gameVersion.equals("GUI") && shot.checkHitRectangle(alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getYCoord(), 
+                				alienInvaders.getAliens()[r][c].getWidth(), alienInvaders.getAliens()[r][c].getHeight())) {
                             alienInvaders.getAliens()[r][c].destroyAlien();
                             
                             

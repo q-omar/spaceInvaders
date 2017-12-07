@@ -33,7 +33,7 @@ class Scores{
 		Collections.sort(integers);
 		int numScores = 10;
 		if (integers.size() > numScores){
-			integers.remove(integers.indexOf(Collections.min(integers)));
+			integers.remove(numScores);
 		}
 	}
 	
