@@ -16,7 +16,6 @@ public class InvadersGameLogic{
 
     private String gameStatus = "continue";
     private String gameVersion;
-    private boolean winSound = false;
 	
 	/** InvadersGameLogic constructor takes a string agruement and implements the GUI or Text-based version of the game. 
 	* This is required beacuse the text and GUI versions have different board dimensions and alien arrays are implemented differently.
@@ -83,30 +82,22 @@ public class InvadersGameLogic{
 	* If all the aliens are killed, the game is won.
     */
     public void checkStatus() {
-    	int boundary;
-    	if (gameVersion.equals("GUI")) {
-    		boundary = screenHeight - alienInvaders.getAliens()[0][0].getHeight()*3; // Adjust as needed
-    	} else {
-    		boundary = screenHeight-5;
-    	}
-    	
+        int boundary;
+        if (gameVersion.equals("GUI")) {
+            boundary = screenHeight - alienInvaders.getAliens()[0][0].getHeight()*3; // Adjust as needed
+        } else {
+            boundary = screenHeight-5;
+        }
+        
         if (!gameStatus.equals("loss")) {
+            gameStatus = "win";
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     if (alienInvaders.getAliens()[r][c].isAlive()) {
                         gameStatus = "continue";
-                        return;
                     }
                 }
             }
-
-            if (!winSound){
-                playSound("win.wav");
-                winSound = true;
-            }
-            gameStatus = "win";
-            return;
-
         }
         
         if (!gameStatus.equals("win")) {
@@ -118,8 +109,6 @@ public class InvadersGameLogic{
                 }
             }
         }
-        
-        
     }
 
     /**This method takes a string arguement and moves the ship appropriately. It prevents the ship from going out of bounds.
