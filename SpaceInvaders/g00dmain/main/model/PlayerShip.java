@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Color;
 
 
@@ -50,6 +51,8 @@ public class PlayerShip extends Shape{
 	public void draw(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(getXCoord(),getYCoord(), getWidth(), getHeight());
+        Image imageShip = new javax.swing.ImageIcon("ship.jpg").getImage();
+        g.drawImage(imageShip, getXCoord(),getYCoord(),null);
     }
 	
 	@Override
