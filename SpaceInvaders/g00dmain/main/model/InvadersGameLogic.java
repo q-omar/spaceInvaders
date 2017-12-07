@@ -190,9 +190,10 @@ public class InvadersGameLogic{
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
-        } 
+        }
         catch (UnsupportedAudioFileException ignored){}
         catch (LineUnavailableException ignored){}
+        // FileNotFoundExceptions will not occur due to controller checking if all files are present before launching
         catch (IOException ignored){}
     }
     
@@ -208,7 +209,6 @@ public class InvadersGameLogic{
             shot.tryShot(ship.getXCoord());
             playSound("shot.wav");
         }
-
         
 		for (Barrier b : barriers.getBarriers()) {
 			if (b.getBarrierHit() < 3 && 
@@ -223,7 +223,6 @@ public class InvadersGameLogic{
      * standard method used for generating random numbers in Java
      * @param min,max set values to generate the values in between
      */
-
     private static int randInt(int max) {
         Random rand = new Random();
         return rand.nextInt((max) + 1);

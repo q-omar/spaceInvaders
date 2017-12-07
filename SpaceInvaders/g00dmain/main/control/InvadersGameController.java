@@ -9,6 +9,8 @@ import java.util.Scanner;
 import javax.swing.Timer;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,15 +39,27 @@ class InvadersGameController implements KeyListener{
      * calling on the appropriate play methods
      */
     InvadersGameController() {
-    	
     	System.out.println("Let's play the InvadersGame!\nEnter T to launch the text version or G to launch the GUI version.");
     	String input = keyboard.nextLine().toUpperCase();
     	
     	if (input.equals("G")) {
-    		logic = new InvadersGameLogic("GUI");
-    		initializeDrawableArray();
-    		gui = new InvadersGameGUI(drawableObjects);
-    		playGui();
+    		
+        	if (new File("a.png").exists()
+        			&& new File("destroy.wav").exists()
+        			&& new File("kill.wav").exists()
+        			&& new File("shoot.wav").exists()
+        			&& new File("shot.wav").exists()) {
+        		
+        		logic = new InvadersGameLogic("GUI");
+        		initializeDrawableArray();
+        		gui = new InvadersGameGUI(drawableObjects);
+        		playGui();
+        		
+        	} else {
+        		gui = new InvadersGameGUI(drawableObjects);
+        		gui.displayError("Files are missing or corrupt. Please reinstall the game.");
+        		gui.dispose();
+        	}
     		
     	} else if (input.equals("T")) {
     		logic = new InvadersGameLogic("TEXT");
@@ -69,6 +83,7 @@ class InvadersGameController implements KeyListener{
     *  This method starts and plays the GUI version of the game.
     */
     private void playGui(){
+    	
     	timer = new Timer(40, timerListener);
         timer.setInitialDelay(10);
         timer.start();
@@ -86,13 +101,18 @@ class InvadersGameController implements KeyListener{
             if (logic.getGameStatus().equals("win")){
             	final long endTime = System.currentTimeMillis();
             	int duration = (int) ((endTime - startTime)/1000);
-            	scores.addLastScore(duration, "GUI"); // Send the time elapsed to the score class
-            	gui.updateScores(scores.getScores(), duration);
+            	
+            	try {
+            		scores.addLastScore(duration, "GUI"); // Send the time elapsed to the score class
+                	gui.updateScores(scores.getScores(), duration);
+            	} catch (IOException ioe) {
+            		gui.displayError("Input/output error occurred when retrieving high scores. Please exit the game.");
+            	}
+            	
             	timer.stop();
 
             } else if (logic.getGameStatus().equals("loss")) {
             	timer.stop();
-
             }
             
             updateStatus();
@@ -146,20 +166,27 @@ class InvadersGameController implements KeyListener{
             count++;
             
             if (logic.getGameStatus().equals("win")) { //check status at the end to see if game has been won or lost, update quit
-                scores.addLastScore(count, "text");
-                quit = true;
-                
+            	
+            	quit = true;
             	text.drawCurrentState(logic.getShip(), logic.getShot(), 
             			logic.getAlienShot(), logic.getArray(), logic.getBarriers());
             	
             	System.out.println("You won!");
             	System.out.println("Your time was: " + count + " turns!");
-            	System.out.println("Previous high scores:");
             	
-            	ArrayList<Integer> highScores = scores.getScores();
-            	
-            	for (int i = 0; i < highScores.size(); i ++) {
-            		System.out.println((i+1) + ": " + highScores.get(i));
+            	try {
+            		scores.addLastScore(count, "text");
+                    
+                	System.out.println("Previous high scores:");
+                	
+                	ArrayList<Integer> highScores = scores.getScores();
+                	
+                	for (int i = 0; i < highScores.size(); i ++) {
+                		System.out.println((i+1) + ": " + highScores.get(i));
+                	}
+                	
+            	} catch (IOException ioe) {
+            		System.out.println("Input/output error occurred while retrieving high scores.");
             	}
             	
             } else if (logic.getGameStatus().equals("loss")) {

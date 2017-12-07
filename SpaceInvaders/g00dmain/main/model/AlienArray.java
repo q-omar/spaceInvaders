@@ -39,7 +39,6 @@ public class AlienArray{
         	NUM_ALIENS = 5;
         	ROW_ALIENS = 2;
         	aliens = new Alien[ROW_ALIENS][NUM_ALIENS];
-        	//createAlienArrays();
         	setAliens();  
         }
         

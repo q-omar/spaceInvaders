@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -63,6 +64,10 @@ public class InvadersGameGUI extends JFrame {
     public void updateScores(ArrayList<Integer> allScores, int newPlayerScore) {
     	scores = allScores;
     	playerScore = newPlayerScore;
+    }
+    
+    public void displayError(String message) {
+    	JOptionPane.showMessageDialog(this, message, "Error occurred", JOptionPane.ERROR_MESSAGE);
     }
 
     /**

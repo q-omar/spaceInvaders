@@ -65,12 +65,10 @@ public class Alien extends Shape{
     public void draw(Graphics g) {
          g.setColor(Color.GREEN);
          g.fillOval(getXCoord(),getYCoord(),getWidth(),getHeight());
-         /*This class holds the method mechanics of the alien ship
-	 */
-        Image imageAlien = new javax.swing.ImageIcon("a.png").getImage();
+
+         Image imageAlien = new javax.swing.ImageIcon("a.png").getImage();
          g.drawImage(imageAlien, getXCoord(),getYCoord(),null);
          
-
     }
 
 }
