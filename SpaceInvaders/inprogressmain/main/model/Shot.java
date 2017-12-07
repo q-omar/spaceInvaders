@@ -1,8 +1,6 @@
 package model;
 
 import java.awt.Graphics;
-import javax.sound.sampled.*;
-import java.io.*;
 
 import java.awt.Color;
 
@@ -35,17 +33,7 @@ public class Shot extends Shape {
 		super(0,startingY, newWidth, newHeight);
 		setVSpeed(newSpeed);
     }
-    private void playSound(){
-        try{
-            String soundName = "shoot.wav";
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (UnsupportedAudioFileException ignored){}
-        catch (LineUnavailableException ignored){}
-        catch (IOException ignored){}
-    }
+    
     
     /**
      * Returns whether or not a shot has been fired and is currently active
@@ -63,7 +51,6 @@ public class Shot extends Shape {
     void tryShot(int shipLocation) {
     	if (!shotFired && shipLocation >= 0) {
             shotFired = true;
-            playSound();
     		setXCoord(shipLocation);
     	}
     }
@@ -130,46 +117,6 @@ public class Shot extends Shape {
     	return hit;
     }  
 
-    /**
-    * This method is for the GUI version. It checks collisions of the bullet with a circular target
-    * and returns true if the top left or top right point of the bullet overlaps.
-    * 
-    * @param targetX  the x coordinate of the top left point of the circle
-    * @param targetY  the y coordinate of the top left point of the circle
-    * @param targetDiameter  the diameter of the target circle
-    * @return whether or not the target was hit
-    */
-    boolean checkHit(int targetX, int targetY, int targetDiameter) {
-        boolean hit = false;
-        int xToCheck;
-
-        // Set target x and y to center of target circle
-        targetX += targetDiameter/2; 
-        targetY += targetDiameter/2;
-
-        // Determine whether the top left or right of the bullet is closer to the center of the circle
-        if (getXCoord() >= targetX - 0.5 * getWidth()) {
-            xToCheck = getXCoord();
-        } else {
-            xToCheck = getXCoord() + getWidth();
-        }
-
-        // From Prof. Verwaal's code for the distance method in the Point class used in Team Assignment 4
-        int xdiff = xToCheck - targetX;
-        int ydiff = getYCoord() - targetY;
-        double distance = Math.sqrt(xdiff * xdiff + ydiff * ydiff);
-
-        // If the distance between the closest corner of the shot and the center of the circle
-        // is less than the circle's radius
-        if (distance <= (targetDiameter/2)) {
-            hit = true;
-            shotFired = false;
-            resetY();
-        }
-        return hit;
-    }
-
-
 	/**
      * This method checks collisions with the shot in the text-based version of the game,
      * based on the direction the target is moving.
@@ -203,20 +150,6 @@ public class Shot extends Shape {
 		}
         return hit;
     }
-    
-    /* 
-     * Trying checkTextHit instead for checking alien shots vs. ship to reduce # of methods
-     * 
-	boolean alienShotShip(int shipXCoord, int shipYCoord){
-		boolean hit = false;
-		if (getXCoord() >= shipXCoord-2 && getXCoord() <= shipXCoord+2){
-			if (getYCoord() >= shipYCoord - 2){
-				hit = true;
-			}
-		}
-		
-		return hit;
-	} */
 	
     void inBounds(int height) {
         if (getYCoord() + getVSpeed() >= height) { 

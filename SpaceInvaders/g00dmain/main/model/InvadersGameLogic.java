@@ -16,6 +16,7 @@ public class InvadersGameLogic{
 
     private String gameStatus = "continue";
     private String gameVersion;
+    private boolean winSound = false;
 	
 	/** InvadersGameLogic constructor takes a string agruement and implements the GUI or Text-based version of the game. 
 	* This is required beacuse the text and GUI versions have different board dimensions and alien arrays are implemented differently.
@@ -90,14 +91,22 @@ public class InvadersGameLogic{
     	}
     	
         if (!gameStatus.equals("loss")) {
-            gameStatus = "win";
             for (int r=0; r<alienInvaders.getRowsAliens() ; r++) {
                 for (int c=0; c<alienInvaders.getNumAliens(); c++){
                     if (alienInvaders.getAliens()[r][c].isAlive()) {
                         gameStatus = "continue";
+                        return;
                     }
                 }
             }
+
+            if (!winSound){
+                playSound("win.wav");
+                winSound = true;
+            }
+            gameStatus = "win";
+            return;
+
         }
         
         if (!gameStatus.equals("win")) {
@@ -137,7 +146,7 @@ public class InvadersGameLogic{
         	if (gameVersion.equals("GUI")) {
                 if (alienShot.checkHitRectangle(ship.getXCoord(), ship.getYCoord(), ship.getWidth(), ship.getHeight())){
                     gameStatus = "loss";
-                    playSound();
+                    playSound("destroy.wav");
                 }
         	} else {
         	    if (alienShot.checkTextHit(ship.getYCoord(), ship.getXCoord(), ship.getLastXCoord())){
@@ -172,6 +181,7 @@ public class InvadersGameLogic{
                 		if (gameVersion.equals("GUI") && shot.checkHitRectangle(alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getYCoord(), 
                 				alienInvaders.getAliens()[r][c].getWidth(), alienInvaders.getAliens()[r][c].getHeight())) {
                             alienInvaders.getAliens()[r][c].destroyAlien();
+                            playSound("kill.wav");
                             
                             
                 			
@@ -185,9 +195,8 @@ public class InvadersGameLogic{
             }
         }
     }
-    private void playSound(){
+    private void playSound(String soundName){
         try{
-            String soundName = "destroy.wav";
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
@@ -206,7 +215,11 @@ public class InvadersGameLogic{
         if (gameVersion.equals("TEXT") && shot.getShotFired()) {
                 System.out.println("Out of ammo!");
         }
-        shot.tryShot(ship.getXCoord());
+        if (!shot.getShotFired()){
+            shot.tryShot(ship.getXCoord());
+            playSound("shot.wav");
+        }
+
         
 		for (Barrier b : barriers.getBarriers()) {
 			if (b.getBarrierHit() < 3 && 
