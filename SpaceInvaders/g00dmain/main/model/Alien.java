@@ -2,13 +2,24 @@ package model;
 
 import java.awt.*;
 
-
+/**
+ * This class contains information about an Alien object and contains methods to move its location or remove it.
+ */
 public class Alien extends Shape{
     private boolean isAlive = true;
+    
+	Alien(Alien toCopy) {
+		super(toCopy.getXCoord(), toCopy.getYCoord(), toCopy.getWidth(), toCopy.getHeight(),
+				toCopy.getLastXCoord(), toCopy.getLastYCoord());
+		setHSpeed(toCopy.getHSpeed());
+		setVSpeed(toCopy.getVSpeed());
+		isAlive = toCopy.isAlive;
+	}
 	
-	/**This is a constructor for the Alien class that calls the Shape constructor that sets the coordinates, size and speed
-	* @param hSpeed, vSpeed are the horizontal and vertical of an alien
-	* @param newSize is the length and width of the shape
+	/**This is a constructor for the Alien class that sets its coordinates, size and speed
+	* @param hSpeed the horizontal speed of the alien
+	* @param vSpeed the vertical speed of the alien
+	* @param newSize the length and width of the shape
 	*/
     Alien(int hSpeed, int vSpeed, int newSize) {
     	super(0, 5, newSize, newSize);
@@ -16,30 +27,32 @@ public class Alien extends Shape{
         setVSpeed(vSpeed);
     }
     
-    /**This is a getter for the status of an alien
-    * @return returns bool indicating whether or not alien is alive
+    /**
+    * This is a getter for the life status of an alien
+    * @return boolean indicating whether or not alien is alive
     */
     public boolean isAlive() {
         return isAlive;
     }
 
-    /** This class sets isAlive to false
-    */
+    /** 
+     * This method sets isAlive to false.
+     */
     void destroyAlien() {
         isAlive = false;
     }
 
-    /** This class checks if alien ship reaches one row on board before the last row
-    * sets alienEnd flag to true if so, "ending" the game
-	* @param boundary is set as the window size and boundary of the aliens
+    /** 
+    * This method checks if alien has reached 1 space before a given vertical boundary. If so, it returns true.
+	* @param the vertical boundary to be checked (eg. the height of the screen)
     * @return the status of alien
     */
     boolean reachedEnd(int boundary) {
-        boolean alienEnd = false;
+        boolean reachedEnd = false;
         if (getYCoord() >= boundary - 1){
-            alienEnd = true;
+            reachedEnd = true;
         }
-        return alienEnd;
+        return reachedEnd;
     }
     
     /**This class moves the alien's horizontal index to the right by hSpeed number of spaces
@@ -48,7 +61,7 @@ public class Alien extends Shape{
         setXCoord(getXCoord()+getHSpeed());
     }
     
-	/**This class moves the alien's vertical index down by vSpeed number of spaces when the alien reaches either border of the board
+	/**This class moves the alien's vertical index down by vSpeed number of spaces.
     */
     void moveDown(){
     	setYCoord(getYCoord()+getVSpeed());
@@ -59,14 +72,17 @@ public class Alien extends Shape{
     	setXCoord(getXCoord()-getHSpeed());
     }
 
-    /** the draw method sets the color and dimensions of the shot
+    /** 
+     * Draws the alien onto the screen.
+     * Image source: 
+     * https://yt3.ggpht.com/-daOPyvV7NVg/AAAAAAAAAAI/AAAAAAAAAAA/gwRYg1wXn9I/s900-c-k-no-mo-rj-c0xffffff/photo.jpg
 	 * @param the Graphics object g
 	*/
     public void draw(Graphics g) {
          g.setColor(Color.GREEN);
          g.fillOval(getXCoord(),getYCoord(),getWidth(),getHeight());
 
-         Image imageAlien = new javax.swing.ImageIcon("a.png").getImage(); //https://yt3.ggpht.com/-daOPyvV7NVg/AAAAAAAAAAI/AAAAAAAAAAA/gwRYg1wXn9I/s900-c-k-no-mo-rj-c0xffffff/photo.jpg
+         Image imageAlien = new javax.swing.ImageIcon("a.png").getImage(); //
          g.drawImage(imageAlien, getXCoord(),getYCoord(),null);
          
     }
