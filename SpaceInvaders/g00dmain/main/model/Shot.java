@@ -12,6 +12,10 @@ public class Shot extends Shape {
 
 	private boolean shotFired = false;
 	
+	/**
+	 * A copy constructor for the Shot class.
+	 * @param toCopy the Shot to be duplicated
+	 */
 	Shot(Shot toCopy){
 		super(toCopy.getXCoord(), toCopy.getYCoord(), toCopy.getWidth(), toCopy.getHeight(),
 				toCopy.getLastXCoord(), toCopy.getLastYCoord());
@@ -19,7 +23,7 @@ public class Shot extends Shape {
 	}
 
 	/**
-	* This method is a constructor for PlayerShot class, used in the text version, where width and length are 0 by default.
+	* This method is a constructor for Shot class, used in the text version, where width and length are 0 by default.
 	* @param startingRow the row where the shot begins when it is fired 
 	* @param newSpeed how many spaces the shot moves up each time the game is redrawn. 
 	*/
@@ -29,7 +33,7 @@ public class Shot extends Shape {
     }
 	
 	/**
-	* This is a constructor for PlayerShot class, used in the GUI version. where width and length need to be specified
+	* This is a constructor for Shot class, used in the GUI version. where width and length need to be specified
  	* @param startingY the y coordinate where the shot starts at when it is fired
 	* @param newSpeed how many spaces the shot moves up each time the game is redrawn. 
 	* @param newWidth the width of the shot.
@@ -39,7 +43,6 @@ public class Shot extends Shape {
 		super(0,startingY, newWidth, newHeight);
 		setVSpeed(newSpeed);
     }
-    
     
     /**
      * Returns whether or not a shot has been fired and is currently active
@@ -61,6 +64,11 @@ public class Shot extends Shape {
     	}
     }
     
+    /**
+     * Called to generate a new alien shot at the specified x and y coordinates.
+     * @param newX the starting x-coordinate of the shot
+     * @param newY the starting y-coordinate of the shot
+     */
     void newAlienShot(int newX, int newY) {
     	setXCoord(newX);
     	setYCoord(newY);
@@ -96,7 +104,6 @@ public class Shot extends Shape {
     	int shotX = getXCoord();
     	int shotY = getYCoord();
     	int shotWidth = getWidth();
-
 		int targetXBound = targetX + width;
     	int targetYBound = targetY + height;
     	
@@ -136,7 +143,7 @@ public class Shot extends Shape {
         boolean hit = false;
         int speed = getVSpeed();
         
-        if (speed < 0) {  // Temp fix for the change to negative speeds
+        if (speed < 0) {
         	speed *= -1;
         }
         
@@ -156,7 +163,12 @@ public class Shot extends Shape {
 		}
         return hit;
     }
-	
+    
+    /**
+     * Checks if the shot will move past a given vertical boundary. If so, the shot is reset and removed
+     * from the screen.
+     * @param height a vertical boundary that the shot cannot travel past
+     */
     void inBounds(int height) {
         if (getYCoord() + getVSpeed() >= height) { 
             shotFired = false;
@@ -164,6 +176,10 @@ public class Shot extends Shape {
         }
     }
 
+    /**
+     * Draws the shot as a rectangle, if it is currently active.
+     * @param g the Graphics object
+     */
     public void draw(Graphics g) {
     	if(shotFired) {
             g.setColor(Color.RED);
