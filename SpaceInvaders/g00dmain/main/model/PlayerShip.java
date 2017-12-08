@@ -6,7 +6,7 @@ import java.awt.Color;
 
 
 /**
-* This class holds the method mechanics of the player ship
+* This class holds methods to manipulate the player ship.
 */  
 public class PlayerShip extends Shape{
 
@@ -22,14 +22,17 @@ public class PlayerShip extends Shape{
         setHSpeed(newSpeed);
     }
     
+    /**
+     * A copy constructor for the PlayerShip class.
+     * @param toCopy the ship to be copied
+     */
 	PlayerShip(PlayerShip toCopy) {
-		super(toCopy.getXCoord(), toCopy.getYCoord(), toCopy.getWidth(), toCopy.getHeight(),
-				toCopy.getLastXCoord(), toCopy.getLastYCoord());
+		super(toCopy);
 		setHSpeed(toCopy.getHSpeed());
 	}
     
-    /**This method checks if horizontal index position of player ship is out of bounds
-    * on the board array's horizontal parameter
+    /**This method checks if the horizontal position of the player ship is past a given horizontal boundary
+     * (ie. the width of the screen). If so, the ship's position is reset to stay in bounds.
     */
     void inBounds(int boardWidth) {
         if (getXCoord() >= boardWidth) {
@@ -39,10 +42,9 @@ public class PlayerShip extends Shape{
         }
     }
     
-    /** This method moves the ship left or right horizontally depending on the string input by the player
+    /** This method moves the ship left or right depending on the string input by the player
 	* @param is the string input that decides which way the ship moves
 	*/
-    
     void move(String direction) {
     	if (direction.equals("A")) { 
     		setXCoord(getXCoord()-getHSpeed());

@@ -4,6 +4,7 @@ package model;
 	* and methods to change and get values of the Shape. 
 	* @param xCoord, yCoord are the  integer coordinates of player ship, shot and aliens. 
 	* @param lastXCoord, lastYCoord are the previous  integer coordinates of the shapes, used in the text version. 
+	* @param initialY is the starting y-coordinate for the object
 	* @param vSpeed,hSpeed are vertical and horizontal speeds of ship, shot and alien
 	* @param width and length are used to draw ship, shot and alien for the GUI version.
 	*/
@@ -40,11 +41,15 @@ public abstract class Shape implements Drawable {
 			height = newHeight;
 		}
 	}
-	 
-	 Shape(int newX, int newY, int newWidth, int newHeight, int lastX, int lastY) {
-		 this(newX, newY, newWidth, newHeight);
-		 lastXCoord = lastX;
-		 lastYCoord = lastY;
+	
+	 /**
+	  * A copy constructor for the Shape class.
+	  * @param toCopy the shape to be duplicated
+	  */
+	 Shape(Shape toCopy) {
+		 this(toCopy.getXCoord(), toCopy.getYCoord(), toCopy.getWidth(), toCopy.getHeight());
+		 lastXCoord = toCopy.getLastXCoord();
+		 lastYCoord = toCopy.getLastYCoord();
 	 }
 	
     /** 
@@ -70,35 +75,36 @@ public abstract class Shape implements Drawable {
 	public int getLastXCoord() {
 		return lastXCoord;
 	}
-	/* This is a getter method that returns the shape's  last vertical position.
+	
+	/** This is a getter method that returns the shape's  last vertical position.
     * @return returns shape's last vertical position
     */
 	public int getLastYCoord() {
 		return lastYCoord;
 	}
 
-	/* This is a getter method that returns the shape's width.
+	/** This is a getter method that returns the shape's width.
     * @return returns shape's width
     */
 	public int getWidth() {
 		return width;
 	}
 	
-	/* This is a getter method that returns the shape's height.
+	/** This is a getter method that returns the shape's height.
     * @return returns shape's height
     */
 	public int getHeight() {
 		return height;
 	}
 	
-    /* This is a getter method that returns the shape's horizontal speed. 
+    /** This is a getter method that returns the shape's horizontal speed. 
     * @return returns shape's horizontal speed.
     */
 	int getHSpeed() {
 		return hSpeed;
 	}
 	
-	/* This is a getter method that returns the shape's vertical speed. 
+	/** This is a getter method that returns the shape's vertical speed. 
     * @return returns shape's vertical speed.
     */
 	int getVSpeed() {
@@ -138,8 +144,10 @@ public abstract class Shape implements Drawable {
 		vSpeed = newSpeed;
 	}
 
-	void resetY() {  // For now this is only used by the shot class
+	/**
+	 * Sets y-coordinate to its original value without changing lastYCoord.
+	 */
+	void resetY() {
 		yCoord = initialY;
 	}
-	
 }

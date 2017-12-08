@@ -9,8 +9,7 @@ public class Alien extends Shape{
     private boolean isAlive = true;
     
 	Alien(Alien toCopy) {
-		super(toCopy.getXCoord(), toCopy.getYCoord(), toCopy.getWidth(), toCopy.getHeight(),
-				toCopy.getLastXCoord(), toCopy.getLastYCoord());
+		super(toCopy);
 		setHSpeed(toCopy.getHSpeed());
 		setVSpeed(toCopy.getVSpeed());
 		isAlive = toCopy.isAlive;

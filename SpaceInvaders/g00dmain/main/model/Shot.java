@@ -17,8 +17,7 @@ public class Shot extends Shape {
 	 * @param toCopy the Shot to be duplicated
 	 */
 	Shot(Shot toCopy){
-		super(toCopy.getXCoord(), toCopy.getYCoord(), toCopy.getWidth(), toCopy.getHeight(),
-				toCopy.getLastXCoord(), toCopy.getLastYCoord());
+		super(toCopy);
 		shotFired = toCopy.shotFired;
 	}
 
