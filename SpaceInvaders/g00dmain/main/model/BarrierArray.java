@@ -9,6 +9,11 @@ public class BarrierArray{
 	private final int SIZE;
     private final Barrier[] barriers;
     
+    /*
+    Method: BarrierArray
+    @param toCopy type BarrierArray for copying members onto this class, avoiding privacy leaks
+    Copies members of toCopy onto this
+    */	 
     BarrierArray(BarrierArray toCopy) {
     	AMOUNT = toCopy.getAmount();
     	SIZE = toCopy.getSize();
@@ -18,7 +23,8 @@ public class BarrierArray{
     		barriers[i] = toCopy.getBarriers()[i];
     	}
     }
-    
+	
+    //Constructor
     BarrierArray(String version){
 
         if (version.equals("GUI")) {
@@ -39,7 +45,8 @@ public class BarrierArray{
  
     }
    
-
+	//************getters***********
+	
 	public Barrier[] getBarriers(){
         return barriers;
     }
@@ -55,7 +62,10 @@ public class BarrierArray{
     public int getSize() {
     	return SIZE;
     }
-
+	//******************************
+	
+	
+	
 	private void setBarriersText(){
   		int x=5;
   		int y=24;
