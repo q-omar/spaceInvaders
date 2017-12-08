@@ -11,12 +11,19 @@ import java.awt.Color;
 public class Barrier extends Shape{
 	private int isHit = 0;
 	private char barrierChar =' ';
-
+	
+	/**
+	 * A constructor for the Barrier class which takes coordinates, width and height as parameters.
+	 * @param xcoord the top-left x-coordinate
+	 * @param ycoord the top-left y-coordinate
+	 * @param wide the width of the barrier in pixels/board units
+	 * @param high the height of the barrier in pixels/board units
+	 */
 	Barrier(int xcoord, int ycoord, int wide, int high){
 		super(xcoord,ycoord, wide,high);
 	}
 	/*
-	*methodBarrierIsHit
+	*method: BarrierIsHit
 	*essentially the health of an individual barrier, that being variable isHit
 	*is called when a barrier is detected to be hit by a shot outside of this class
 	*/
@@ -50,6 +57,9 @@ public class Barrier extends Shape{
 		return barrierChar;
 	}
 	
+	/**
+	 * Draws the barrier and changes its colour depending on its isHit status.
+	 */
 	public void draw(Graphics g){
 		if (isHit ==0){
 			g.setColor(Color.GREEN);

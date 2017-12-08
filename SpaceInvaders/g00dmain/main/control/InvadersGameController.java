@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 
 /**
  * This class is part of the Model-View-Controller set up, situated in the middle.
+ * Controls the flow of the game and communicates between logic and view classes.
  * @param logic is the logic object which itself contains all Shape objects
  * @param gui is the gui object that takes takes the drawable array object to handle display via Jframe window
  * @param text is text object which is used to display the text based version 
@@ -69,6 +70,7 @@ class InvadersGameController implements KeyListener{
     		playText();
     	}
     }
+    
     /**
      * Adds all drawable objects to the drawable array.
      */
@@ -92,7 +94,6 @@ class InvadersGameController implements KeyListener{
         gui.addKeyListener(this);
 
     }
-    
     
     /** Defining action listener for the timer separate from where the timer is defined
     * The timer is now an instance variable so this method can call timer.stop()

@@ -3,13 +3,12 @@ package model;
 import java.awt.Graphics;
 
 /*
-*class: BarrierArray
+*class: BarrierArray handles creation of barriers for the text and GUI versions.
 *@param AMOUNT the amount of barriers 
 *@param ROWS the number of rows any one barrier holds
 *@param SIZE the number of colums any one barrier holds
 *@param barriers the array of barriers themselves
 */
-
 public class BarrierArray{ 
     private final int AMOUNT;
     private final int ROWS;
@@ -39,7 +38,6 @@ public class BarrierArray{
         	ROWS = 2;
 			SIZE= 10;
         	barriers = new Barrier[AMOUNT];
-			createBarrierArray();
         	setBarriersGUI();
 
         } else {
@@ -84,17 +82,6 @@ public class BarrierArray{
   			x+=20;
   		}
       } 
-
-   private void createBarrierArray(){
-	   for(int a=0;a<AMOUNT;a++){
-		   
-			for (int r=0; r<ROWS ; r++) {
-				for (int c=0; c<SIZE; c++){
-					barriers[a] = new Barrier(0,0,20,20);
-				}
-			}
-        }
-    }
 	
 
     private void setBarriersGUI(){
@@ -107,6 +94,10 @@ public class BarrierArray{
 		}
     }
 
+    /**
+     * Calls barriers to be drawn.
+     * @param g the Graphics object
+     */
     public void drawBarrierArray(Graphics g){
         for (int a=0; a<AMOUNT;a++){
             if (barriers[a].getBarrierHit() <3){

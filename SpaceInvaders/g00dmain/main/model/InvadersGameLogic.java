@@ -3,6 +3,9 @@ import java.util.Random;
 import javax.sound.sampled.*;
 import java.io.*;
 
+/**
+ * This class holds instances of the game objects and has methods to regulate their interactions.
+ */
 public class InvadersGameLogic{
 
     private int screenHeight;
@@ -17,10 +20,9 @@ public class InvadersGameLogic{
     private String gameStatus = "continue";
     private String gameVersion;
 	
-	/** InvadersGameLogic constructor takes a string agruement and implements the GUI or Text-based version of the game. 
-	* This is required beacuse the text and GUI versions have different board dimensions and alien arrays are implemented differently.
+	/** InvadersGameLogic constructor takes a string argument and implements the GUI or Text-based version of the game. 
+	* This is required because the text and GUI versions have different board dimensions and alien arrays are implemented differently.
 	*/
-
     public InvadersGameLogic(String version){
 
         if (version.equals("GUI")){
@@ -148,7 +150,7 @@ public class InvadersGameLogic{
     }
 	
      /** 
-    *  This method handles the shot firing and interaction of the shot with the aliens.
+    *  This method handles the shot firing and interaction of the player shot with the aliens and barriers.
     */
     public void handleShotInteraction(){
         if (shot.getShotFired()) {
@@ -167,15 +169,17 @@ public class InvadersGameLogic{
                 	
                 	if(alienInvaders.getAliens()[r][c].isAlive()) {
                 		
-                		if (gameVersion.equals("GUI") && shot.checkHitRectangle(alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getYCoord(), 
-                				alienInvaders.getAliens()[r][c].getWidth(), alienInvaders.getAliens()[r][c].getHeight())) {
+                		int xCoord = alienInvaders.getAliens()[r][c].getXCoord();
+                		int yCoord = alienInvaders.getAliens()[r][c].getYCoord();
+                		int width = alienInvaders.getAliens()[r][c].getWidth();
+                		int height = alienInvaders.getAliens()[r][c].getHeight();
+                		
+                		if (gameVersion.equals("GUI") && shot.checkHitRectangle(xCoord, yCoord, width, height)) {                			
                             alienInvaders.getAliens()[r][c].destroyAlien();
                             playSound("kill.wav");
-                            
-                            
-                			
+
                 		} else if (gameVersion.equals("TEXT") 
-                				&& shot.checkTextHit(alienInvaders.getAliens()[r][c].getYCoord(), alienInvaders.getAliens()[r][c].getXCoord(), alienInvaders.getAliens()[r][c].getLastXCoord())) {
+                				&& shot.checkTextHit(yCoord, xCoord, alienInvaders.getAliens()[r][c].getLastXCoord())) {
                 			alienInvaders.getAliens()[r][c].destroyAlien();
                 		}
                 	}
@@ -184,6 +188,11 @@ public class InvadersGameLogic{
             }
         }
     }
+    
+    /**
+     * When called, this method plays sound from a given filename, provided as a string.
+     * @param soundName the String name of the file
+     */
     private void playSound(String soundName){
         try{
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
@@ -197,8 +206,9 @@ public class InvadersGameLogic{
         catch (IOException ignored){}
     }
     
-    /** This method attempts to fire a shot if thre isn't already a shot on the screen. 
+    /** This method attempts to fire a shot if there isn't already a shot on the screen. 
 	* It prevents the user from firing the shot if there is a shot on the screen.
+	* Barrier hits will be registered if the new shot overlaps the barrier.
 	*/
     public void shotAttempt() {
     	
@@ -216,7 +226,6 @@ public class InvadersGameLogic{
 				b.barrierIsHit();
 			}
 		}
-
     }
     
     /**
@@ -232,7 +241,6 @@ public class InvadersGameLogic{
      * Method used for generating shots for aliens, creating two random values within the range of the number of column and row
      * and then choosing that random col/row to generate a shot at, if that particular alien is alive
      */
-
     public void shotGeneration(){
         int rand1 = randInt(alienInvaders.getRowsAliens()-1); //generate a random number for column/row to fire
         int rand2 = randInt(alienInvaders.getNumAliens()-1);
