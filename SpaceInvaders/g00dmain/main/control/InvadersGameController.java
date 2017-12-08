@@ -36,7 +36,8 @@ class InvadersGameController implements KeyListener{
         
      /**
      * Constructor for InvadersGameController which uses if branch to select what version of the game to start
-     * calling on the appropriate play methods
+     * calling on the appropriate play methods. If the GUI version is selected, it checks for all image and 
+     * audio files. If the files do not exist, an error message is displayed.
      */
     InvadersGameController() {
     	System.out.println("Let's play the InvadersGame!\nEnter T to launch the text version or G to launch the GUI version.");
@@ -92,10 +93,16 @@ class InvadersGameController implements KeyListener{
 
     }
     
-    // Defining action listener for the timer separate from where the timer is defined
-    // The timer is now an instance variable so this method can call timer.stop()
-    // 
+    
+    /** Defining action listener for the timer separate from where the timer is defined
+    * The timer is now an instance variable so this method can call timer.stop()
+    */
     private final ActionListener timerListener = new ActionListener() {
+    /** This method keeps track of the timer and also sends time elapsed to the score class
+    * and updates the score
+    * 
+    * @param e of class ActionEvent
+    */
     	public void actionPerformed(ActionEvent e) {
 
             if (logic.getGameStatus().equals("win")){
@@ -173,11 +180,11 @@ class InvadersGameController implements KeyListener{
             			logic.getAlienShot(), logic.getArray(), logic.getBarriers());
             	
             	System.out.println("You won!");
-            	System.out.println("Your time was: " + count + " turns!");
+            	System.out.println("Your time was: " + count + " turns!");// prints how many turns it took to win
             	
             	try {
             		scores.addLastScore(count, "text");
-                	System.out.println("Previous high scores:");
+                	System.out.println("Previous high scores:");// prints previous 3 high scores
                 	ArrayList<Integer> highScores = scores.getScores();
                 	for (int i = 0; i < highScores.size(); i ++) {
                 		System.out.println((i+1) + ": " + highScores.get(i));
