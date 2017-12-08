@@ -66,7 +66,7 @@ public class Alien extends Shape{
          g.setColor(Color.GREEN);
          g.fillOval(getXCoord(),getYCoord(),getWidth(),getHeight());
 
-         Image imageAlien = new javax.swing.ImageIcon("a.png").getImage();
+         Image imageAlien = new javax.swing.ImageIcon("a.png").getImage(); //https://yt3.ggpht.com/-daOPyvV7NVg/AAAAAAAAAAI/AAAAAAAAAAA/gwRYg1wXn9I/s900-c-k-no-mo-rj-c0xffffff/photo.jpg
          g.drawImage(imageAlien, getXCoord(),getYCoord(),null);
          
     }
