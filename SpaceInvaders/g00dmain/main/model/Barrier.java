@@ -3,6 +3,9 @@ package model;
 import java.awt.Graphics;
 import java.awt.Color;
 
+/*
+*This class holds the information for individual barriers, from its health, position on board, and how it looks for both text and GUI
+*/
 public class Barrier extends Shape{
 	private int isHit = 0;
 	private char barrierChar =' ';
@@ -10,7 +13,11 @@ public class Barrier extends Shape{
 	Barrier(int xcoord, int ycoord, int wide, int high){
 		super(xcoord,ycoord, wide,high);
 	}
-	
+	/*
+	*methodBarrierIsHit
+	*essentially the health of an individual barrier, that being variable isHit
+	*is called when a barrier is detected to be hit by a shot outside of this class
+	*/
 	void barrierIsHit(){
 		if (isHit <3){
 			isHit +=1;
@@ -21,6 +28,12 @@ public class Barrier extends Shape{
 		return isHit;
 	}
 	
+	/*
+	*method: barrierCharText
+	*	designates what individual characters of the barriers will look like, assigning the 
+	*	health of the barrier in numerical form as a visual representation of the health of 
+	*	the barrier itself
+	*/
 	public char barrierCharText(){
 		
 		if (isHit ==0){
