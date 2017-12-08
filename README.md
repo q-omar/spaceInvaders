@@ -13,6 +13,15 @@ Zurnaxhiu, Besim
 I. File List
 _________________________
 
+Image/sound files (in main)
+----------------------------
+a.png
+destroy.wav
+kill.wav
+ship.wav
+shoot.wav
+shot.wav
+
 Package: control
 ----------------
 
@@ -82,8 +91,10 @@ Privacy Leaks
 --------------
 	This game relies on the InvadersGameLogic class to hold instances of the other key logic classes (AlienArray, Shot, PlayerShip,
 	BarrierArray). These instances are passed to the controller class and used to update the text board or GUI window, depending on 
-	the version run. Since InvadersGameText/GUI require the coordinates of the game objects to draw them properly, privacy leaks are
-	inevitable. However, constants such as boardHeight/Width and screenHeight/Width are immutable.
+	the version run. Constants such as boardHeight/Width and screenHeight/Width are immutable. Privacy leaks for the Shape classes 
+	(Shot, PlayerShip...) are avoided by using copy constructors, so that InvadersGameLogic only returns copies of each object.
+	This prevents modification of their state by outside classes while allowing InvadersGameText and InvadersGameGUI to correctly
+	display each object.
 	
 III. Imports
 ___________________
@@ -119,7 +130,7 @@ ________________________
 		javac view/*.java
 		
 	3. Compile the model package (which contains tests) by moving into the model folder and using the following command
-	   (replace the ":" with ";" if on Windows):
+	   (replace ":" with ";" if using Windows):
 	   
 		javac -cp .:junit-4.12.jar:hamcrest-core-1.3.jar *.java
 		
@@ -140,6 +151,19 @@ ________________________
 	Fire = F (Text) or Space (GUI)
 	
 	Destroy the aliens to win! If they reach the bottom or hit you with their bullets, it's game over!
+	
+V.  Testing
+________________________
+
+	Automated tests are included in the model package. See section IV for compiling the test files.
+
+	Running automated tests:
+	
+	1. From the Command Prompt, enter the "main" folder.
+	2. Enter the following command, replacing <Test Class> with the name of the test class to run (eg. ShotTest). Replace
+	   all ":" with ";" if using Windows.
+	   
+	   java -cp .:junit-4.12.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore model.<Test Class>
 	
 --------------------------------------------
 Fin	
