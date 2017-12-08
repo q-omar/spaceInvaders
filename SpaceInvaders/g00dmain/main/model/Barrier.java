@@ -6,10 +6,6 @@ import java.awt.Color;
 public class Barrier extends Shape{
 	private int isHit = 0;
 	private char barrierChar =' ';
-	
-	Barrier(Barrier toCopy){
-		super(toCopy.getXCoord(), toCopy.getYCoord(), toCopy.getWidth(), toCopy.getHeight());
-	}
 
 	Barrier(int xcoord, int ycoord, int wide, int high){
 		super(xcoord,ycoord, wide,high);
