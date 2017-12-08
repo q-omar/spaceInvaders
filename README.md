@@ -164,6 +164,19 @@ ________________________
 	   all ":" with ";" if using Windows.
 	   
 	   java -cp .:junit-4.12.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore model.<Test Class>
+	   
+	Testing the graphical user interface:
+	
+	1. Pressing 'A' and 'D' will move the ship left and right. The ship should not be able to go out of bounds.
+	
+	2. Pressing 'Space' will fire a shot. Only one shot should fire at a time. 
+	   When the shot passes through a barrier, the barrier should change colour or be destroyed.
+	   When the shot passes through an alien, it should be destroyed.
+	   
+	3. When the ship is hit by an alien shot, the game over screen should display.
+	4. If the aliens get near the bottom of the screen, a game over results.
+	5. If all aliens are destroyed, the time elapsed and the top 10 high scores should be shown.
+	
 	
 --------------------------------------------
 Fin	
