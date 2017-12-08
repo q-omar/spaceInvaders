@@ -26,7 +26,7 @@ public class InvadersGameGUI extends JFrame {
     private ArrayList<Integer> scores = new ArrayList<>();
     private int playerScore;
     
-    /*
+    /**
     *  The InvadersGameGUI constructor initializes the frame and the "canvas" component which is painted on.
     */
     public InvadersGameGUI(Object[] drawableObjects) {
@@ -61,12 +61,17 @@ public class InvadersGameGUI extends JFrame {
     
         repaint();
     }
-    
+    /** This method updates the score everytime it is called
+    * @param allScores is the list of top ten scores
+    * @param newPlayerScore is the new score to be added
+    */
     public void updateScores(ArrayList<Integer> allScores, int newPlayerScore) {
     	scores = allScores;
     	playerScore = newPlayerScore;
     }
     
+    /** This method displays the error message 
+    */
     public void displayError(String message) {
     	JOptionPane.showMessageDialog(this, message, "Error occurred", JOptionPane.ERROR_MESSAGE);
     }
