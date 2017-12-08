@@ -2,6 +2,13 @@ package model;
 
 import java.awt.Graphics;
 
+/*
+*class: BarrierArray
+*@param AMOUNT the amount of barriers 
+*@param ROWS the number of rows any one barrier holds
+*@param SIZE the number of colums any one barrier holds
+*@param barriers the array of barriers themselves
+*/
 
 public class BarrierArray{ 
     private final int AMOUNT;
