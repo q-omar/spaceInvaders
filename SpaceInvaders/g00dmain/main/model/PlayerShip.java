@@ -51,8 +51,8 @@ public class PlayerShip extends Shape{
     	}
     }
     
-	/** This method draws the ship
-	@param Graphics object,g
+	/** This method draws the ship. Image source: "https://uploads.scratch.mit.edu/users/avatars/869/0158.png"
+	* @param Graphics object,g
 	*/
 	public void draw(Graphics g) {
         g.setColor(Color.WHITE);
