@@ -5,6 +5,8 @@ import java.awt.Color;
 
 /*
 *This class holds the information for individual barriers, from its health, position on board, and how it looks for both text and GUI
+*@param isHit health of barrier
+*@param barrierChar what any individual characters of barrier will look like, set default to ' '
 */
 public class Barrier extends Shape{
 	private int isHit = 0;
