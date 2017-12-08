@@ -11,6 +11,12 @@ import java.awt.Color;
 public class Shot extends Shape {
 
 	private boolean shotFired = false;
+	
+	Shot(Shot toCopy){
+		super(toCopy.getXCoord(), toCopy.getYCoord(), toCopy.getWidth(), toCopy.getHeight(),
+				toCopy.getLastXCoord(), toCopy.getLastYCoord());
+		shotFired = toCopy.shotFired;
+	}
 
 	/**
 	* This method is a constructor for PlayerShot class, used in the text version, where width and length are 0 by default.

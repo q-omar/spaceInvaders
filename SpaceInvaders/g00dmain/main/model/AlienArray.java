@@ -20,6 +20,20 @@ public class AlienArray{
     private final Alien[][] aliens;
     private int leftBoundary;
     private int rightBoundary;
+    
+	AlienArray(AlienArray toCopy){
+		NUM_ALIENS = toCopy.NUM_ALIENS;
+		ROW_ALIENS = toCopy.ROW_ALIENS;
+		moveRight = toCopy.moveRight;
+		aliens = new Alien[ROW_ALIENS][NUM_ALIENS];
+		 for (int r = 0; r < ROW_ALIENS ; r++) {
+            for (int c=0; c< NUM_ALIENS;c++){
+            	aliens[r][c] = toCopy.aliens[r][c];
+			}
+		 }
+		 leftBoundary = toCopy.leftBoundary;
+		 rightBoundary = toCopy.rightBoundary;
+	}
 
     /** A constructor for AlienArray that takes a String input.
 	* @param determines whether the text ot GUI version of aliens need to be drawn. 
@@ -41,7 +55,6 @@ public class AlienArray{
         	aliens = new Alien[ROW_ALIENS][NUM_ALIENS];
         	setAliens();  
         }
-        
     }
     
     /** the getter methods for Alien, numAliens and rowsAliens return the respective values

@@ -22,7 +22,7 @@ public class InvadersGameGUI extends JFrame {
     private final int WINDOW_WIDTH = 800;
     private final int WINDOW_HEIGHT = 500;
     private String gameStatus = "continue";
-    private final Object[] toDraw;
+    private Object[] toDraw;
     private ArrayList<Integer> scores = new ArrayList<>();
     private int playerScore;
     
@@ -55,7 +55,8 @@ public class InvadersGameGUI extends JFrame {
     *  This method calls the screen to be repainted and also updates the game status
     *  in case the game ends.
     */
-    public void updateScreen(String newGameStatus) {
+    public void updateScreen(String newGameStatus, Object[] drawableObjects) {
+    	toDraw = drawableObjects;
     	gameStatus = newGameStatus;
     
         repaint();

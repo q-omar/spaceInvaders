@@ -7,9 +7,17 @@ public class BarrierArray{
     private final int AMOUNT;
     private final int ROWS;
 	private final int SIZE;
-
-    
     private final Barrier[] barriers;
+    
+    BarrierArray(BarrierArray toCopy) {
+    	AMOUNT = toCopy.getAmount();
+    	SIZE = toCopy.getSize();
+    	ROWS = toCopy.getRows();
+    	barriers = new Barrier[AMOUNT];
+    	for (int i = 0; i < barriers.length; i++) {
+    		barriers[i] = toCopy.getBarriers()[i];
+    	}
+    }
     
     BarrierArray(String version){
 
@@ -25,7 +33,6 @@ public class BarrierArray{
         	AMOUNT = 3;
         	ROWS = 2;
 			SIZE =4;
-			
 			barriers = new Barrier[AMOUNT];
         	setBarriersText();  
         }
@@ -39,6 +46,14 @@ public class BarrierArray{
 	
     public int getAmount() {
     	return AMOUNT;
+    }
+    
+    public int getRows() {
+    	return ROWS;
+    }
+    
+    public int getSize() {
+    	return SIZE;
     }
 
 	private void setBarriersText(){

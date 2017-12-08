@@ -39,8 +39,13 @@ public abstract class Shape implements Drawable {
 		if (newHeight >= 0) {
 			height = newHeight;
 		}
-		
 	}
+	 
+	 Shape(int newX, int newY, int newWidth, int newHeight, int lastX, int lastY) {
+		 this(newX, newY, newWidth, newHeight);
+		 lastXCoord = lastX;
+		 lastYCoord = lastY;
+	 }
 	
     /** 
     * This is a getter method that returns the shape's horizontal position.

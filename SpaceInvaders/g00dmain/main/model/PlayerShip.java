@@ -22,6 +22,12 @@ public class PlayerShip extends Shape{
         setHSpeed(newSpeed);
     }
     
+	PlayerShip(PlayerShip toCopy) {
+		super(toCopy.getXCoord(), toCopy.getYCoord(), toCopy.getWidth(), toCopy.getHeight(),
+				toCopy.getLastXCoord(), toCopy.getLastYCoord());
+		setHSpeed(toCopy.getHSpeed());
+	}
+    
     /**This method checks if horizontal index position of player ship is out of bounds
     * on the board array's horizontal parameter
     */
@@ -55,8 +61,4 @@ public class PlayerShip extends Shape{
         g.drawImage(imageShip, getXCoord(),getYCoord(),null);
     }
 	
-	@Override
-    public String toString() {
-        return "Column: " + getXCoord() + "  Speed:  " + getHSpeed() + "  Last X: " + getLastXCoord(); // Made this for testing
-    }
 }

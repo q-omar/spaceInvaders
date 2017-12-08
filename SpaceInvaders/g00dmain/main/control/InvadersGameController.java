@@ -48,10 +48,11 @@ class InvadersGameController implements KeyListener{
         			&& new File("destroy.wav").exists()
         			&& new File("kill.wav").exists()
         			&& new File("shoot.wav").exists()
-        			&& new File("shot.wav").exists()) {
+        			&& new File("shot.wav").exists()
+        			&& new File("ship.jpg").exists()) {
         		
         		logic = new InvadersGameLogic("GUI");
-        		initializeDrawableArray();
+        		updateDrawableArray();
         		gui = new InvadersGameGUI(drawableObjects);
         		playGui();
         		
@@ -64,14 +65,13 @@ class InvadersGameController implements KeyListener{
     	} else if (input.equals("T")) {
     		logic = new InvadersGameLogic("TEXT");
     		text = new InvadersGameText();
-    		initializeDrawableArray();
     		playText();
     	}
     }
     /**
      * Adds all drawable objects to the drawable array.
      */
-    private void initializeDrawableArray() {
+    private void updateDrawableArray() {
 		drawableObjects[0] = logic.getShip();
 		drawableObjects[1] = logic.getShot();
 		drawableObjects[2] = logic.getArray();
@@ -117,7 +117,8 @@ class InvadersGameController implements KeyListener{
             
             updateStatus();
             logic.shotGeneration();
-            gui.updateScreen(logic.getGameStatus());
+            updateDrawableArray();
+            gui.updateScreen(logic.getGameStatus(), drawableObjects);
     	}
     };
 
@@ -176,11 +177,8 @@ class InvadersGameController implements KeyListener{
             	
             	try {
             		scores.addLastScore(count, "text");
-                    
                 	System.out.println("Previous high scores:");
-                	
                 	ArrayList<Integer> highScores = scores.getScores();
-                	
                 	for (int i = 0; i < highScores.size(); i ++) {
                 		System.out.println((i+1) + ": " + highScores.get(i));
                 	}
@@ -215,7 +213,8 @@ class InvadersGameController implements KeyListener{
 			logic.shotAttempt();
 			break;
 		}
-		gui.updateScreen(logic.getGameStatus());   
+		updateDrawableArray();
+		gui.updateScreen(logic.getGameStatus(), drawableObjects);   
     }
 
     @Override

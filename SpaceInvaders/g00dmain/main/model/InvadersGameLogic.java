@@ -52,21 +52,21 @@ public class InvadersGameLogic{
         return gameStatus;
     }
     public AlienArray getArray(){
-        return alienInvaders;
+        return new AlienArray(alienInvaders);
     }
     public PlayerShip getShip(){
-        return ship;
+        return new PlayerShip(ship);
     }
     public Shot getShot(){
-        return shot;
+        return new Shot(shot);
     }
     
 	public BarrierArray getBarriers(){
-		return barriers;
+		return new BarrierArray(barriers);
 	}
     
     public Shot getAlienShot() {
-    	return alienShot;
+    	return new Shot(alienShot);
     }
 
     /**
