@@ -24,6 +24,9 @@ RunMe.java
 RunMe$1.class
 RunMe.class
 
+Scores.java
+Scores.class
+
 
 Package: model
 ---------------
@@ -35,10 +38,13 @@ Alien.java                            AlienArray.java
 Alien.class                           AlienArray.class
 
 Barrier.java                          Shot.java
-Barier.class                          Shot.class
+Barrier.class                         Shot.class
 
 PlayerShip.java                       Shape.java
 PlayerShip.class                      Shape.class
+
+BarrierArray.java
+BarrierArray.class
 
 Test Files: AlienTest.java
             AlienArrayTest.java
@@ -56,7 +62,6 @@ InvadersGameGUI$1.class
 InvadersGameGUI$Canvas.class
 InvadersGameGUI.class
 
-
 InvadersGameText.java
 InvadersGameText.class
 
@@ -70,7 +75,7 @@ _______________________
 	 When chosing the GUI version of the game, the code is redirected to run InvadersGameGUI, which implements the canvas and creates a new window to play the game in. Shape implements the class Drawable. 
 	 
 	 Issues that arose during the creation of the game from beginning to present are the alien array creation and hit detection. Alien array movement was complicated as many variables had to be taken into account and the program threw out of bounds errors as the alien array moved close to the border of the game board. Added functionality such as, when the outmost alien columns are destroyed, the entire array moves closer to the boundaries and is not just fixed, caused errors in the text version, but these were fixed. 
-	Hit detection was one of the greatest issues as it had to take all the objects into account. For now we have split up the detection into Gui and text version as well as detection of different object collisions into separate methods.
+	Hit detection was one of the greatest issues as it had to take all the objects into account. For now we have split up the detection into Gui and text version.
         Errors which did not crash the game, such as Aliens not being drawn/printed in the space expected were fixed right away. 
 
 Privacy Leaks
@@ -87,12 +92,16 @@ ___________________
 	import java.awt.Color;
 	import java.awt.Component;
 	import java.util.Scanner;
+	import java.util.ArrayList;
+	import java.util.Collections;
 	import javax.swing.Timer;
 	import java.awt.event.KeyEvent;
 	import java.awt.event.KeyListener;
 	import java.awt.event.ActionListener;
 	import java.awt.event.ActionEvent;
 	import java.awt.Font;
+	import java.io.File;
+	import java.io.IOException;
 	import java.awt.Dimension;
 	import javax.swing.JComponent;
 	import javax.swing.JFrame;
