@@ -181,15 +181,3 @@ ________________________
 	
 --------------------------------------------
 Fin	
-
-
-Previous output progress can be viewed in output folder. Most recent output is below:
-
-![ScreenShot](outputs/outputV12Text.gif)
-
-In 'V12', barriers change representation based on the amount of hits taken.
-
-
-![ScreenShot](outputs/outputV15.gif)
-
-In 'V15', gif images are used of aliens are added along with sound effects. The screen is also extended with more aliens added so that it feels like an actual game.
